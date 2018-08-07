@@ -1,4 +1,4 @@
-# BastardosdeTuring
+# LosBastardosdeTuring
 Repositorio para el equipo de la materia de Compiladores.
 
 Almanza Ibarra Raziel. 313126691. razielmcr1@ciencias.unam.mx <br />
