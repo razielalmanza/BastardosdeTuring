@@ -100,7 +100,8 @@ LINE_TERMINATOR = \r|\n|\r\n
 <IDENTA>{
     \s                  { pushIdenta(); }
     \S                  { 
-    nextSymbol("SALTOIDENTA",getSpace()); 
+    nextSymbol("SALTOIDENTA",getSpace());
+    yypushback(1); 
     yybegin(YYINITIAL);
     }
 }
