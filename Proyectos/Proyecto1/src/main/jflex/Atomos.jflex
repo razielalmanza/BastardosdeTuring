@@ -69,12 +69,12 @@ import java.util.Stack;
         int bloque_actual = pila_global.pop();
         if(pila_global.empty()){
                 pila_global.push(bloque_actual);
-                nextSymbol("SALTOIDENTA",Integer.toString(bloque_actual));
+                nextSymbol("IDENTA",Integer.toString(bloque_actual));
         }else{
             int bloque_anterior = pila_global.peek();
             if(bloque_actual != bloque_anterior){ //creo que posteriormente sera un mayor
                 pila_global.push(bloque_actual);
-                nextSymbol("SALTOIDENTA",Integer.toString(bloque_actual));
+                nextSymbol("IDENTA",Integer.toString(bloque_actual));
             }
         }
     }
@@ -113,7 +113,7 @@ LINE_TERMINATOR = \r|\n|\r\n
     {SEPARADOR}         { nextSymbol("SEPARADOR", yytext()); }
     /* Abre nuevo contexto de identacion para esto se creara una pila qu guarde el
        numero de identaciones en el nuevo bloque que estamos creando.*/ 
-    {LINE_TERMINATOR}   { newIdenta(); yybegin(IDENTA); }
+    {LINE_TERMINATOR}   { nextSymbol("SALTO"); newIdenta(); yybegin(IDENTA); }
 }
 
 <IDENTA>{
