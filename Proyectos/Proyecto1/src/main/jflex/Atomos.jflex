@@ -72,7 +72,7 @@ import java.util.Stack;
                 nextSymbol("IDENTA",Integer.toString(bloque_actual));
         }else{
             int bloque_anterior = pila_global.peek();
-            if(bloque_actual > bloque_anterior){ //creo que posteriormente sera un mayor
+            if(bloque_actual > bloque_anterior){ 
                 pila_global.push(bloque_actual);
                 nextSymbol("IDENTA",Integer.toString(bloque_actual));
             }else{
@@ -107,10 +107,15 @@ SEPARADOR = :
 LINE_TERMINATOR = \r|\n|\r\n
 
 %state IDENTA
+%state ATOMOS
 
 %%
 /*---- Macros y acciones. ----*/
 <YYINITIAL>{
+    .                   {nextSymbol("\n"); newIdenta(); yypushback(1); yybegin(IDENTA);}
+}
+
+<ATOMOS>{
     #.* { System.out.println("COMENTARIO"); }
     {BOOLEANO}          { nextSymbol("BOOLEAN", yytext()); }
     {ENTERO}            { nextSymbol("ENTERO", yytext()); }
@@ -130,6 +135,6 @@ LINE_TERMINATOR = \r|\n|\r\n
     \S                  { 
     isIdenta();
     yypushback(1); 
-    yybegin(YYINITIAL);
+    yybegin(ATOMOS);
     }
 }
