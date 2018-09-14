@@ -2,6 +2,7 @@
 **  @about Proyecto 1: Analizador léxico para p, subconjunto de Python.        **
 *********************************************************************************/
 package lexico;
+import java.util.Stack;
 
 %%
 %public
@@ -13,7 +14,9 @@ package lexico;
     
     /* Para guardar la secuencia de tokens. */
     private StringBuilder builder = new StringBuilder();
-    /* Contador de espacios */
+    /* Pila que guarda el numero de identaciones por bloque*/
+    private Stack<Integer> pila_global = new Stack<>();
+    /* Contador de espacios en el bloque actual*/
     private int space = 0;
 
     /**
@@ -35,10 +38,20 @@ package lexico;
     }
 
     /**
+     * Crea un nuevo bloque de identaci&oacute; (representado como un nuevo)
+     * elemento en la pila, con el entero de valor 0 (porque llevamos 0 
+     * identaciones en el momento que se crea).
+     */
+    private void newIdenta(){
+        pila_global.push(0);
+    }
+
+    /**
      * Incrementa el contador de espacios del bloque actual
      */
     private void pushIdenta(){
-        space++;
+        int count = pila_global.pop();
+        pila_global.push(++count);
     }
 
     /**
@@ -46,7 +59,7 @@ package lexico;
      * @return la cadena del numero de espacios en el bloque de identaci&oacute;n actual
      */
     private String getSpace(){
-        return Integer.toString(space);
+        return Integer.toString(pila_global.peek());
     }
 %}
 
@@ -81,10 +94,15 @@ LINE_TERMINATOR = \r|\n|\r\n
     {OPERADOR}          { nextSymbol("OPERADOR", yytext()); }
     {IDENTIFICADOR}     { nextSymbol("IDENTIFICADOR", yytext()); }
     {SEPARADOR}         { nextSymbol("SEPARADOR", yytext()); }
-    {LINE_TERMINATOR}   { yybegin(IDENTA); }
+    /* Abre nuevo contexto de identacion para esto se creara una pila qu guarde el
+       numero de identaciones en el nuevo bloque que estamos creando.*/ 
+    {LINE_TERMINATOR}   { newIdenta(); yybegin(IDENTA); }
 }
 
 <IDENTA>{
     \s                  { pushIdenta(); }
-    \S                  { nextSymbol("SALTOIDENTA",getSpace()); yybegin(YYINITIAL);}
+    \S                  { 
+    nextSymbol("SALTOIDENTA",getSpace()); 
+    yybegin(YYINITIAL);
+    }
 }
