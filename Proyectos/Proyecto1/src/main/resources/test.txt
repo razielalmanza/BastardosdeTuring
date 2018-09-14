@@ -1,5 +1,7 @@
-True
-"and"
-1
-\
-"\"
+if 9 > 7:
+  v_x = -4
+  while v_x < 1:
+    v_x += 1
+    print v_x * 3
+else:
+   v_x = "Hello world"
