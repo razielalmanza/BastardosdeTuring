@@ -18,7 +18,7 @@ import java.util.Stack;
     private Stack<Integer> pila_global = new Stack<>();
 
     /**
-    * Añade una nueva represtanción de un token al {@link StringBuilder}.
+    * Añade una nueva representanción de un token al {@link StringBuilder}.
     * @param type La cadena con el tipo de token.
     */
     private void nextSymbol(final String type) {
@@ -102,7 +102,7 @@ ENTERO = (([1-9][0-9]*)|0+)
 REAL = \.[0-9]+|{ENTERO}\.\d|{ENTERO}\.
 CADENA = \"(\\.|[^\\\"])*\"
 PALABRA_RESERVADA = and|or|not|while|if|else|elif|print
-OPERADOR = \+|-|\*|\%|<|>|>=|<=|=|\!
+OPERADOR = \+|-|\*|\%|<|>|>=|<=|=|\!|\+=
 SEPARADOR = :
 LINE_TERMINATOR = \r|\n|\r\n
 
