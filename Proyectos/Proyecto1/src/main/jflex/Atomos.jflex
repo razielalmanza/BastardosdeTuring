@@ -4,28 +4,48 @@
 package lexico;
 
 %%
-
 %public
 %class Alexico
 %unicode
 %standalone
 
+%{
+    
+    private StringBuilder builder = new StringBuilder();
+
+    private void nextSymbol(final String type) {
+        builder.append(type);
+    }
+
+    private void nextSymbol(final String type, final String value) {
+        final String tokenWithValue = String.format("%s(%s)", type, value);
+        builder.append(tokenWithValue);
+    }
+%}
+
+%eof{
+    System.out.println(builder.toString());
+%eof}
+
 /* El identificador no debe ser la cadena vacia */
-/*IDENTIFICADOR = ([a-zA-Z]|_)([a-zA-Z]|[0-9]|_)**/
+IDENTIFICADORES_RAW = [\w_][\w\d_]*
+IDENTIFICADOR = {IDENTIFICADORES_RAW}
 BOOLEANO = True|False
-ENTERO = (([1-9][0-9]*)|0)
-REAL = '.'[0-9]+|{ENTERO}'.'[0-9]|{ENTERO}'.'
-CADENA = '\"'[.--('\\'|'\"')]*'\"'
+ENTERO = (([1-9][0-9]*)|0+)
+REAL = \.[0-9]+|{ENTERO}\.\d|{ENTERO}\.
+CADENA = \"(\\.|[^\\\"])*\"
 PALABRA_RESERVADA = and|or|not|while|if|else|elif|print
-/*OPERADOR = +|-|*|%|<|>|>=|<=|=|!*/
+OPERADOR = \+|-|\*|\%|<|>|>=|<=|=|\!
+SEPARADOR = :
 
 %%
 /* reemplaza la aparicion de la cadena en el orden en el macro fue declarado*/
 #.* { System.out.println("COMENTARIO"); }
-/*{IDENTIFICADOR}     { System.out.println("IDENTIFICADOR"); }*/
-{BOOLEANO}          { System.out.println("BOOLEANO"); }
-{ENTERO}            { System.out.println("ENTERO"); }
-{REAL}              { System.out.println("REAL"); }
-/*{CADENA}            { System.out.println("CADENA"); }*/
-{PALABRA_RESERVADA} { System.out.println("PALABRA_RESERVADA"); }
-/*{OPERADOR}          { System.out.println("OPERADOR"); }*/
+{BOOLEANO}          { nextSymbol("BOOLEAN", yytext()); }
+{ENTERO}            { nextSymbol("ENTERO", yytext()); }
+{REAL}              { nextSymbol("REAL", yytext()); }
+{CADENA}            { nextSymbol("CADENA", yytext()); }
+{PALABRA_RESERVADA} { nextSymbol("RESERVADA", yytext()); }
+{OPERADOR}          { nextSymbol("OPERADOR", yytext()); }
+{IDENTIFICADOR}     { nextSymbol("IDENTIFICADOR", yytext()); }
+{SEPARADOR}         { nextSymbol("SEPARADOR", yytext()); }
