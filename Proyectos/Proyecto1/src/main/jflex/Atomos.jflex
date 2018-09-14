@@ -53,23 +53,18 @@ import java.util.Stack;
     }
 
     /**
-     * Devuelve el contador de identacion en el bloque actual
-     * @return la cadena del numero de espacios en el bloque de identaci&oacute;n actual
-     */
-    private String getSpace(){
-        return Integer.toString(pila_global.peek());
-    }
-
-    /**
      * Verifica si la siguiente linea pertenece al mismo bloque de identaci&oacute;n
      * esto con el fin de reconocer si es un atomo IDENTA o no, esto se vera reflejado
      * en la pila con un nuevo elmento en el caso de que si fuera una nueva identaci&oacute;n
      */
     private void isIdenta(){
         int bloque_actual = pila_global.pop();
-        if(pila_global.empty()){
+        /* En este caso i asumimos que forzosamente nuestro codigo,
+        comienza con el nivel de identacion 0, en el caso de que
+        este a libertad como iniciar debemos cambiar esta linea por
+        si la pila esta vacia */
+        if(bloque_actual==0){
                 pila_global.push(bloque_actual);
-                nextSymbol("IDENTA",Integer.toString(bloque_actual));
         }else{
             int bloque_anterior = pila_global.peek();
             if(bloque_actual > bloque_anterior){ 
