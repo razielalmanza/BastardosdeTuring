@@ -18,7 +18,7 @@ import java.util.Stack;
     private Stack<Integer> pila_global = new Stack<>();
 
     /**
-    * Añade una nueva represtanción de un token al {@link StringBuilder}.
+    * Añade una nueva representanción de un token al {@link StringBuilder}.
     * @param type La cadena con el tipo de token.
     */
     private void nextSymbol(final String type) {
@@ -113,7 +113,7 @@ LINE_TERMINATOR = \r|\n|\r\n
     {SEPARADOR}         { nextSymbol("SEPARADOR", yytext()); }
     /* Abre nuevo contexto de identacion para esto se creara una pila qu guarde el
        numero de identaciones en el nuevo bloque que estamos creando.*/ 
-    {LINE_TERMINATOR}   { nextSymbol("SALTO"); newIdenta(); yybegin(IDENTA); }
+    {LINE_TERMINATOR}   { nextSymbol("SALTO\n"); newIdenta(); yybegin(IDENTA); }
 }
 
 <IDENTA>{
