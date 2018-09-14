@@ -16,8 +16,6 @@ import java.util.Stack;
     private StringBuilder builder = new StringBuilder();
     /* Pila que guarda el numero de identaciones por bloque*/
     private Stack<Integer> pila_global = new Stack<>();
-    /* Contador de espacios en el bloque actual*/
-    private int space = 0;
 
     /**
     * Añade una nueva represtanción de un token al {@link StringBuilder}.
