@@ -2,7 +2,6 @@
 **  @about Proyecto 1: Analizador léxico para p, subconjunto de Python.        **
 *********************************************************************************/
 package lexico;
-import java.util.Stack;
 
 %%
 %public
@@ -14,8 +13,6 @@ import java.util.Stack;
     
     /* Para guardar la secuencia de tokens. */
     private StringBuilder builder = new StringBuilder();
-    /* Para llevar el conteo de los atomos identa */
-    private Stack<String> stack   = new Stack<>();
 
     /**
     * Añade una nueva represtanción de un token al {@link StringBuilder}.
@@ -33,14 +30,6 @@ import java.util.Stack;
     private void nextSymbol(final String type, final String value) {
         final String tokenWithValue = String.format("%s(%s)", type, value);
         builder.append(tokenWithValue);
-    }
-    /**
-     * Lleva la cuenta (con una pila) de los espacios en el ultimo nivel de 
-     * identacion
-     * @param space Lleva la cuenta de los espacios del ultimo nivel de identacion
-     */
-    private void pushIdenta(){
-        stack.push("\s");
     }
 
 %}
@@ -80,6 +69,5 @@ LINE_TERMINATOR = \r|\n|\r\n
 }
 
 <IDENTA>{
-    \s                  { pushIdenta(); }
     \S                  { yybegin(YYINITIAL);}
 }
