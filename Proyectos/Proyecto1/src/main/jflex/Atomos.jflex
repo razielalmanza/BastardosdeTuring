@@ -31,6 +31,7 @@ package lexico;
         final String tokenWithValue = String.format("%s(%s)", type, value);
         builder.append(tokenWithValue);
     }
+
 %}
 
 %eof{
@@ -48,8 +49,9 @@ CADENA = \"(\\.|[^\\\"])*\"
 PALABRA_RESERVADA = and|or|not|while|if|else|elif|print
 OPERADOR = \+|-|\*|\%|<|>|>=|<=|=|\!
 SEPARADOR = :
+LINE_TERMINATOR = \r|\n|\r\n
 
-%state PRUEBA
+%state IDENTA
 
 %%
 /*---- Macros y acciones. ----*/
@@ -63,4 +65,9 @@ SEPARADOR = :
     {OPERADOR}          { nextSymbol("OPERADOR", yytext()); }
     {IDENTIFICADOR}     { nextSymbol("IDENTIFICADOR", yytext()); }
     {SEPARADOR}         { nextSymbol("SEPARADOR", yytext()); }
+    {LINE_TERMINATOR}   { yybegin(IDENTA); }
+}
+
+<IDENTA>{
+    ^\s                 { yybegin(YYINITIAL);}
 }
