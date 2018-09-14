@@ -11,12 +11,22 @@ package lexico;
 
 %{
     
+    /* Para guardar la secuencia de tokens. */
     private StringBuilder builder = new StringBuilder();
 
+    /**
+    * Añade una nueva represtanción de un token al {@link StringBuilder}.
+    * @param type La cadena con el tipo de token.
+    */
     private void nextSymbol(final String type) {
         builder.append(type);
     }
 
+    /**
+    * Añade una nueva representación de un token al {@link StringBuilder}.
+    * @param type La cadena con el tipo de token.
+    * @param value La cadena con el valor del token.
+    */
     private void nextSymbol(final String type, final String value) {
         final String tokenWithValue = String.format("%s(%s)", type, value);
         builder.append(tokenWithValue);
@@ -24,10 +34,11 @@ package lexico;
 %}
 
 %eof{
+    /* Imprimimos al final la secuencia de tokens. */
     System.out.println(builder.toString());
 %eof}
 
-/* El identificador no debe ser la cadena vacia */
+/* ---- Expresiones regulares. ----*/
 IDENTIFICADORES_RAW = [\w_][\w\d_]*
 IDENTIFICADOR = {IDENTIFICADORES_RAW}
 BOOLEANO = True|False
@@ -39,7 +50,7 @@ OPERADOR = \+|-|\*|\%|<|>|>=|<=|=|\!
 SEPARADOR = :
 
 %%
-/* reemplaza la aparicion de la cadena en el orden en el macro fue declarado*/
+/*---- Macros y acciones. ----*/
 #.* { System.out.println("COMENTARIO"); }
 {BOOLEANO}          { nextSymbol("BOOLEAN", yytext()); }
 {ENTERO}            { nextSymbol("ENTERO", yytext()); }
