@@ -59,6 +59,25 @@ import java.util.Stack;
     private String getSpace(){
         return Integer.toString(pila_global.peek());
     }
+
+    /**
+     * Verifica si la siguiente linea pertenece al mismo bloque de identaci&oacute;n
+     * esto con el fin de reconocer si es un atomo IDENTA o no, esto se vera reflejado
+     * en la pila con un nuevo elmento en el caso de que si fuera una nueva identaci&oacute;n
+     */
+    private void isIdenta(){
+        int bloque_actual = pila_global.pop();
+        if(pila_global.empty()){
+                pila_global.push(bloque_actual);
+                nextSymbol("SALTOIDENTA",Integer.toString(bloque_actual));
+        }else{
+            int bloque_anterior = pila_global.peek();
+            if(bloque_actual != bloque_anterior){ //creo que posteriormente sera un mayor
+                pila_global.push(bloque_actual);
+                nextSymbol("SALTOIDENTA",Integer.toString(bloque_actual));
+            }
+        }
+    }
 %}
 
 %eof{
@@ -100,7 +119,7 @@ LINE_TERMINATOR = \r|\n|\r\n
 <IDENTA>{
     \s                  { pushIdenta(); }
     \S                  { 
-    nextSymbol("SALTOIDENTA",getSpace());
+    isIdenta();
     yypushback(1); 
     yybegin(YYINITIAL);
     }
