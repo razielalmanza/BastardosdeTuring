@@ -81,5 +81,5 @@ LINE_TERMINATOR = \r|\n|\r\n
 
 <IDENTA>{
     \s                  { pushIdenta(); }
-    ^\s                 { yybegin(YYINITIAL);}
+    \S                  { yybegin(YYINITIAL);}
 }
