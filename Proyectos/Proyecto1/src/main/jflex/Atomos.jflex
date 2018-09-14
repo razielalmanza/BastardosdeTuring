@@ -93,7 +93,7 @@ ENTERO = (([1-9][0-9]*)|0+)
 REAL = \.[0-9]+|{ENTERO}\.\d|{ENTERO}\.
 CADENA = \"(\\.|[^\\\"])*\"
 PALABRA_RESERVADA = and|or|not|while|if|else|elif|print
-OPERADOR = \+|-|\*|\%|<|>|>=|<=|=|\!
+OPERADOR = \+|-|\*|\%|<|>|>=|<=|=|\!|\+=
 SEPARADOR = :
 LINE_TERMINATOR = \r|\n|\r\n
 
