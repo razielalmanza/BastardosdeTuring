@@ -13,6 +13,8 @@ package lexico;
     
     /* Para guardar la secuencia de tokens. */
     private StringBuilder builder = new StringBuilder();
+    /* Contador de espacios */
+    private int space = 0;
 
     /**
     * Añade una nueva represtanción de un token al {@link StringBuilder}.
@@ -32,6 +34,20 @@ package lexico;
         builder.append(tokenWithValue);
     }
 
+    /**
+     * Incrementa el contador de espacios del bloque actual
+     */
+    private void pushIdenta(){
+        space++;
+    }
+
+    /**
+     * Devuelve el contador de identacion en el bloque actual
+     * @return la cadena del numero de espacios en el bloque de identaci&oacute;n actual
+     */
+    private String getSpace(){
+        return Integer.toString(space);
+    }
 %}
 
 %eof{
@@ -69,5 +85,6 @@ LINE_TERMINATOR = \r|\n|\r\n
 }
 
 <IDENTA>{
-    \S                  { yybegin(YYINITIAL);}
+    \s                  { pushIdenta(); }
+    \S                  { nextSymbol("SALTOIDENTA",getSpace()); yybegin(YYINITIAL);}
 }
