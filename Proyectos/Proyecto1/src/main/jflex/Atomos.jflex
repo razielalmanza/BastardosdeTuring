@@ -3,6 +3,7 @@
 *********************************************************************************/
 package lexico;
 import java.util.Stack;
+import java.io.*;
 
 %%
 %public
@@ -87,7 +88,6 @@ import java.util.Stack;
 
     /**
      * Reporta el error ocurrido.
-     * en la pila con un nuevo elmento en el caso de que si fuera una nueva identaci&oacute;n
      * @param type El tipo de error, 0: cadena, 1: Identación 2: Lexema
      */
     private void reportError(int type){
@@ -116,6 +116,19 @@ import java.util.Stack;
 %eof{
     /* Imprimimos al final la secuencia de tokens. */
     System.out.println(builder.toString());
+    /* Guardamos en directorio 'out/' */
+    try{
+        Writer output = null;
+        File file = new File("fizzbuzz.plx");
+        output = new BufferedWriter(new FileWriter("../../../out" + file,true));
+        output.write(builder.toString());
+        output.write("HHUHUOJJO");
+        output.close();
+    }catch(Exception e){
+        System.out.println("No se pudo escribir en archivo.");
+        e.printStackTrace(); 
+    }
+
 %eof}
 
 /* ---- Expresiones regulares. ----*/
