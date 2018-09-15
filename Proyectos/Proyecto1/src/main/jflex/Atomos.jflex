@@ -99,7 +99,6 @@ import java.io.*;
 
     /**
      * Reporta el error ocurrido.
-     * en la pila con un nuevo elmento en el caso de que si fuera una nueva identaci&oacute;n
      * @param type El tipo de error, 0: cadena, 1: Identación 2: Lexema
      */
     private void reportError(int type){
@@ -111,7 +110,7 @@ import java.io.*;
                 nextSymbol("\nERROR de Identación en la linea: ");
                 break;
             case 2:
-                nextSymbol("\nERROR Lexema no encontado: ");
+                nextSymbol("\nERROR Lexema no encontado en la linea: ");
                 break;
         }
 
@@ -143,6 +142,19 @@ import java.io.*;
         e.printStackTrace();
     }
     System.out.println(builder.toString());
+    /* Guardamos en directorio 'out/' */
+    try{
+        Writer output = null;
+        File file = new File("fizzbuzz.plx");
+        output = new BufferedWriter(new FileWriter("../../../out" + file,true));
+        output.write(builder.toString());
+        output.write("HHUHUOJJO");
+        output.close();
+    }catch(Exception e){
+        System.out.println("No se pudo escribir en archivo.");
+        e.printStackTrace(); 
+    }
+
 %eof}
 
 /* ---- Expresiones regulares. ----*/
@@ -157,7 +169,6 @@ PALABRA_RESERVADA = and|or|not|while|if|else|elif|print
 OPERADOR = \+|-|\*|\%|<|>|>=|<=|=|\!|\+=
 SEPARADOR = :
 LINE_TERMINATOR = \r|\n|\r\n
-OTRO = .           //Aquí se define el detectar token fuera de los delcarados (errores)
 
 %state IDENTA
 %state ATOMOS
@@ -182,20 +193,23 @@ OTRO = .           //Aquí se define el detectar token fuera de los delcarados (
     {CADENA_MAL}        { reportError(0); }
     /* Abre nuevo contexto de identacion para esto se creara una pila qu guarde el
        numero de identaciones en el nuevo bloque que estamos creando.*/ 
-    {LINE_TERMINATOR}   { nextSymbol("SALTO\n");no_linea++; newIdenta(); yybegin(IDENTA); }
-    //{OTRO}              { nextSymbol("ERROR en la linea: " + no_linea); }
+    {LINE_TERMINATOR}   { nextSymbol("SALTO\n"); no_linea++; newIdenta(); yybegin(IDENTA); }
+    (.|{LINE_TERMINATOR})* {reportError(2);}
 }
 
 <IDENTA>{
     \s                  { pushIdenta(); }
     \S                  { 
-    isIdenta();
-    if(errorIdenta()) yybegin(ERROR);
-    yypushback(1); 
-    yybegin(ATOMOS);
+        isIdenta();
+        if(errorIdenta()){
+            yybegin(ERROR);
+        }else{
+            yypushback(1); 
+            yybegin(ATOMOS);
+        }
     }
 }
 
 <ERROR>{
-    .*                  { nextSymbol("\nError de identacion, linea"+no_linea); }
+    (.|{LINE_TERMINATOR})*                  { reportError(1); }
 }
