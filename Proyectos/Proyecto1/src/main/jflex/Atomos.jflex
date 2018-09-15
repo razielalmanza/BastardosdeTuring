@@ -6,6 +6,8 @@ import java.util.Stack;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
+import java.io.Reader;
+import java.io.IOException;
 
 %%
 %public
