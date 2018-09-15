@@ -16,6 +16,8 @@ import java.util.Stack;
     private StringBuilder builder = new StringBuilder();
     /* Pila que guarda el numero de identaciones por bloque*/
     private Stack<Integer> pila_global = new Stack<>();
+    /* Contador del número de línea actual.*/
+    private int no_linea = 0;
 
     /**
     * Añade una nueva representanción de un token al {@link StringBuilder}.
@@ -105,6 +107,7 @@ PALABRA_RESERVADA = and|or|not|while|if|else|elif|print
 OPERADOR = \+|-|\*|\%|<|>|>=|<=|=|\!|\+=
 SEPARADOR = :
 LINE_TERMINATOR = \r|\n|\r\n
+OTRO = .           //Aquí se define el detectar token fuera de los delcarados (errores)
 
 %state IDENTA
 
@@ -122,7 +125,8 @@ LINE_TERMINATOR = \r|\n|\r\n
     {SEPARADOR}         { nextSymbol("SEPARADOR", yytext()); }
     /* Abre nuevo contexto de identacion para esto se creara una pila qu guarde el
        numero de identaciones en el nuevo bloque que estamos creando.*/ 
-    {LINE_TERMINATOR}   { nextSymbol("SALTO\n"); newIdenta(); yybegin(IDENTA); }
+    {LINE_TERMINATOR}   { nextSymbol("SALTO\n"); no_linea++; newIdenta(); yybegin(IDENTA); }
+    //{OTRO}              { nextSymbol("ERROR en la linea: " + no_linea); }
 }
 
 <IDENTA>{
