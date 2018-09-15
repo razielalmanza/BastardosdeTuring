@@ -205,5 +205,5 @@ LINE_TERMINATOR = \r|\n|\r\n
 }
 
 <ERROR>{
-    (.|{LINE_TERMINATOR})*  { /* Detiene la ejecucion */ }
+    [^]  { /* Detiene la ejecucion */ }
 }
