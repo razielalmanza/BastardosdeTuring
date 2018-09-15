@@ -17,7 +17,7 @@ import java.util.Stack;
     /* Pila que guarda el numero de identaciones por bloque*/
     private Stack<Integer> pila_global = new Stack<>();
     /* Contador del número de línea actual.*/
-    private int no_linea = 0;
+    private int no_linea = 1;
     /* Verifica si existe un error de identacion. */
     private boolean error_identa = false;
 
@@ -86,6 +86,26 @@ import java.util.Stack;
     }
 
     /**
+     * Reporta el error ocurrido.
+     * en la pila con un nuevo elmento en el caso de que si fuera una nueva identaci&oacute;n
+     * @param type El tipo de error, 0: cadena, 1: Identación 2: Lexema
+     */
+    private void reportError(int type){
+        switch(type){
+            case 0:
+                nextSymbol("\nERROR de cadena en la linea: ");
+                break;
+            case 1:
+                nextSymbol("\nERROR de Identación en la linea: ");
+                break;
+            case 2:
+                nextSymbol("\nERROR Lexema no encontado: ");
+                break;
+        }
+
+        nextSymbol("" + no_linea);
+    }
+    /**
      * @return si ocurrio un error de identacion
      */
     private boolean errorIdenta(){
@@ -105,6 +125,7 @@ BOOLEANO = True|False
 ENTERO = (([1-9][0-9]*)|0+)
 REAL = \.[0-9]+|{ENTERO}\.\d|{ENTERO}\.
 CADENA = \"(\\.|[^\\\"])*\"
+CADENA_MAL = \"(\\.|[^\\\"])*
 PALABRA_RESERVADA = and|or|not|while|if|else|elif|print
 OPERADOR = \+|-|\*|\%|<|>|>=|<=|=|\!|\+=
 SEPARADOR = :
@@ -131,6 +152,7 @@ OTRO = .           //Aquí se define el detectar token fuera de los delcarados (
     {OPERADOR}          { nextSymbol("OPERADOR", yytext()); }
     {IDENTIFICADOR}     { nextSymbol("IDENTIFICADOR", yytext()); }
     {SEPARADOR}         { nextSymbol("SEPARADOR", yytext()); }
+    {CADENA_MAL}        { reportError(0); }
     /* Abre nuevo contexto de identacion para esto se creara una pila qu guarde el
        numero de identaciones en el nuevo bloque que estamos creando.*/ 
     {LINE_TERMINATOR}   { nextSymbol("SALTO\n"); no_linea++; newIdenta(); yybegin(IDENTA); }
