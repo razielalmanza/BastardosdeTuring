@@ -170,18 +170,22 @@ OTRO = .           //Aquí se define el detectar token fuera de los delcarados (
        numero de identaciones en el nuevo bloque que estamos creando.*/ 
     {LINE_TERMINATOR}   { nextSymbol("SALTO\n"); no_linea++; newIdenta(); yybegin(IDENTA); }
     //{OTRO}              { nextSymbol("ERROR en la linea: " + no_linea); }
+    (.|{LINE_TERMINATOR})* {reportError(2);}
 }
 
 <IDENTA>{
     \s                  { pushIdenta(); }
     \S                  { 
-    isIdenta();
-    if(errorIdenta()) yybegin(ERROR);
-    yypushback(1); 
-    yybegin(ATOMOS);
+        isIdenta();
+        if(errorIdenta()){
+            yybegin(ERROR);
+        }else{
+            yypushback(1); 
+            yybegin(ATOMOS);
+        }
     }
 }
 
 <ERROR>{
-    .*                  { nextSymbol("\nError de identacion, linea"+no_linea); }
+    (.|{LINE_TERMINATOR})*                  { reportError(1); }
 }
