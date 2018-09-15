@@ -173,5 +173,5 @@ OTRO = .           //Aquí se define el detectar token fuera de los delcarados (
 }
 
 <ERROR>{
-    (.|{LINE_TERMINATOR})*                  { nextSymbol("\nError de identacion, linea "+no_linea); }
+    (.|{LINE_TERMINATOR})*                  { reportError(1); }
 }
