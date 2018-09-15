@@ -3,7 +3,9 @@
 *********************************************************************************/
 package lexico;
 import java.util.Stack;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
 
 %%
 %public
@@ -125,7 +127,7 @@ import java.io.*;
 %}
 
 %eof{
-    /* Imprimimos al final la secuencia de tokens. */
+    /* Escribimos el resutlado en out y se imprimen. */
     final BufferedWriter writer;
     final FileWriter fileWriter;
     final String fileString = "out/" + fileName + ".plx";
@@ -140,21 +142,9 @@ import java.io.*;
         fileWriter.close();
     } catch (IOException e) {
         e.printStackTrace();
+        System.err.println("Error al escribir el archivo.");
     }
     System.out.println(builder.toString());
-    /* Guardamos en directorio 'out/' */
-    try{
-        Writer output = null;
-        File file = new File("fizzbuzz.plx");
-        output = new BufferedWriter(new FileWriter("../../../out" + file,true));
-        output.write(builder.toString());
-        output.write("HHUHUOJJO");
-        output.close();
-    }catch(Exception e){
-        System.out.println("No se pudo escribir en archivo.");
-        e.printStackTrace(); 
-    }
-
 %eof}
 
 /* ---- Expresiones regulares. ----*/
