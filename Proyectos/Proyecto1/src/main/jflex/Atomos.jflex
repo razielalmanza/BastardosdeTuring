@@ -17,7 +17,13 @@ import java.util.Stack;
     /* Pila que guarda el numero de identaciones por bloque*/
     private Stack<Integer> pila_global = new Stack<>();
     /* Contador del número de línea actual.*/
+<<<<<<< HEAD
     private int no_linea = 1;
+=======
+    private int no_linea = 0;
+    /* Verifica si existe un error de identacion. */
+    private boolean error_identa = false;
+>>>>>>> f72fa80a5fe5b0c9a46d0f49f5f4f8ac6eca47b3
 
     /**
     * Añade una nueva representanción de un token al {@link StringBuilder}.
@@ -61,10 +67,6 @@ import java.util.Stack;
      */
     private void isIdenta(){
         int bloque_actual = pila_global.pop();
-        /* En este caso i asumimos que forzosamente nuestro codigo,
-        comienza con el nivel de identacion 0, en el caso de que
-        este a libertad como iniciar debemos cambiar esta linea por
-        si la pila esta vacia */
         if(pila_global.empty()){
                 pila_global.push(bloque_actual);
         }else{
@@ -82,11 +84,13 @@ import java.util.Stack;
                     else bloque_anterior = 0; 
                 }
                 while(bloque_actual < bloque_anterior);
+                if(bloque_actual != bloque_anterior) error_identa = true;
             }
         }
     }
 
     /**
+<<<<<<< HEAD
      * Reporta el error ocurrido.
      * en la pila con un nuevo elmento en el caso de que si fuera una nueva identaci&oacute;n
      * @param type El tipo de error, 0: cadena, 1: Identación 2: Lexema
@@ -107,6 +111,12 @@ import java.util.Stack;
         nextSymbol("" + no_linea);
 
 
+=======
+     * @return si ocurrio un error de identacion
+     */
+    private boolean errorIdenta(){
+        return error_identa;
+>>>>>>> f72fa80a5fe5b0c9a46d0f49f5f4f8ac6eca47b3
     }
 %}
 
@@ -131,6 +141,7 @@ OTRO = .           //Aquí se define el detectar token fuera de los delcarados (
 
 %state IDENTA
 %state ATOMOS
+%state ERROR
 
 %%
 /*---- Macros y acciones. ----*/
@@ -159,7 +170,12 @@ OTRO = .           //Aquí se define el detectar token fuera de los delcarados (
     \s                  { pushIdenta(); }
     \S                  { 
     isIdenta();
+    if(errorIdenta()) yybegin(ERROR);
     yypushback(1); 
     yybegin(ATOMOS);
     }
+}
+
+<ERROR>{
+    .*                  { nextSymbol("\nError de identacion, linea"+no_linea); }
 }
