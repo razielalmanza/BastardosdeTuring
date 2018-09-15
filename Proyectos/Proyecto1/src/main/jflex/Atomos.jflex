@@ -3,7 +3,9 @@
 *********************************************************************************/
 package lexico;
 import java.util.Stack;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
 
 %%
 %public
@@ -21,6 +23,17 @@ import java.io.*;
     private int no_linea = 1;
     /* Verifica si existe un error de identacion. */
     private boolean error_identa = false;
+    /* El nombre del archivo. */
+    private String fileName;
+
+    public Alexico(final String archivo, final Reader reader) {
+        this(reader);
+        String[] directorios = archivo.split("/");
+        fileName = directorios[directorios.length-1];
+        if(fileName.contains(".")) {
+            fileName = fileName.split("\\.")[0];
+        }
+    }
 
     /**
     * Añade una nueva representanción de un token al {@link StringBuilder}.
@@ -114,21 +127,24 @@ import java.io.*;
 %}
 
 %eof{
-    /* Imprimimos al final la secuencia de tokens. */
-    System.out.println(builder.toString());
-    /* Guardamos en directorio 'out/' */
-    try{
-        Writer output = null;
-        File file = new File("fizzbuzz.plx");
-        output = new BufferedWriter(new FileWriter("../../../out" + file,true));
-        output.write(builder.toString());
-        output.write("HHUHUOJJO");
-        output.close();
-    }catch(Exception e){
-        System.out.println("No se pudo escribir en archivo.");
-        e.printStackTrace(); 
+    /* Escribimos el resutlado en out y se imprimen. */
+    final BufferedWriter writer;
+    final FileWriter fileWriter;
+    final String fileString = "out/" + fileName + ".plx";
+    try {
+        final String content = builder.toString();
+        final File file = new File(fileString);
+        file.getParentFile().mkdirs();
+        fileWriter = new FileWriter(file);
+        writer = new BufferedWriter(fileWriter);
+        writer.write(content);
+        writer.close();
+        fileWriter.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+        System.err.println("Error al escribir el archivo.");
     }
-
+    System.out.println(builder.toString());
 %eof}
 
 /* ---- Expresiones regulares. ----*/
