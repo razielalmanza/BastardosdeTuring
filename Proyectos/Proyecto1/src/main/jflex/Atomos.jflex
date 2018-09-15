@@ -168,7 +168,8 @@ LINE_TERMINATOR = \r|\n|\r\n
     /* Abre nuevo contexto de identacion para esto se creara una pila qu guarde el
        numero de identaciones en el nuevo bloque que estamos creando.*/ 
     {LINE_TERMINATOR}   { nextSymbol("SALTO\n"); no_linea++; newIdenta(); yybegin(IDENTA); }
-    (.|{LINE_TERMINATOR})* {reportError(2);}
+    //{OTRO}              { nextSymbol("ERROR en la linea: " + no_linea); }
+    . { nextSymbol(yytext()); reportError(2); }
 }
 
 <IDENTA>{
