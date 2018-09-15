@@ -27,8 +27,6 @@ import java.io.IOException;
     private boolean error_identa = false;
     /* El nombre del archivo. */
     private String fileName;
-    /* Tipo de Error */
-    private int tipo_error;
 
     public Alexico(final String archivo, final Reader reader) {
         this(reader);
@@ -189,7 +187,7 @@ LINE_TERMINATOR = \r|\n|\r\n
        numero de identaciones en el nuevo bloque que estamos creando.*/ 
     {LINE_TERMINATOR}   { nextSymbol("SALTO\n"); no_linea++; newIdenta(); yybegin(IDENTA); }
     \s                  {/* Ignore */}
-    [^]                 { tipo_error=2; reportError(2); nextSymbol(", generado por la cadena: "+yytext()+" "); yybegin(ERROR); }
+    [^]                 {reportError(2); nextSymbol(", generado por la cadena: "+yytext()+" "); yybegin(ERROR); }
 }
 
 <IDENTA>{
