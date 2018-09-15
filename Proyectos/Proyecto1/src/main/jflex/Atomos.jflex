@@ -162,16 +162,16 @@ OTRO = .           //Aquí se define el detectar token fuera de los delcarados (
 <IDENTA>{
     \s                  { pushIdenta(); }
     \S                  { 
-    isIdenta();
-    if(errorIdenta()){
-        yybegin(ERROR);
-    }else{
-        yypushback(1); 
-        yybegin(ATOMOS);
-    }
+        isIdenta();
+        if(errorIdenta()){
+            yybegin(ERROR);
+        }else{
+            yypushback(1); 
+            yybegin(ATOMOS);
+        }
     }
 }
 
 <ERROR>{
-    .*                  { nextSymbol("\nError de identacion, linea"+no_linea); }
+    (.|{LINE_TERMINATOR})*                  { nextSymbol("\nError de identacion, linea"+no_linea); }
 }
