@@ -3,6 +3,7 @@
 *********************************************************************************/
 package lexico;
 import java.util.Stack;
+import java.io.*;
 
 %%
 %public
@@ -20,6 +21,17 @@ import java.util.Stack;
     private int no_linea = 1;
     /* Verifica si existe un error de identacion. */
     private boolean error_identa = false;
+    /* El nombre del archivo. */
+    private String fileName;
+
+    public Alexico(final String archivo, final Reader reader) {
+        this(reader);
+        String[] directorios = archivo.split("/");
+        fileName = directorios[directorios.length-1];
+        if(fileName.contains(".")) {
+            fileName = fileName.split("\\.")[0];
+        }
+    }
 
     /**
     * Añade una nueva representanción de un token al {@link StringBuilder}.
@@ -115,6 +127,21 @@ import java.util.Stack;
 
 %eof{
     /* Imprimimos al final la secuencia de tokens. */
+    final BufferedWriter writer;
+    final FileWriter fileWriter;
+    final String fileString = "out/" + fileName + ".plx";
+    try {
+        final String content = builder.toString();
+        final File file = new File(fileString);
+        file.getParentFile().mkdirs();
+        fileWriter = new FileWriter(file);
+        writer = new BufferedWriter(fileWriter);
+        writer.write(content);
+        writer.close();
+        fileWriter.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
     System.out.println(builder.toString());
 %eof}
 
@@ -155,7 +182,7 @@ OTRO = .           //Aquí se define el detectar token fuera de los delcarados (
     {CADENA_MAL}        { reportError(0); }
     /* Abre nuevo contexto de identacion para esto se creara una pila qu guarde el
        numero de identaciones en el nuevo bloque que estamos creando.*/ 
-    {LINE_TERMINATOR}   { nextSymbol("SALTO\n"); no_linea++; newIdenta(); yybegin(IDENTA); }
+    {LINE_TERMINATOR}   { nextSymbol("SALTO\n");no_linea++; newIdenta(); yybegin(IDENTA); }
     //{OTRO}              { nextSymbol("ERROR en la linea: " + no_linea); }
 }
 

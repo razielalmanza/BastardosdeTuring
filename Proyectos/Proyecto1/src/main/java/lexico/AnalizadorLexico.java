@@ -16,7 +16,7 @@ public class AnalizadorLexico {
     public AnalizadorLexico(String archivo) {
         try {
             Reader lector = new FileReader(archivo);
-            lexer = new Alexico(lector);
+            lexer = new Alexico(archivo, lector);
         } catch(FileNotFoundException fnfe) {
             final String message = fnfe.getMessage();
             System.err.println(message + "No se encontró el archivo.");
