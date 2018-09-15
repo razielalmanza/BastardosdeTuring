@@ -2,19 +2,9 @@
 i = 1
 while  i < 100:
 	if i % 3 == 0:
-<<<<<<< HEAD
 		print "fizz"
 	if i % 5 == 0:
 		print "buzz"
 	if i % 3 != 0 and i % 5 != 0:
 		print i
 	i += 1
-	print "
-=======
-		    print "fizz"
-	    if i % 5 == 0:
-		print "buzz"
-	if i % 3 != 0 and i % 5 != 0:
-		print i
-	i += 1
->>>>>>> f72fa80a5fe5b0c9a46d0f49f5f4f8ac6eca47b3
