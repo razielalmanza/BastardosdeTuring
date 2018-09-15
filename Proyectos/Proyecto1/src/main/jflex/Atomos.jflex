@@ -65,7 +65,7 @@ import java.util.Stack;
         comienza con el nivel de identacion 0, en el caso de que
         este a libertad como iniciar debemos cambiar esta linea por
         si la pila esta vacia */
-        if(bloque_actual==0){
+        if(pila_global.empty()){
                 pila_global.push(bloque_actual);
         }else{
             int bloque_anterior = pila_global.peek();
