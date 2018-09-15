@@ -99,7 +99,7 @@ import java.io.*;
                 nextSymbol("\nERROR de Identación en la linea: ");
                 break;
             case 2:
-                nextSymbol("\nERROR Lexema no encontado: ");
+                nextSymbol("\nERROR Lexema no encontado en la linea: ");
                 break;
         }
 
@@ -143,7 +143,6 @@ PALABRA_RESERVADA = and|or|not|while|if|else|elif|print
 OPERADOR = \+|-|\*|\%|<|>|>=|<=|=|\!|\+=
 SEPARADOR = :
 LINE_TERMINATOR = \r|\n|\r\n
-OTRO = .           //Aquí se define el detectar token fuera de los delcarados (errores)
 
 %state IDENTA
 %state ATOMOS
@@ -169,7 +168,6 @@ OTRO = .           //Aquí se define el detectar token fuera de los delcarados (
     /* Abre nuevo contexto de identacion para esto se creara una pila qu guarde el
        numero de identaciones en el nuevo bloque que estamos creando.*/ 
     {LINE_TERMINATOR}   { nextSymbol("SALTO\n"); no_linea++; newIdenta(); yybegin(IDENTA); }
-    //{OTRO}              { nextSymbol("ERROR en la linea: " + no_linea); }
     (.|{LINE_TERMINATOR})* {reportError(2);}
 }
 

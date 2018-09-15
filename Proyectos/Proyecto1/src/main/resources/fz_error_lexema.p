@@ -1,6 +1,6 @@
 # FIzzbuzz hasta 100
 i = 1
-while  i < 100:
+while  i < @:
 	if i % 3 === 0:
 		print "fizz"
 	if i % 5 == 0:
