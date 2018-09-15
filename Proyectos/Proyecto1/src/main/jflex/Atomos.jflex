@@ -70,13 +70,14 @@ import java.util.Stack;
             if(bloque_actual > bloque_anterior){ 
                 pila_global.push(bloque_actual);
                 nextSymbol("IDENTA",Integer.toString(bloque_actual));
-            }else{
+            }else if(bloque_actual < bloque_anterior){
                 do{
                     nextSymbol("DEIDENTA",Integer.toString(bloque_anterior));
                     pila_global.pop();
                     if(!pila_global.empty())
                         bloque_anterior = pila_global.peek();
-                    else bloque_anterior = 0;
+                    //aqui tambien asumimos que el primer bloque inicia en 0
+                    else bloque_anterior = 0; 
                 }
                 while(bloque_actual < bloque_anterior);
             }
