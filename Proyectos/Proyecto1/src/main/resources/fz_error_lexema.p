@@ -1,7 +1,7 @@
 # FIzzbuzz hasta 100
 i = 1
 while  i < @:
-	if i % 3 === 0:
+	if i % 3 == 0:
 		print "fizz"
 	if i % 5 == 0:
 		print "buzz"
