@@ -141,9 +141,12 @@ OTRO = .           //Aquí se define el detectar token fuera de los delcarados (
     \s                  { pushIdenta(); }
     \S                  { 
     isIdenta();
-    if(errorIdenta()) yybegin(ERROR);
-    yypushback(1); 
-    yybegin(ATOMOS);
+    if(errorIdenta()){
+        yybegin(ERROR);
+    }else{
+        yypushback(1); 
+        yybegin(ATOMOS);
+    }
     }
 }
 
