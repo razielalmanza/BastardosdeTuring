@@ -9,8 +9,10 @@
 ## Cómo compilar y correr la práctica.
 Para compilar la práctica se usa el comando:
 `make`
+
 Para ejecutar la práctica es suficiente con el siguiente comando:
 `make run`
+
 Para ejecutar la práctica en modo debug (punto 4 de la práctica) se usa el siguiente comando:
 `make debug`
 
