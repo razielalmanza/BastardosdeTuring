@@ -1,3 +1,4 @@
 # Java generated classes.
 *.java~
 *.java
+*.output
