@@ -30,11 +30,9 @@ private Letras alexico;
 // Regresar L
 private int yylex(){
 	int yyl_return = -1;
-
-	try{
+	try {
 		yyl_return = alexico.yylex();
-
-	}catch(IOException e){
+	} catch(IOException e){
 		System.out.println("Error de IO." + e);
 	}
 	return yyl_return;
@@ -45,17 +43,27 @@ public void yyerror(String error){
 	System.exit(2);
 }
 
+/* Constructor normal. */
 public Parser(Reader r){
 	alexico = new Letras(r);
+}
 
-	
+/* Constructor para depuración. */
+public Parser(Reader r, boolean debug) {
+	alexico = new Letras(r);
+	yydebug = debug;	
 }
 
 public static void main(String[] args){
 	try{
-	Parser yyparser = new Parser(new FileReader(args[0]));
-	yyparser.yyparse();
+		Parser yyparser;
+		if(args.length == 2) {
+			yyparser = new Parser(new FileReader(args[0]), Boolean.parseBoolean(args[1]));
+		} else {
+			yyparser = new Parser(new FileReader(args[0])); 
+		}
+		yyparser.yyparse();
 	} catch(FileNotFoundException e){
-	System.out.println("File: " + args[0] + "No encontrado" );
+		System.out.println("File: " + args[0] + "No encontrado" );
 	}
 }
