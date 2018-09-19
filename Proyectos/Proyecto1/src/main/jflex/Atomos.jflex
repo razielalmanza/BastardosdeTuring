@@ -80,22 +80,21 @@ import java.io.IOException;
     private void isIdenta(){
         int bloque_actual = pila_global.pop();
         if(pila_global.empty()){
-                pila_global.push(bloque_actual);
+            pila_global.push(bloque_actual);
         }else{
             int bloque_anterior = pila_global.peek();
             if(bloque_actual > bloque_anterior){ 
                 pila_global.push(bloque_actual);
                 nextSymbol("IDENTA",Integer.toString(bloque_actual));
-            }else if(bloque_actual < bloque_anterior){
-                do{
-                    nextSymbol("DEIDENTA",Integer.toString(bloque_anterior));
-                    pila_global.pop();
-                    if(!pila_global.empty())
-                        bloque_anterior = pila_global.peek();
+        }else if(bloque_actual < bloque_anterior){
+            do{
+                nextSymbol("DEIDENTA",Integer.toString(bloque_anterior));
+                pila_global.pop();
+                if(!pila_global.empty())
+                    bloque_anterior = pila_global.peek();
                     //aqui tambien asumimos que el primer bloque inicia en 0
-                    else bloque_anterior = 0; 
-                }
-                while(bloque_actual < bloque_anterior);
+                else bloque_anterior = 0; 
+            } while(bloque_actual < bloque_anterior);
                 if(bloque_actual != bloque_anterior) error_identa = true;
             }
         }
