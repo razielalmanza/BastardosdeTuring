@@ -3,26 +3,25 @@
 	import java.io.*;
 %}
 %token NUMBER, ADD, SUB, MULT, DIV
-%type<sval> EXPR, TERM, FACTOR
+%type<sval> EXPR, TERM, FACTOR, EXPR2, TERM2, FACTOR2
 
 
 %%
 start:	{System.out.println("OK");}
-	| EXPR {System.out.println("OK");}
-
-
+	| EXPR2 {System.out.println("OK");}
 
 EXPR: TERM | EXPR ADD TERM 
 		   | EXPR SUB TERM 
 TERM: FACTOR | TERM MULT FACTOR
 			 | TERM DIV FACTOR
-
 FACTOR: NUMBER
 	   | SUB NUMBER
 
-
- 
-
+EXPR2: TERM2 | TERM2 ADD EXPR2
+			 | TERM2 SUB EXPR2
+TERM2: FACTOR2 | FACTOR2 MULT TERM2
+			   | FACTOR2 DIV TERM2
+FACTOR2: NUMBER | SUB NUMBER
 
 %%
 

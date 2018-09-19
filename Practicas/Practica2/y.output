@@ -1,0 +1,177 @@
+   0  $accept : start $end
+
+   1  start :
+   2        | EXPR2
+
+   3  EXPR : TERM
+   4       | EXPR ADD TERM
+   5       | EXPR SUB TERM
+
+   6  TERM : FACTOR
+   7       | TERM MULT FACTOR
+   8       | TERM DIV FACTOR
+
+   9  FACTOR : NUMBER
+  10         | SUB NUMBER
+
+  11  EXPR2 : TERM2
+  12        | TERM2 ADD EXPR2
+  13        | TERM2 SUB EXPR2
+
+  14  TERM2 : FACTOR2
+  15        | FACTOR2 MULT TERM2
+  16        | FACTOR2 DIV TERM2
+
+  17  FACTOR2 : NUMBER
+  18          | SUB NUMBER
+
+state 0
+	$accept : . start $end  (0)
+	start : .  (1)
+
+	NUMBER  shift 1
+	SUB  shift 2
+	$end  reduce 1
+
+	start  goto 3
+	EXPR2  goto 4
+	TERM2  goto 5
+	FACTOR2  goto 6
+
+
+state 1
+	FACTOR2 : NUMBER .  (17)
+
+	.  reduce 17
+
+
+state 2
+	FACTOR2 : SUB . NUMBER  (18)
+
+	NUMBER  shift 7
+	.  error
+
+
+state 3
+	$accept : start . $end  (0)
+
+	$end  accept
+
+
+state 4
+	start : EXPR2 .  (2)
+
+	.  reduce 2
+
+
+state 5
+	EXPR2 : TERM2 .  (11)
+	EXPR2 : TERM2 . ADD EXPR2  (12)
+	EXPR2 : TERM2 . SUB EXPR2  (13)
+
+	ADD  shift 8
+	SUB  shift 9
+	$end  reduce 11
+
+
+state 6
+	TERM2 : FACTOR2 .  (14)
+	TERM2 : FACTOR2 . MULT TERM2  (15)
+	TERM2 : FACTOR2 . DIV TERM2  (16)
+
+	MULT  shift 10
+	DIV  shift 11
+	$end  reduce 14
+	ADD  reduce 14
+	SUB  reduce 14
+
+
+state 7
+	FACTOR2 : SUB NUMBER .  (18)
+
+	.  reduce 18
+
+
+state 8
+	EXPR2 : TERM2 ADD . EXPR2  (12)
+
+	NUMBER  shift 1
+	SUB  shift 2
+	.  error
+
+	EXPR2  goto 12
+	TERM2  goto 5
+	FACTOR2  goto 6
+
+
+state 9
+	EXPR2 : TERM2 SUB . EXPR2  (13)
+
+	NUMBER  shift 1
+	SUB  shift 2
+	.  error
+
+	EXPR2  goto 13
+	TERM2  goto 5
+	FACTOR2  goto 6
+
+
+state 10
+	TERM2 : FACTOR2 MULT . TERM2  (15)
+
+	NUMBER  shift 1
+	SUB  shift 2
+	.  error
+
+	TERM2  goto 14
+	FACTOR2  goto 6
+
+
+state 11
+	TERM2 : FACTOR2 DIV . TERM2  (16)
+
+	NUMBER  shift 1
+	SUB  shift 2
+	.  error
+
+	TERM2  goto 15
+	FACTOR2  goto 6
+
+
+state 12
+	EXPR2 : TERM2 ADD EXPR2 .  (12)
+
+	.  reduce 12
+
+
+state 13
+	EXPR2 : TERM2 SUB EXPR2 .  (13)
+
+	.  reduce 13
+
+
+state 14
+	TERM2 : FACTOR2 MULT TERM2 .  (15)
+
+	.  reduce 15
+
+
+state 15
+	TERM2 : FACTOR2 DIV TERM2 .  (16)
+
+	.  reduce 16
+
+
+Rules never reduced:
+	EXPR : TERM  (3)
+	EXPR : EXPR ADD TERM  (4)
+	EXPR : EXPR SUB TERM  (5)
+	TERM : FACTOR  (6)
+	TERM : TERM MULT FACTOR  (7)
+	TERM : TERM DIV FACTOR  (8)
+	FACTOR : NUMBER  (9)
+	FACTOR : SUB NUMBER  (10)
+
+
+7 terminals, 8 nonterminals
+19 grammar rules, 16 states
