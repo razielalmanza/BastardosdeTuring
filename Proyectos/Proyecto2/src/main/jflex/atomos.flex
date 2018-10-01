@@ -29,15 +29,21 @@ import java.io.IOException;
     private boolean error_identa = false;
     /* El nombre del archivo. */
     private String fileName;
+     private Parser yyparser;
 
-    public Alexico(final String archivo, final Reader reader) {
+    public Letras(final String archivo, final Reader reader) {
         this(reader);
-        String[] directorios = archivo.split("/");
+        String[] directorios = archivo.split("/");  
         fileName = directorios[directorios.length-1];
         if(fileName.contains(".")) {
             fileName = fileName.split("\\.")[0];
         }
     }
+      public Letras(java.io.Reader r, Parser parser){
+    	   this(r);
+    	   yyparser = parser;
+    }
+
 
     /**
     * Añade una nueva representanción de un token al {@link StringBuilder}.
@@ -162,8 +168,8 @@ ENTERO = (([1-9][0-9]*)|0+)
 REAL = \.[0-9]+|{ENTERO}\.\d|{ENTERO}\.
 CADENA = \"(\\.|[^\\\"])*\"
 CADENA_MAL = \"(\\.|[^\\\"])*
-PALABRA_RESERVADA = and|or|not|while|if|else|elif|print
-OPERADOR = \+|-|\*|\%|<|>|>=|<=|=|\!|\+=
+//PALABRA_RESERVADA = and|or|not|while|if|else|elif|print
+//OPERADOR = \+|-|\*|\%|<|>|>=|<=|=|\!|\+=
 SEPARADOR = :
 LINE_TERMINATOR = \r|\n|\r\n
 
@@ -178,8 +184,8 @@ LINE_TERMINATOR = \r|\n|\r\n
 }
 
 <ATOMOS>{
-    #.* { System.out.println("COMENTARIO"); return Parser.COMENTARIO; }
-    {BOOLEANO}          { nextSymbol("BOOLEAN", yytext());return Parser.BOOLEAN; }
+    #.* { System.out.println("COMENTARIO"); }
+    {BOOLEANO}          { nextSymbol("BOOLEAN", yytext());return Parser.BOOLEANO; }
     {ENTERO}            { nextSymbol("ENTERO", yytext()); return Parser.ENTERO;}
     {REAL}              { nextSymbol("REAL", yytext());  return Parser.REAL;}
     {CADENA}            { nextSymbol("CADENA", yytext());  return Parser.CADENA;}
@@ -197,14 +203,24 @@ LINE_TERMINATOR = \r|\n|\r\n
     \+                  {nextSymbol("ADD", yytext());  return Parser.ADD;}
     -                  {nextSymbol("SUB", yytext());  return Parser.SUB;}
     \*                  {nextSymbol("MULT", yytext());  return Parser.MULT;}
-    \%                  {nextSymbol("DIV", yytext());  return Parser.DIV;}
-    <                  {nextSymbol("LT", yytext());  return Parser.LT;}
+    \*\*                  {nextSymbol("POWER", yytext());  return Parser.POWER;}
+    \%                  {nextSymbol("MOD", yytext());  return Parser.MOD;}
+    \/                  {nextSymbol("DIV", yytext());  return Parser.DIV;}
+    \/\/                {nextSymbol("DIVE", yytext());  return Parser.DIVE;}
+    \<                  {nextSymbol("LT", yytext());  return Parser.LT;}
     >                  {nextSymbol("BT", yytext());  return Parser.BT;}
-    >=                  {nextSymbol("LTE", yytext());  return Parser.LTE;}
-    <=                  {nextSymbol("BTE", yytext());  return Parser.BTE;}
-    =                  {nextSymbol("EQUAL", yytext());  return Parser.EQUAL;}
-    \!                  {nextSymbol("NOT", yytext());  return Parser.NOT;}
-    \+=                  {nextSymbol("INC", yytext());  return Parser.INC;}
+    \>=                  {nextSymbol("LTE", yytext());  return Parser.LTE;}
+    \<=                  {nextSymbol("BTE", yytext());  return Parser.BTE;}
+    =                  {nextSymbol("ASIG", yytext());  return Parser.ASIG;}
+    ==                  {nextSymbol("EQUAL", yytext());  return Parser.EQUAL;}
+\!                      {nextSymbol("NOT", yytext());  return Parser.NOT;}
+\+=                     {nextSymbol("INC", yytext());  return Parser.INC;}
+    \!=                  {nextSymbol("DIST", yytext());  return Parser.DIST;}
+\(                  {nextSymbol("PAR_O", yytext());  return Parser.PAR_O;}
+\)                  {nextSymbol("PAR_C", yytext());  return Parser.PAR_C;}
+
+
+
     {IDENTIFICADOR}     { nextSymbol("IDENTIFICADOR", yytext());  return Parser.IDENTIFICADOR;}
     {SEPARADOR}         { nextSymbol("SEPARADOR", yytext());  return Parser.SEPARADOR;}
     {CADENA_MAL}        { reportError(0); }
@@ -221,10 +237,9 @@ LINE_TERMINATOR = \r|\n|\r\n
         switch(isIdenta()){
             case 0: 
                 return Parser.IDENTA;
-                break;
             case 1:
                 return Parser.DEIDENTA;
-                break;
+
         }
         if(errorIdenta()){
             reportError(1);

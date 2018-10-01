@@ -6,15 +6,51 @@ import java.io.*;
 %}
 
 %token<sval> SALTO IDENTA DEIDENTA IDENTIFICADOR ENTERO CADENA REAL BOOLEANO
-%type<sval> S start
+             AND OR NOT WHILE IF ELSE PRINT ADD SUB MULT DIV LT BT LTE BTE EQUAL
+             NOT INC SEPARADOR  ASIG DIST DIVE POWER PAR_O PAR_C MOD
+%type<sval> file_input stmt simple_stmt compound_stmt
+            small_stmt expr_stmt print_stmt test if_stmt
+            while_stmt suite stmt or_test and_test not_test
+            comparison expr factor comp_op term atom power
+            stmt_aux not_test_2 or_2 and_2
+
 
 %%
-start:   {System.out.println("[OK] " + $$);}
-     | S {System.out.println("[OK] " + $$);}
+start:   {System.out.println("[OK] ");}
+     | file_input {System.out.println("[OK] " );}
+file_input : SALTO | stmt | file_input
 
-S: A S B {$$ = $3+ $2 +$1;}
- | A B   {$$ = $2 + $1 ;}
- ;
+ stmt  :  simple_stmt  |  compound_stmt 
+ simple_stmt :  small_stmt  SALTO
+ small_stmt :  expr_stmt  |  print_stmt 
+ expr_stmt :  test | EQUAL test
+ print_stmt : PRINT  test 
+
+ compound_stmt :  if_stmt 
+               |  while_stmt 
+ if_stmt : IF  test  SEPARADOR   suite | IF  test  SEPARADOR   suite ELSE SEPARADOR   suite
+ while_stmt : WHILE  test  SEPARADOR   suite 
+ suite :  simple_stmt  | SALTO IDENTA  stmt_aux DEIDENTA
+ stmt_aux: stmt_aux stmt | stmt
+
+ test :  or_test 
+ or_test :  and_test | and_test or_2
+ or_2: or_2 OR and_test |  
+ and_test :  not_test | not_test  and_2
+ and_2: and_2 AND not_test |
+
+ not_test : not_test_2 comparison
+ not_test_2: not_test_2 NOT | 
+ comparison :  expr comparison_2
+ comparison_2: comparison_2 comp_op expr | 
+ comp_op : LT|BT|EQUAL|BTE|LTE|DIST
+ expr : expr  ADD term| expr SUB term| term
+
+ term :  term MULT factor|term DIV factor|term MOD factor|term DIVE factor | factor
+ factor : ADD  factor | SUB factor |  power 
+ power :  atom | atom POWER  factor 
+ atom : IDENTIFICADOR | ENTERO | CADENA
+    | REAL | BOOLEANO | PAR_O  test  PAR_C
 %%
 
 private Letras alexico;
