@@ -183,8 +183,28 @@ LINE_TERMINATOR = \r|\n|\r\n
     {ENTERO}            { nextSymbol("ENTERO", yytext()); return Parser.ENTERO;}
     {REAL}              { nextSymbol("REAL", yytext());  return Parser.REAL;}
     {CADENA}            { nextSymbol("CADENA", yytext());  return Parser.CADENA;}
-    {PALABRA_RESERVADA} { nextSymbol("RESERVADA", yytext());  return Parser.PALABRA_RESERVADA;}
-    {OPERADOR}          { nextSymbol("OPERADOR", yytext());  return Parser.OPERADOR;}
+    //{PALABRA_RESERVADA} { nextSymbol("RESERVADA", yytext());  return Parser.PALABRA_RESERVADA;}
+    //atomos de palabras reservadas
+    and               {nextSymbol("AND", yytext());  return Parser.AND;}
+    or               {nextSymbol("OR", yytext());  return Parser.OR;}
+    not               {nextSymbol("NOT", yytext());  return Parser.NOT;}
+    while               {nextSymbol("WHILE", yytext());  return Parser.WHILE;}
+    if               {nextSymbol("IF", yytext());  return Parser.IF;}
+    else               {nextSymbol("ELSE", yytext());  return Parser.ELSE;}
+    //elif               {nextSymbol("ELIF", yytext());  return Parser.;}
+    print               {nextSymbol("PRINT", yytext());  return Parser.PRINT;}
+    //{OPERADOR}          { nextSymbol("OPERADOR", yytext());  return Parser.OPERADOR;}
+    \+                  {nextSymbol("ADD", yytext());  return Parser.ADD;}
+    -                  {nextSymbol("SUB", yytext());  return Parser.SUB;}
+    \*                  {nextSymbol("MULT", yytext());  return Parser.MULT;}
+    \%                  {nextSymbol("DIV", yytext());  return Parser.DIV;}
+    <                  {nextSymbol("LT", yytext());  return Parser.LT;}
+    >                  {nextSymbol("BT", yytext());  return Parser.BT;}
+    >=                  {nextSymbol("LTE", yytext());  return Parser.LTE;}
+    <=                  {nextSymbol("BTE", yytext());  return Parser.BTE;}
+    =                  {nextSymbol("EQUAL", yytext());  return Parser.EQUAL;}
+    \!                  {nextSymbol("NOT", yytext());  return Parser.NOT;}
+    \+=                  {nextSymbol("INC", yytext());  return Parser.INC;}
     {IDENTIFICADOR}     { nextSymbol("IDENTIFICADOR", yytext());  return Parser.IDENTIFICADOR;}
     {SEPARADOR}         { nextSymbol("SEPARADOR", yytext());  return Parser.SEPARADOR;}
     {CADENA_MAL}        { reportError(0); }

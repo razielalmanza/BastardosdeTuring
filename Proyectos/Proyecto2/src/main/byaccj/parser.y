@@ -5,7 +5,7 @@ import java.io.*;
 
 %}
 
-%token<sval> A B
+%token<sval> SALTO IDENTA DEIDENTA IDENTIFICADOR ENTERO CADENA REAL BOOLEANO
 %type<sval> S start
 
 %%
