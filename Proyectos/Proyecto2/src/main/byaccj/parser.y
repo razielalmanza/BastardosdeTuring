@@ -16,7 +16,7 @@ import java.io.*;
 
 
 %%
-start:   {System.out.println("[OK] ");}
+start:   {}
      | file_input {System.out.println("[OK] " );}
 file_input : SALTO | stmt | file_input
 

@@ -610,7 +610,7 @@ boolean doaction;
 //########## USER-SUPPLIED ACTIONS ##########
 case 1:
 //#line 19 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto2/src/main/byaccj/parser.y"
-{System.out.println("[OK] ");}
+{}
 break;
 case 2:
 //#line 20 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto2/src/main/byaccj/parser.y"
