@@ -12,16 +12,16 @@ import java.io.*;
             small_stmt expr_stmt print_stmt test if_stmt
             while_stmt suite stmt or_test and_test not_test
             comparison expr factor comp_op term atom power
-            stmt_aux not_test_2 or_2 and_2
+            stmt_aux or_2 and_2
 
 
 %%
 start:   {System.out.println("O");}
      | file_input {System.out.println("[OK] " );}
 
-/*file_input : file_input SALTO | file_input stmt  ; */
- file_input : SALTO | stmt | file_input // ????
- 
+file_input : file_input SALTO | file_input stmt  ; 
+ //file_input : SALTO | stmt | file_input // ????
+
  stmt :  simple_stmt  |  compound_stmt ; // check
  simple_stmt : small_stmt SALTO ;         // check
  small_stmt :  expr_stmt  |  print_stmt ; // check
