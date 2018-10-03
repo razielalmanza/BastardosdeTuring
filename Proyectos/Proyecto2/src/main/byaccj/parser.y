@@ -16,41 +16,41 @@ import java.io.*;
 
 
 %%
-start:   {}
+start:   {System.out.println("O");}
      | file_input {System.out.println("[OK] " );}
-file_input : SALTO | stmt | file_input
 
- stmt  :  simple_stmt  |  compound_stmt 
- simple_stmt :  small_stmt  SALTO
- small_stmt :  expr_stmt  |  print_stmt 
- expr_stmt :  test | EQUAL test
- print_stmt : PRINT  test 
+file_input : file_input SALTO | file_input stmt  ;
 
- compound_stmt :  if_stmt 
-               |  while_stmt 
- if_stmt : IF  test  SEPARADOR   suite | IF  test  SEPARADOR   suite ELSE SEPARADOR   suite
- while_stmt : WHILE  test  SEPARADOR   suite 
- suite :  simple_stmt  | SALTO IDENTA  stmt_aux DEIDENTA
+ stmt :  simple_stmt  |  compound_stmt ;
+ simple_stmt : small_stmt SALTO ;
+ small_stmt :  expr_stmt  |  print_stmt ;
+ expr_stmt :  test | EQUAL test ;
+ print_stmt : PRINT  test ;
+
+ compound_stmt :  if_stmt  |  while_stmt ;
+ if_stmt : IF  test  SEPARADOR   suite | IF  test  SEPARADOR   suite ELSE SEPARADOR   suite ;
+ while_stmt : WHILE  test  SEPARADOR   suite ;
+ suite :  simple_stmt  | SALTO IDENTA  stmt_aux DEIDENTA ;
  stmt_aux: stmt_aux stmt | stmt
 
- test :  or_test 
- or_test :  and_test | and_test or_2
- or_2: or_2 OR and_test |  
- and_test :  not_test | not_test  and_2
- and_2: and_2 AND not_test |
+ test :  or_test ;
+ or_test :  and_test | and_test or_2 ;
+ or_2: or_2 OR and_test |  ;
+ and_test : not_test | not_test  and_2 ;
+ and_2: and_2 AND not_test | ;
 
- not_test : not_test_2 comparison
- not_test_2: not_test_2 NOT | 
- comparison :  expr comparison_2
- comparison_2: comparison_2 comp_op expr | 
- comp_op : LT|BT|EQUAL|BTE|LTE|DIST
- expr : expr  ADD term| expr SUB term| term
+ not_test : not_test_2 comparison ;
+ not_test_2: not_test_2 NOT | ;
+ comparison :  expr comparison_2 ;
+ comparison_2: comparison_2 comp_op expr | ;
+ comp_op : LT|BT|EQUAL|BTE|LTE|DIST ;
+ expr : expr  ADD term| expr SUB term| term ;
 
- term :  term MULT factor|term DIV factor|term MOD factor|term DIVE factor | factor
- factor : ADD  factor | SUB factor |  power 
- power :  atom | atom POWER  factor 
- atom : IDENTIFICADOR | ENTERO | CADENA
-    | REAL | BOOLEANO | PAR_O  test  PAR_C
+ term :  term MULT factor|term DIV factor|term MOD factor|term DIVE factor | factor ;
+ factor : ADD  factor | SUB factor |  power  ;
+ power :  atom | atom POWER  factor  ;
+ atom : IDENTIFICADOR | ENTERO | CADENA 
+    | REAL | BOOLEANO | PAR_O  test  PAR_C ;
 %%
 
 private Letras alexico;
@@ -80,6 +80,7 @@ public Parser(Reader r){
 public static void main(String args[]){
   try{
    Parser yyparser = new Parser(new FileReader(args[0]));
+   yyparser.yydebug = true;
    yyparser.yyparse();
   }catch(FileNotFoundException e){
     System.err.println("El Archivo " + args[0] + " no existe.");
