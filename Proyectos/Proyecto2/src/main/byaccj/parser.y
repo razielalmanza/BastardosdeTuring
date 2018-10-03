@@ -20,37 +20,47 @@ start:   {System.out.println("O");}
      | file_input {System.out.println("[OK] " );}
 
 /*file_input : file_input SALTO | file_input stmt  ; */
-file_input : SALTO | stmt | file_input
- stmt :  simple_stmt  |  compound_stmt ;
- simple_stmt : small_stmt SALTO ;
- small_stmt :  expr_stmt  |  print_stmt ;
- expr_stmt :  test | EQUAL test ;
- print_stmt : PRINT  test ;
+ file_input : SALTO | stmt | file_input // ????
+ 
+ stmt :  simple_stmt  |  compound_stmt ; // check
+ simple_stmt : small_stmt SALTO ;         // check
+ small_stmt :  expr_stmt  |  print_stmt ; // check
+ 
+ //expr_stmt :  test | EQUAL test ;
+ expr_stmt: test | test ASIG test  // corregido
+ print_stmt : PRINT  test ; // check
 
  compound_stmt :  if_stmt  |  while_stmt ;
- if_stmt : IF  test  SEPARADOR   suite | IF  test  SEPARADOR   suite ELSE SEPARADOR   suite ;
- while_stmt : WHILE  test  SEPARADOR   suite ;
- suite :  simple_stmt  | SALTO IDENTA  stmt_aux DEIDENTA ;
- stmt_aux: stmt_aux stmt | stmt
+ if_stmt : IF  test  SEPARADOR   suite | IF  test  SEPARADOR   suite ELSE SEPARADOR   suite ; // check
+ while_stmt : WHILE  test  SEPARADOR   suite ; // check
+ 
+ suite :  simple_stmt  | SALTO IDENTA  stmt_aux DEIDENTA ;  // check
+ stmt_aux: stmt_aux stmt | stmt //check
 
- test :  or_test ;
- or_test :  and_test | and_test or_2 ;
+ test : or_test ; //check
+
+ /*or_test :  and_test | and_test or_2 ; */
+ or_test :  and_test or_2 ;   // se reduce
  or_2: or_2 OR and_test |  ;
- and_test : not_test | not_test  and_2 ;
+
+/* and_test : not_test | not_test  and_2 ; */ 
+ and_test : not_test  and_2 ; // Se corrige, reduciendo
  and_2: and_2 AND not_test | ;
 
- not_test : not_test_2 comparison ;
- not_test_2: not_test_2 NOT | ;
- comparison :  expr comparison_2 ;
- comparison_2: comparison_2 comp_op expr | ;
- comp_op : LT|BT|EQUAL|BTE|LTE|DIST ;
- expr : expr  ADD term| expr SUB term| term ;
+ /*not_test : not_test_2 comparison ;
+ not_test_2: not_test_2 NOT | ; */
+ not_test: NOT not_test | comparison // corregido
 
- term :  term MULT factor|term DIV factor|term MOD factor|term DIVE factor | factor ;
- factor : ADD  factor | SUB factor |  power  ;
- power :  atom | atom POWER  factor  ;
- atom : IDENTIFICADOR | ENTERO | CADENA 
-    | REAL | BOOLEANO | PAR_O  test  PAR_C ;
+ comparison :  expr comparison_2 ;    // check
+ comparison_2: comparison_2 comp_op expr | ;    // check
+ 
+ comp_op : LT|BT|EQUAL|BTE|LTE|DIST ;
+ expr : expr  ADD term| expr SUB term| term ;  // check
+
+ term :  term MULT factor|term DIV factor|term MOD factor|term DIVE factor | factor ; // check
+ factor : ADD  factor | SUB factor |  power ; // check
+ power :  atom | atom POWER  factor  ; // "check"
+ atom : IDENTIFICADOR | ENTERO | CADENA | REAL | BOOLEANO | PAR_O  test  PAR_C ; // check
 %%
 
 private Letras alexico;
