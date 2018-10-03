@@ -19,8 +19,8 @@ import java.io.*;
 start:   {System.out.println("O");}
      | file_input {System.out.println("[OK] " );}
 
-file_input : file_input SALTO | file_input stmt  ;
-
+/*file_input : file_input SALTO | file_input stmt  ; */
+file_input : SALTO | stmt | file_input
  stmt :  simple_stmt  |  compound_stmt ;
  simple_stmt : small_stmt SALTO ;
  small_stmt :  expr_stmt  |  print_stmt ;
