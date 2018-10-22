@@ -62,6 +62,7 @@ public static void main(String[] args){
 		} else {
 			yyparser = new Parser(new FileReader(args[0])); 
 		}
+		yyparser.yydebug = true;
 		yyparser.yyparse();
 	} catch(FileNotFoundException e){
 		System.out.println("File: " + args[0] + "No encontrado" );

@@ -1,4 +1,4 @@
-# Compiladores 2019-1: Proyecto 2 (Analizador Sintáctico)
+# Compiladores 2019-1: Proyecto 3 (Generación del AST con el patrón _compuesto_).
 
 ## Integrantes del equipo
 
@@ -6,11 +6,11 @@
 * Casas Monreal Juan
 * Naranjo Robledo Carlos
 
-# Para Compilar
-  `mvn clean initialize compile`
+## Compilar
+`mvn clean initialize compile`
 
-# Para ejecutar
-  `mvn exec:java -Dexec.mainClass=asintactico.Parser -Dexec.args="test.txt"`
+## Ejecutar
+`mvn exec:java -Dexec.mainClass="ast.Compilador"`
 
 ## Especificación de commits.
 Todos los commits deben seguir el siguiente formato dependiendo del caso.
@@ -19,3 +19,13 @@ Todos los commits deben seguir el siguiente formato dependiendo del caso.
 * **Caso de cambiar archivos**: El commit debe llevar el prefijo `Cambios:`.
 * **Caso de arreglar bug**: El commit debe llevar el prefijo `Arreglado:`.
 * **Caso de archivos eliminados**: El commit debe llevar el prefijo `Eliminado:`.
+
+
+## Generación de documentación
+El pom incluye un plugin que es un wrapper de doxygen
+https://github.com/os-cillation/doxygen-maven-plugin .
+
+Para usarlo tiene que tener instalado _doxygen_ y, de manera recomendada,
+la biblioteca _graphviz_ .
+
+`mvn doxygen:generate`
