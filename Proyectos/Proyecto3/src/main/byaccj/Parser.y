@@ -1,5 +1,4 @@
 %{
-  package ast;
   import ast.patron.compuesto.*;
   import java.lang.Math;
   import java.io.*;
