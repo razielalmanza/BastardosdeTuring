@@ -7,7 +7,7 @@ import java.lang.ArrayStoreException;
 /* Extends Abstract Collection. */
 public class Hijos extends AbstractCollection {
 
-    private LinkedList<Nodo> hijos;
+    public LinkedList<Nodo> hijos;
 
     /*(1)***********CONSTRUCTORES*************/
     public Hijos(Nodo l){

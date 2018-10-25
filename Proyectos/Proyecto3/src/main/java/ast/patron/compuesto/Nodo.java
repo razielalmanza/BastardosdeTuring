@@ -5,7 +5,7 @@ package ast.patron.compuesto;
 import ast.patron.visitante.*;
 
 public class Nodo {
-    Hijos hijos;
+    public Hijos hijos;
     Variable valor;
     int tipo;
     String name;
