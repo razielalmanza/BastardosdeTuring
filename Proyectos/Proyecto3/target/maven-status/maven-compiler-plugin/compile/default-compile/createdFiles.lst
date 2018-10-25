@@ -5,9 +5,12 @@ ast/patron/compuesto/Hoja.class
 ast/patron/visitante/VisitorPrint.class
 ast/patron/compuesto/Hijos.class
 ast/patron/compuesto/Variable.class
+ast/patron/compuesto/FloatHoja.class
 ast/Parser.class
+ast/patron/compuesto/BooleanHoja.class
 ast/patron/compuesto/AddNodo.class
 ast/patron/visitante/Visitor.class
+ast/patron/compuesto/StringHoja.class
 ast/patron/compuesto/IntHoja.class
 ast/Flexer.class
 ast/patron/compuesto/Compuesto.class

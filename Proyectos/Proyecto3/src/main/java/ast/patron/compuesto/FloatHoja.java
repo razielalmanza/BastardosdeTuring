@@ -11,3 +11,6 @@ public class FloatHoja extends Hoja
     public void accept(Visitor v){
      	v.visit(this);
     }
+
+
+}

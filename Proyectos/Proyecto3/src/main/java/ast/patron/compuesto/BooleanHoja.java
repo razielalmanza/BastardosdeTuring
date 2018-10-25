@@ -11,3 +11,4 @@ public class BooleanHoja extends Hoja
     public void accept(Visitor v){
      	v.visit(this);
     }
+}
