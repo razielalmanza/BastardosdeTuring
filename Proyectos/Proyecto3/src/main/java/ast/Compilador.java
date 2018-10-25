@@ -4,13 +4,15 @@ import java.io.*;
 import ast.patron.compuesto.*;
 import ast.patron.visitante.*;
 
-
 public class Compilador{
 
     Parser parser;
     Nodo raízAST;
     VisitorPrint v_print;
 
+    //-------------------------------------------------------------------//
+    // (1) CONSTRUCTOR                                                   //
+    //-------------------------------------------------------------------//
     Compilador(Reader fuente){
         parser = new Parser(fuente);
         v_print = new VisitorPrint();

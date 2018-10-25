@@ -9,21 +9,24 @@ public class Hijos extends AbstractCollection {
 
     private LinkedList<Nodo> hijos;
 
-    public Hijos(Nodo l) {
- 	    hijos = new LinkedList<Nodo>();
-	    hijos.addFirst(l);
+    /*(1)***********CONSTRUCTORES*************/
+    public Hijos(Nodo l){
+ 	hijos = new LinkedList<Nodo>();
+	hijos.addFirst(l);
     }
 
     public Hijos() {
 	    hijos = new LinkedList<Nodo>();
     }
+    /***************************************/
 
-    public Iterator iterator() {
-	    return hijos.iterator();
+    public Iterator iterator(){
+	return hijos.iterator();
     }
 
-    public LinkedList<Nodo> getAll() {
-	    return hijos;
+    /*(2)**********GETTERS**************/
+    public LinkedList<Nodo> getAll(){
+	return hijos;
     }
 
     public int size() {
@@ -37,6 +40,7 @@ public class Hijos extends AbstractCollection {
     public Nodo getUltimoHijo() {
 	    return hijos.getLast();
     }
+    /*********************************/
 
     public void agregaHijoPrincipio(Nodo l) {
 	    hijos.addFirst(l);

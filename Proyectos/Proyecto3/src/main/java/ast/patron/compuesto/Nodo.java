@@ -10,6 +10,7 @@ public class Nodo {
     int tipo;
     String name;
 
+    /*(1)**********GETTERS**************/
     public Hijos getHijos(){
 	return hijos;
     }
@@ -28,6 +29,20 @@ public class Nodo {
     public Nodo getPrimerHijo(){
 	return null;
     }
+    public Variable getValor(){
+    return valor;
+    }
+
+    public int getType(){
+    return tipo;
+    }
+
+    public String getNombre(){
+    return name;
+        }
+    /***********************************/
+
+
 
     public void agregaHijoFinal(Nodo r){
 
@@ -37,18 +52,7 @@ public class Nodo {
 
     }
 
-    public Variable getValor(){
-	return valor;
-    }
-
-    public int getType(){
-	return tipo;
-    }
-
-    public String getNombre(){
-	return name;
-    }
-
+    /*(3)**********SETTERS**************/
     public void setValor(Variable nuevo){
 	valor = nuevo;
     }
@@ -56,6 +60,7 @@ public class Nodo {
     public void setTipo(int nuevo){
 	tipo = nuevo;
     }
+    /***********************************/
 
     public void accept(Visitor v){
      	v.visit(this);
