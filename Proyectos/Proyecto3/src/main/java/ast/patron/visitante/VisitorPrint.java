@@ -7,7 +7,7 @@ public class VisitorPrint implements Visitor
 {
 
     public void visit(IntHoja n){
-		System.out.print("[Hoja Entera] valor: " + n.getValor().ival);
+    System.out.print("[Hoja Entera] valor: " + n.getValor().ival);
     }
 
     public void visit(FloatHoja n){
@@ -21,8 +21,17 @@ public class VisitorPrint implements Visitor
     }
    
     public void visit(Nodo n){
-
-
+        Hijos h2 = n.hijos;
+        if(h2!=null){
+            LinkedList<Nodo> lista=h2.hijos;
+            if(lista!=null){
+                for(Nodo h:lista){
+                    visit(h);
+                }
+            }else{
+                System.out.print(" valor: " + n.getValor().ival);
+            }
+        }
     }
 
 }
