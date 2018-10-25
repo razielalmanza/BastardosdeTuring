@@ -4,8 +4,7 @@
 package ast.patron.compuesto;
 import ast.patron.visitante.*;
 
-public class Nodo
-{
+public class Nodo {
     Hijos hijos;
     Variable valor;
     int tipo;

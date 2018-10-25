@@ -1,4 +1,5 @@
 %{
+  package ast;
   import ast.patron.compuesto.*;
   import java.lang.Math;
   import java.io.*;
@@ -124,12 +125,24 @@ comp_op: LE {}
 
 /*    expr: (term ('+'|'-'))* term   */
 expr: term {$$ = $1;}
-    | aux8 term {}
+    | aux8 term {
+      $$ = $1;
+      $$.agregaHijoFinal($2);
+      dump_stacks(stateptr);
+    }
 ;
-aux8: term MAS {}
-    | term MENOS {}
-    | aux8 term MAS {}
-    | aux8 term MENOS {}
+aux8: term MAS {
+      $$ = new AddNodo($1, null);
+      dump_stacks(stateptr);
+    }
+    | term MENOS {
+      $$ = new DiffNodo($1, null);
+    }
+    | aux8 term MAS {$1.agregaHijoFinal($2);
+    $$ = new AddNodo($1, null);
+    dump_stacks(stateptr);}
+    | aux8 term MENOS {$1.agregaHijoFinal($2);
+    $$ = new DiffNodo($1, null);}
 ;
 
 /*   term: (factor ('*'|'/'|'%'|'//'))* factor   */
@@ -156,8 +169,8 @@ power:  atom {$$ = $1;}
 ;
 
 /* atom: IDENTIFICADOR | ENTERO | CADENA | REAL | BOOLEANO | '(' test ')' */
-atom:  IDENTIFICADOR {}
-     | ENTERO {$$ = $1;}
+atom:  IDENTIFICADOR { }
+     | ENTERO {$$ = new IntHoja($1.getValor().ival); }
      | CADENA {}
      | REAL {}
      | BOOLEANO {}
