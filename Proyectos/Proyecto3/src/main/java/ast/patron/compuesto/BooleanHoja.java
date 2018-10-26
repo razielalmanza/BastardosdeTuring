@@ -3,7 +3,7 @@ import ast.patron.visitante.*;
 
 public class BooleanHoja extends Hoja
 {
-    public BooleanHoja(int i){
+    public BooleanHoja(boolean i){
 	    valor = new Variable(i);
 	    tipo = 3;
     }
