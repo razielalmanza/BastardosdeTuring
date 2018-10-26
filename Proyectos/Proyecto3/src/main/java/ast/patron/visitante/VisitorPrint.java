@@ -28,9 +28,9 @@ public class VisitorPrint implements Visitor
                 for(Nodo h:lista){
                     visit(h);
                 }
-            }else{
-                System.out.print(" valor: " + n.getValor().ival);
             }
+        }else{
+            System.out.print(" valor: " + n.getValor().ival);
         }
     }
 
