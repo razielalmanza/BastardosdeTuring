@@ -3,6 +3,10 @@ import ast.patron.compuesto.*;
 import java.util.LinkedList;
 import java.util.Iterator;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+
 public class VisitorPrint implements Visitor
 {
 
@@ -21,7 +25,7 @@ public class VisitorPrint implements Visitor
     }
    
     public void visit(Nodo n){
-        System.out.print("{\"");
+        /*System.out.print("{\"");
         System.out.print("" + n.getNombre());
         System.out.print("\":");
         Hijos h2 = n.hijos;
@@ -32,7 +36,32 @@ public class VisitorPrint implements Visitor
                     visit(h);
                 }
             }
+        }*/
+        printJson(n);
+    }
+
+    private void printJson(Nodo n) {
+        JSONObject raiz = new JSONObject();
+        raiz.put(n.getClass().getName(), n.getNombre());
+        Hijos h2 = n.hijos;
+        if(h2 != null && h2.hijos != null) {
+            for(Nodo hijo : h2.hijos) {
+                raiz.put(hijo.getNombre(), printJsonRecursivo(hijo));
+            }
         }
+        System.out.println(raiz);
+    }
+
+    private JSONObject printJsonRecursivo(Nodo n) {
+        JSONObject json = new JSONObject();
+        json.put(n.getClass().getName(), n.getNombre());
+        Hijos h2 = n.hijos;
+        if(h2 != null) {
+            for(Nodo hijo : h2.hijos) {
+                json.put(hijo.getNombre(), (hijo));
+            }
+        } 
+        return json;
     }
 
 }
