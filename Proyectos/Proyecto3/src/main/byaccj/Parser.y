@@ -146,20 +146,28 @@ aux8: term MAS {
 
 /*   term: (factor ('*'|'/'|'%'|'//'))* factor   */
 term: factor {$$ = $1;}
-    | aux9 factor {}
+    | aux9 factor {
+        $$=$1;
+        $$.agregaHijoFinal($2);
+        }
 ;
-aux9: factor POR {}
-    | factor DIVENTERA {}
-    | factor MODULO {}
-    | factor DIV {}
+aux9: factor POR {$$=new AuxNodo($1,"*"); }
+    | factor DIVENTERA {$$=new AuxNodo($1,"//");}
+    | factor MODULO {$$=new AuxNodo($1,"%");}
+    | factor DIV {$$=new AuxNodo($1,"/");}
     | aux9 factor POR {}
     | aux9 factor DIVENTERA {}
     | aux9 factor MODULO {}
     | aux9 factor DIV {}
 ;
 /* factor: ('+'|'-') factor | power */
-factor: MAS factor {}
-      | MENOS factor {}
+factor: MAS factor {
+    // $$=new AddNodo(null,null);
+    // $$.agregaHijoFinal($2);
+    }
+      | MENOS factor {
+        //   $$=new DiffNodo(null,null);
+          }
       | power {$$ = $1;}
 ;
 /* power: atom ['**' factor] */
