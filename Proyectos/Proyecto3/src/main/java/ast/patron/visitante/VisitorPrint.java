@@ -32,7 +32,7 @@ public class VisitorPrint implements Visitor
                 }
             }
         }else{
-            System.out.print(" valor: " + n.getValor().ival);
+            System.out.print("" + n.getValor().ival);
         }
     }
 

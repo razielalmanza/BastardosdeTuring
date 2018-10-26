@@ -4,7 +4,8 @@ import ast.patron.visitante.*;
 public class AddNodo extends Compuesto {
     
     public AddNodo(Nodo add, String value){
-	    valor = new Variable(add);
+        this.agregaHijoPrincipio(add);
+	    valor = new Variable("+");
     }
 
     public void accept(Visitor v){
