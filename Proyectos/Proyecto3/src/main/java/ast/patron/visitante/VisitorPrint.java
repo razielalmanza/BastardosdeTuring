@@ -21,9 +21,9 @@ public class VisitorPrint implements Visitor
     }
    
     public void visit(Nodo n){
-        System.out.println("{\"");
+        System.out.print("{\"");
         System.out.print("" + n.getNombre());
-        System.out.println("\"");
+        System.out.print("\":");
         Hijos h2 = n.hijos;
         if(h2!=null){
             LinkedList<Nodo> lista=h2.hijos;
