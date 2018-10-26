@@ -5,7 +5,8 @@ public class DiffNodo extends Compuesto {
     
     public DiffNodo(Nodo diff, String value){
 	    this.agregaHijoPrincipio(diff);
-	    valor = new Variable("-");
+        valor = new Variable("-");
+        name = "-";
     }
 
     public void accept(Visitor v){
