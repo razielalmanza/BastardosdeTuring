@@ -24,17 +24,17 @@ input:      {raíz = $$; System.out.println("Reconocimiento Exitoso");}
 /*    aux0: (SALTO | stmt)+ */
 aux0: SALTO
     | stmt {
-        // $$ = $1;
+        $$ = $1;
         }
     | aux0 SALTO {
-        // $$=$1;
+        $$=$1;
         }
     | aux0 stmt {}
 ;
 
 /*    stmt: simple_stmt | compound_stmt*/
 stmt: simple_stmt {
-    // $$ = $1;
+    $$ = $1;
     }
     | compound_stmt {}
 ;
@@ -55,10 +55,10 @@ while_stmt: WHILE test DOBLEPUNTO suite {}
 
 /*    suite: simple_stmt | SALTO INDENTA stmt+ DEINDENTA */
 suite: simple_stmt {
-    // $$ = $1;
+    $$ = $1;
     }
      | SALTO INDENTA auxstmt DEINDENTA {
-        //  $$ = $3 ;
+         $$ = $3 ;
          }
 ;
 
@@ -69,20 +69,20 @@ auxstmt: stmt {}
 
 /* simple_stmt: small_stmt SALTO */
 simple_stmt: small_stmt SALTO {
-    // $$ = $1;
+    $$ = $1;
     }
 ;
 
 /* small_stmt: expr_stmt | print_stmt  */
 small_stmt: expr_stmt {
-    // $$ = $1;
+    $$ = $1;
     }
           | print_stmt {}
 ;
 
 /* expr_stmt: test ['=' test] */
 expr_stmt: test {
-    // $$ = $1;
+    $$ = $1;
     }
          | test EQ test {}
 ;
@@ -93,13 +93,13 @@ print_stmt: PRINT test {}
 
 /*   test: or_test */
 test: or_test {
-    // $$ = $1;
+    $$ = $1;
     }
 ;
 
 /*    or_test: (and_test 'or')* and_test  */
 or_test: and_test {
-    // $$ = $1;
+    $$ = $1;
     }
        | aux2 and_test {}
 ;
@@ -110,7 +110,7 @@ aux2: and_test OR {}
 
 /*    and_expr: (not_test 'and')* not_test */
 and_test: not_test {
-    // $$ = $1;
+    $$ = $1;
     }
         | aux7 not_test {}
 ;
@@ -123,13 +123,13 @@ aux7: not_test AND {}
 /*    not_test: 'not' not_test | comparison */
 not_test: NOT not_test {}
         | comparison {
-            // $$ = $1;
+            $$ = $1;
             }
 ;
 
 /*    comparison: (expr comp_op)* expr  */
 comparison: expr {
-    // $$ = $1;
+    $$ = $1;
     }
           | aux4 expr {}
 ;
@@ -150,52 +150,52 @@ comp_op: LE {}
 
 /*    expr: (term ('+'|'-'))* term   */
 expr: term {
-    // $$ = $1;
+    $$ = $1;
     }
     | aux8 term {
-    //   $$ = $1;
-    //   $$.agregaHijoFinal($2);
-    //   dump_stacks(stateptr);
+      $$ = $1;
+      $$.agregaHijoFinal($2);
+      dump_stacks(stateptr);
     }
 ;
 aux8: term MAS {
-    //   $$ = new AddNodo($1, null);
-    //   dump_stacks(stateptr);
+      $$ = new AddNodo($1, null);
+      dump_stacks(stateptr);
     }
     | term MENOS {
-    //   $$ = new DiffNodo($1, null);
+      $$ = new DiffNodo($1, null);
     }
     | aux8 term MAS {
-    //     $1.agregaHijoFinal($2);
-    // $$ = new AddNodo($1, null);
-    // dump_stacks(stateptr);
+        $1.agregaHijoFinal($2);
+    $$ = new AddNodo($1, null);
+    dump_stacks(stateptr);
     }
     | aux8 term MENOS {
-    //     $1.agregaHijoFinal($2);
-    // $$ = new DiffNodo($1, null);
+        $1.agregaHijoFinal($2);
+    $$ = new DiffNodo($1, null);
     }
 ;
 
 /*   term: (factor ('*'|'/'|'%'|'//'))* factor   */
 term: factor {
-    // $$ = $1;
+    $$ = $1;
     }
     | aux9 factor {
-        // $$=$1;
-        // $$.agregaHijoFinal($2);
+        $$=$1;
+        $$.agregaHijoFinal($2);
         }
 ;
 aux9: factor POR {
-    // $$=new AuxNodo($1,"*");
+    $$=new AuxNodo($1,"*");
      }
     | factor DIVENTERA {
-        // $$=new AuxNodo($1,"//");
+        $$=new AuxNodo($1,"//");
         }
     | factor MODULO {
-        // $$=new AuxNodo($1,"%");
+        $$=new AuxNodo($1,"%");
         }
     | factor DIV {
-        // $$=new AuxNodo($1,"/");
+        $$=new AuxNodo($1,"/");
         }
     | aux9 factor POR {}
     | aux9 factor DIVENTERA {}
@@ -204,37 +204,30 @@ aux9: factor POR {
 ;
 /* factor: ('+'|'-') factor | power */
 factor: MAS factor {
-    // $$=new AddNodo(null,null);
-    // $$.agregaHijoFinal($2);
+    $$=new AddNodo(null,null);
+    $$.agregaHijoFinal($2);
     }
       | MENOS factor {
-        //   $$=new DiffNodo(null,null);
+          $$=new DiffNodo(null,null);
           }
       | power {
-        //   $$ = $1;
+          $$ = $1;
           }
 ;
 /* power: atom ['**' factor] */
 power:  atom {
-    // $$ = $1;
+    $$ = $1;
     }
       | atom POTENCIA factor {}
 ;
 
 /* atom: IDENTIFICADOR | ENTERO | CADENA | REAL | BOOLEANO | '(' test ')' */
 atom:  IDENTIFICADOR { }
-     | ENTERO {
-        //  $$ = new IntHoja($1.getValor().ival);
-          }
-     | CADENA {
-        //  $$ = new StringHoja($1.getValor().ival);
-         }
-     | REAL {
-        //  $$ = new FloatHoja($1.getValor().ival);
-         }
-     | BOOLEANO {
-        //  $$ = new BooleanHoja($1.getValor().ival);System.out.println("booleano");
-         }
+     | ENTERO {$$ = new IntHoja($1.getValor().ival); }
+     | CADENA {$$ = new StringHoja($1.getValor().sval);}
+     | REAL {$$ = new FloatHoja($1.getValor().ival);}
+     | BOOLEANO {$$ = new BooleanHoja($1.getValor().bval); 
+            System.out.println("VALOR BOOLEANO: " + $$.getValor().bval);}
      | PA test PC {}
 ;
 %%
