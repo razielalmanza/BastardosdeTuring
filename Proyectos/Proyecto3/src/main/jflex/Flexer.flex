@@ -140,8 +140,7 @@ BOOLEAN		        =	("True" | "False")
   {REAL}				  { return Parser.REAL;}
   {ENTERO}				  { yyparser.yylval = new IntHoja(Integer.parseInt(yytext()));
                                             return Parser.ENTERO; }
-  {BOOLEAN}                               { yyparser.yylval = new BooleanHoja(Boolean.parseBoolean(yytext().toLowerCase())); 
-                        return Parser.BOOLEANO;}
+  {BOOLEAN}                               { return Parser.BOOLEANO;}
   {IDENTIFIER}				  { }
   " "					  { }
 }

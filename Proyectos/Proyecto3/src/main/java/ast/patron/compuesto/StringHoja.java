@@ -3,7 +3,7 @@ import ast.patron.visitante.*;
 
 public class StringHoja extends Hoja
 {
-    public StringHoja(String i){
+    public StringHoja(int i){
 	    valor = new Variable(i);
 	    tipo = 4;
     }
