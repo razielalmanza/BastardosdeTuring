@@ -141,7 +141,7 @@ BOOLEAN		        =	("True" | "False")
   {ENTERO}				  { yyparser.yylval = new IntHoja(Integer.parseInt(yytext()));
                                             return Parser.ENTERO; }
   {BOOLEAN}                               { return Parser.BOOLEANO;}
-  {IDENTIFIER}				  { }
+  {IDENTIFIER}				  { return Parser.IDENTIFICADOR; }
   " "					  { }
 }
 <INDENTA>{
