@@ -141,6 +141,7 @@ aux8: term MAS {
     $$ = new AddNodo($1, null);
     dump_stacks(stateptr);}
     | aux8 term MENOS {$1.agregaHijoFinal($2);
+    // los constructores agregan el hijo a la izquierda 
     $$ = new DiffNodo($1, null);}
 ;
 
