@@ -1,10 +1,10 @@
 package ast.patron.compuesto;
 import ast.patron.visitante.*;
 
-public class AddNodo extends Compuesto {
+public class AuxNodo extends Compuesto {
     
-    public AddNodo(Nodo add, String value){
-        this.agregaHijoPrincipio(add);
+    public AuxNodo(Nodo aux, String value){
+        this.agregaHijoPrincipio(aux);
         //valor = new Variable("+");
         name = value;
     }

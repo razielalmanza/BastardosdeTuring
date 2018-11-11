@@ -24,18 +24,18 @@ input:      {raíz = $$; System.out.println("Reconocimiento Exitoso");}
 /*    aux0: (SALTO | stmt)+ */
 aux0: SALTO
     | stmt {$$ = $1;}
-    | aux0 SALTO {}
+    | aux0 SALTO {$$ = $1;}
     | aux0 stmt {}
 ;
 
 /*    stmt: simple_stmt | compound_stmt*/
 stmt: simple_stmt {$$ = $1;}
-    | compound_stmt {}
+    | compound_stmt {$$ = $1;}
 ;
 
 /* compound_stmt: if_stmt | while_stmt */
-compound_stmt: if_stmt {}
-             | while_stmt {}
+compound_stmt: if_stmt {$$ = $1;}
+             | while_stmt {$$ = $1;}
 ;
 
 /* if_stmt: 'if' test ':' suite ['else' ':' suite] */
@@ -53,7 +53,7 @@ suite: simple_stmt {$$ = $1;}
 ;
 
 /*    auxstmt:  stmt+ */
-auxstmt: stmt {}
+auxstmt: stmt {$$ = $1;}
        | auxstmt stmt {}
 ;
 
