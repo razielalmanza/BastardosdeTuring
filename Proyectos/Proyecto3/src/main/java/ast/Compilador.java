@@ -27,7 +27,7 @@ public class Compilador{
     }
 
     public static void main(String[] args){
-            String archivo = "src/main/resources/fizzbuzz.p";
+            String archivo = "src/main/resources/test.p";
         try{
             Reader a = new FileReader(archivo);
             Compilador c  = new Compilador(a);
