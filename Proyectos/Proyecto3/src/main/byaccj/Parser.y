@@ -130,19 +130,20 @@ expr: term {$$ = $1;}
       dump_stacks(stateptr);
     }
 ;
+
+//recursion izquierda
 aux8: term MAS {
       $$ = new AuxNodo($1, "+");
       dump_stacks(stateptr);
     }
     | term MENOS {
-      $$ = new DiffNodo($1, null);
+      $$ = new AuxNodo($1, "-");
     }
     | aux8 term MAS {$1.agregaHijoFinal($2);
     $$ = new AuxNodo($1, "+");
     dump_stacks(stateptr);}
     | aux8 term MENOS {$1.agregaHijoFinal($2);
-    // los constructores agregan el hijo a la izquierda 
-    $$ = new DiffNodo($1, null);}
+    $$ = new AuxNodo($1, "-");}
 ;
 
 /*   term: (factor ('*'|'/'|'%'|'//'))* factor   */
