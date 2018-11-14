@@ -137,11 +137,10 @@ BOOLEAN		        =	("True" | "False")
   "if"                                    { return Parser.IF;}
   "print"				  { return Parser.PRINT;}
   {SALTO}				  { yybegin(INDENTA); actual=0; return Parser.SALTO;}
-  {REAL}				  { yyparser.yyval=new FloatHoja(Double.parseDouble(yytext())); return Parser.REAL;}
-  {ENTERO}				  { yyparser.yylval = new IntHoja(Integer.parseInt(yytext()));
-                                            return Parser.ENTERO; }
-  {BOOLEAN}      {yyparser.yyval=new BooleanHoja(Boolean.parseBoolean(yytext())); return Parser.BOOLEANO;}
-  {IDENTIFIER}				  { yyparser.yyval=new IdHoja(yytext());return Parser.IDENTIFICADOR; }
+  {REAL}				  { yyparser.yylval=new FloatHoja(Double.parseDouble(yytext())); return Parser.REAL;}
+  {ENTERO}				{ yyparser.yylval= new IntHoja(Integer.parseInt(yytext())); return Parser.ENTERO; }
+  {BOOLEAN}       { yyparser.yylval=new BooleanHoja(Boolean.parseBoolean(yytext())); return Parser.BOOLEANO;}
+  {IDENTIFIER}	  { yyparser.yylval=new IdHoja(yytext());return Parser.IDENTIFICADOR; }
   " "					  { }
 }
 <INDENTA>{
