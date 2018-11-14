@@ -170,11 +170,12 @@ power:  atom {$$ = $1;}
 ;
 
 /* atom: IDENTIFICADOR | ENTERO | CADENA | REAL | BOOLEANO | '(' test ')' */
-atom:  IDENTIFICADOR { }
+// variable -> ival
+atom:  IDENTIFICADOR { $$ = new IdHoja($1.getValor().sval);}
      | ENTERO {$$ = new IntHoja($1.getValor().ival); }
-     | CADENA {$$ = new StringHoja($1.getValor().ival);}
-     | REAL {$$ = new FloatHoja($1.getValor().ival);}
-     | BOOLEANO {$$ = new BooleanHoja($1.getValor().ival);System.out.println("booleano");}
+     | CADENA {$$ = new StringHoja($1.getValor().sval);}
+     | REAL {$$ = new FloatHoja($1.getValor().dval);}
+     | BOOLEANO {$$ = new BooleanHoja($1.getValor().bval);System.out.println("booleano");}
      | PA test PC {}
 ;
 %%

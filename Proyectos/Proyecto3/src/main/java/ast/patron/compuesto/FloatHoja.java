@@ -3,7 +3,7 @@ import ast.patron.visitante.*;
 
 public class FloatHoja extends Hoja
 {
-    public FloatHoja(int i){
+    public FloatHoja(double i){
 	    valor = new Variable(i);
 	    tipo = 2;
     }

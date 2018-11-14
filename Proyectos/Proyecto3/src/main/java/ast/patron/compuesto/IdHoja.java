@@ -1,11 +1,12 @@
 package ast.patron.compuesto;
 import ast.patron.visitante.*;
 
-public class BooleanHoja extends Hoja
+public class IdHoja extends Hoja
 {
-    public BooleanHoja(boolean i){
+    public IdHoja(String i){
 	    valor = new Variable(i);
-	    tipo = 3;
+        tipo = 1;
+        name = ""+i;
     }
 
     public void accept(Visitor v){

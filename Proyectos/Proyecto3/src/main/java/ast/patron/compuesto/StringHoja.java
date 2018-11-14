@@ -3,9 +3,10 @@ import ast.patron.visitante.*;
 
 public class StringHoja extends Hoja
 {
-    public StringHoja(int i){
+    public StringHoja(String i){
 	    valor = new Variable(i);
-	    tipo = 4;
+        tipo = 4;
+        name = ""+i;
     }
 
     public void accept(Visitor v){
