@@ -5,7 +5,8 @@ public class FloatHoja extends Hoja
 {
     public FloatHoja(double i){
 	    valor = new Variable(i);
-	    tipo = 2;
+        tipo = 2;
+        name = ""+i;
     }
 
     public void accept(Visitor v){
