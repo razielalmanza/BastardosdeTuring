@@ -11,13 +11,13 @@ public class VisitorPrint implements Visitor
     }
 
     public void visit(FloatHoja n){
-		System.out.print("[Hoja Flotante] valor: " + n.getValor().ival);
+		System.out.print("[Hoja Flotante] valor: " + n.getValor().dval);
     }
     public void visit(BooleanHoja n){
-		System.out.print("[Hoja Booleana] valor: " + n.getValor().ival);
+		System.out.print("[Hoja Booleana] valor: " + n.getValor().bval);
     }
     public void visit(StringHoja n){
-		System.out.print("[Hoja Cadena] valor: " + n.getValor().ival);
+		System.out.print("[Hoja Cadena] valor: " + n.getValor().sval);
     }
    
     public void visit(Nodo n){

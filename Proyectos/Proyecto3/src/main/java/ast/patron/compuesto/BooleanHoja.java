@@ -5,7 +5,8 @@ public class BooleanHoja extends Hoja
 {
     public BooleanHoja(boolean i){
 	    valor = new Variable(i);
-	    tipo = 3;
+        tipo = 3;
+        name = Boolean.toString(i);
     }
 
     public void accept(Visitor v){

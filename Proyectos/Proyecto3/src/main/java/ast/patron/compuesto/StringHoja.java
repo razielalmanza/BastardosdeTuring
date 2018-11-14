@@ -6,7 +6,7 @@ public class StringHoja extends Hoja
     public StringHoja(String i){
 	    valor = new Variable(i);
         tipo = 4;
-        name = ""+i;
+        name = i;
     }
 
     public void accept(Visitor v){
