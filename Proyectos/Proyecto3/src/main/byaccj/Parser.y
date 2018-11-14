@@ -172,9 +172,9 @@ power:  atom {$$ = $1;}
 /* atom: IDENTIFICADOR | ENTERO | CADENA | REAL | BOOLEANO | '(' test ')' */
 // variable -> ival
 atom:  IDENTIFICADOR { $$ = new IdHoja($1.getValor().sval);}
-     | ENTERO {$$ = new IntHoja($1.getValor().ival); }
+     | ENTERO {$$ = $1; }
      | CADENA {$$ = new StringHoja($1.getValor().sval);}
-     | REAL {$$ = new FloatHoja($1.getValor().dval);}
+     | REAL {$$ = $1;}
      | BOOLEANO {$$ = new BooleanHoja($1.getValor().bval);System.out.println("booleano");}
      | PA test PC {}
 ;

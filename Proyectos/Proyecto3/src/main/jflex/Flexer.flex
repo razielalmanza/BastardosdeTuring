@@ -137,7 +137,7 @@ BOOLEAN		        =	("True" | "False")
   "if"                                    { return Parser.IF;}
   "print"				  { return Parser.PRINT;}
   {SALTO}				  { yybegin(INDENTA); actual=0; return Parser.SALTO;}
-  {REAL}				  { System.out.println("||||||||"+yytext()); yyparser.yyval=new FloatHoja(Double.parseDouble(yytext())); return Parser.REAL;}
+  {REAL}				  { yyparser.yyval=new FloatHoja(Double.parseDouble(yytext())); return Parser.REAL;}
   {ENTERO}				  { yyparser.yylval = new IntHoja(Integer.parseInt(yytext()));
                                             return Parser.ENTERO; }
   {BOOLEAN}      {yyparser.yyval=new BooleanHoja(Boolean.parseBoolean(yytext())); return Parser.BOOLEANO;}
