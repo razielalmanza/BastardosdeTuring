@@ -133,17 +133,18 @@ expr: term {$$ = $1;}
 
 //recursion izquierda
 aux8: term MAS {
-      $$ = new AuxNodo($1, "+");
+      $$ = new AddNodo($1, null);
       dump_stacks(stateptr);
     }
     | term MENOS {
-      $$ = new AuxNodo($1, "-");
+      $$ = new DiffNodo($1, null);
     }
     | aux8 term MAS {$1.agregaHijoFinal($2);
-    $$ = new AuxNodo($1, "+");
+    $$ = new AddNodo($1, null);
     dump_stacks(stateptr);}
     | aux8 term MENOS {$1.agregaHijoFinal($2);
-    $$ = new AuxNodo($1, "-");}
+    // los constructores agregan el hijo a la izquierda 
+    $$ = new DiffNodo($1, null);}
 ;
 
 /*   term: (factor ('*'|'/'|'%'|'//'))* factor   */
