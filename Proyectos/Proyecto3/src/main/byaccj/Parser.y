@@ -25,7 +25,10 @@ input:      {raíz = $$; System.out.println("Reconocimiento Exitoso");}
 aux0: SALTO
     | stmt {$$ = $1;}
     | aux0 SALTO {$$ = $1;}
-    | aux0 stmt {}
+    | aux0 stmt {$$ = new AuxNodo("raiz");
+    $$.agregaHijoPrincipio($1);
+    $$.agregaHijoFinal($2);
+    }
 ;
 
 /*    stmt: simple_stmt | compound_stmt*/
@@ -39,12 +42,20 @@ compound_stmt: if_stmt {$$ = $1;}
 ;
 
 /* if_stmt: 'if' test ':' suite ['else' ':' suite] */
-if_stmt:  IF test DOBLEPUNTO suite ELSE DOBLEPUNTO suite {}
+if_stmt:  IF test DOBLEPUNTO suite ELSE DOBLEPUNTO suite {
+    $$ = new AuxNodo("if");$$.agregaHijoPrincipio($2);
+    $$.agregaHijoFinal($4);
+    $$.agregaHijoFinal($7);
+}
         | IF test DOBLEPUNTO suite {}
 ;
 
 /*    while_stmt: 'while' test ':' suite */
-while_stmt: WHILE test DOBLEPUNTO suite {}
+while_stmt: WHILE test DOBLEPUNTO suite {
+    $$ = new AuxNodo("while");
+    $$.agregaHijoPrincipio($2);
+    $$.agregaHijoFinal($4);
+}
 ;
 
 /*    suite: simple_stmt | SALTO INDENTA stmt+ DEINDENTA */
@@ -54,7 +65,9 @@ suite: simple_stmt {$$ = $1;}
 
 /*    auxstmt:  stmt+ */
 auxstmt: stmt {$$ = $1;}
-       | auxstmt stmt {}
+       | auxstmt stmt {$$ = new AuxNodo("bloque");
+       $$.agregaHijoPrincipio($1);
+       $$.agregaHijoFinal($2);}
 ;
 
 /* simple_stmt: small_stmt SALTO */
@@ -63,16 +76,19 @@ simple_stmt: small_stmt SALTO {$$ = $1;}
 
 /* small_stmt: expr_stmt | print_stmt  */
 small_stmt: expr_stmt {$$ = $1;}
-          | print_stmt {}
+          | print_stmt {$$=$1;}
 ;
 
 /* expr_stmt: test ['=' test] */
 expr_stmt: test {$$ = $1;}
-         | test EQ test {}
+         | test EQ test {$$=new AuxNodo("==");
+         $$.agregaHijoPrincipio($1);
+         $$.agregaHijoFinal($3);
+         }
 ;
 
 /* print_stmt: 'print' test  */
-print_stmt: PRINT test {}
+print_stmt: PRINT test {$$ = new AuxNodo("print"); $$.agregaHijoPrincipio($2);}
 ;
 
 /*   test: or_test */
@@ -81,11 +97,15 @@ test: or_test {$$ = $1;}
 
 /*    or_test: (and_test 'or')* and_test  */
 or_test: and_test {$$ = $1;}
-       | aux2 and_test {}
+       | aux2 and_test {$1.agregaHijoFinal($2);$$=$1;}
 ;
 /*    aux2: (and_test 'or')+  */
-aux2: and_test OR {}
-    | aux2 and_test OR {}
+aux2: and_test OR {$$ = new AuxNodo("or");$$.agregaHijoPrincipio($1);}
+    | aux2 and_test OR {
+        $$ = new AuxNodo("or");
+        $1.agregaHijoFinal($2);
+        $$.agregaHijoPrincipio($1);
+    }
 ;
 
 /*    and_expr: (not_test 'and')* not_test */
