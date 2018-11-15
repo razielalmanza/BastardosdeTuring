@@ -181,8 +181,8 @@ aux9: factor POR {
     }
 ;
 /* factor: ('+'|'-') factor | power */
-factor: MAS factor {}
-      | MENOS factor {}
+factor: MAS factor {$$ = new AddNodo(); $$.agregaHijoFinal($2);}
+      | MENOS factor {$$ = new DiffNodo(); $$.agregaHijoFinal($2);}
       | power {$$ = $1;}
 ;
 /* power: atom ['**' factor] */

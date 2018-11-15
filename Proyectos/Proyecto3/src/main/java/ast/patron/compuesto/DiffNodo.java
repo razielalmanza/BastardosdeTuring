@@ -9,6 +9,8 @@ public class DiffNodo extends Compuesto {
         name = "-";
     }
 
+    public DiffNodo(){name="-";}
+
     public void accept(Visitor v){
      	v.visit(this);
     }

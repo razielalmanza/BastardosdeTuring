@@ -9,6 +9,8 @@ public class AddNodo extends Compuesto {
         name = "+";
     }
 
+    public AddNodo(){name="+";}
+
     public void accept(Visitor v){
      	v.visit(this);
     }
