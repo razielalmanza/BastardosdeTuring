@@ -149,16 +149,36 @@ aux8: term MAS {
 
 /*   term: (factor ('*'|'/'|'%'|'//'))* factor   */
 term: factor {$$ = $1;}
-    | aux9 factor {}
+    | aux9 factor {$1.agregaHijoFinal($2); $$=$1;}
 ;
-aux9: factor POR {}
-    | factor DIVENTERA {}
-    | factor MODULO {}
-    | factor DIV {}
-    | aux9 factor POR {}
-    | aux9 factor DIVENTERA {}
-    | aux9 factor MODULO {}
-    | aux9 factor DIV {}
+aux9: factor POR { 
+    $$ = new AuxNodo($1,"*");
+    }
+    | factor DIVENTERA {
+    $$ = new AuxNodo($1,"//");    
+    }
+    | factor MODULO {
+    $$ = new AuxNodo($1,"%");    
+    }
+    | factor DIV {
+    $$ = new AuxNodo($1,"/");
+    }
+    | aux9 factor POR {
+    $2.agregaHijoPrincipio($2);
+    $$ = new AuxNodo($2,"*"); 
+    }
+    | aux9 factor DIVENTERA {
+    $2.agregaHijoPrincipio($2);
+    $$ = new AuxNodo($2,"//"); 
+    }
+    | aux9 factor MODULO {
+    $2.agregaHijoPrincipio($2);
+    $$ = new AuxNodo($2,"%"); 
+    }
+    | aux9 factor DIV {
+    $2.agregaHijoPrincipio($2);
+    $$ = new AuxNodo($2,"/"); 
+    }
 ;
 /* factor: ('+'|'-') factor | power */
 factor: MAS factor {}
