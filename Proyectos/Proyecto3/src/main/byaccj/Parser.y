@@ -111,6 +111,9 @@ comparison: expr {$$ = $1;}
 /*    aux4: (expr comp_op)+  */
 aux4: expr comp_op {$2.agregaHijoPrincipio($1);$$=$2;}
     | aux4 expr comp_op {
+        $1.agregaHijoFinal($2);
+        $3.agregaHijoPrincipio($1);
+        $$=$3;
     }
 ;
 
