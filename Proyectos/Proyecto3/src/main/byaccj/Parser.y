@@ -99,7 +99,9 @@ aux7: not_test AND {}
 ;
 
 /*    not_test: 'not' not_test | comparison */
-not_test: NOT not_test {}
+not_test: NOT not_test {
+    $$ = new AuxNodo("not"); $$.agregaHijoPrincipio($2);
+    }
         | comparison {$$ = $1;}
 ;
 
@@ -204,7 +206,7 @@ atom:  IDENTIFICADOR { $$ = $1;}
      | CADENA {$$ = $1;}
      | REAL {$$ = $1;}
      | BOOLEANO {$$ = $1;}
-     | PA test PC {}
+     | PA test PC {$$ = $2;}
 ;
 %%
 private Flexer lexer;
