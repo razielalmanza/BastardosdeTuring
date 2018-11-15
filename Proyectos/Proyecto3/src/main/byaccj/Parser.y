@@ -167,7 +167,10 @@ factor: MAS factor {}
 ;
 /* power: atom ['**' factor] */
 power:  atom {$$ = $1;}
-      | atom POTENCIA factor {}
+      | atom POTENCIA factor {
+          $$ = new AuxNodo($1,"**");
+          $$.agregaHijoFinal($3);
+      }
 ;
 
 /* atom: IDENTIFICADOR | ENTERO | CADENA | REAL | BOOLEANO | '(' test ')' */

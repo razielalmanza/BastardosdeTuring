@@ -9,6 +9,10 @@ public class AuxNodo extends Compuesto {
         name = value;
     }
 
+    public AuxNodo(String value){
+        name = value;
+    }
+
     public void accept(Visitor v){
      	v.visit(this);
     }
