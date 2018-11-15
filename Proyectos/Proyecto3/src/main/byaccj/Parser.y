@@ -105,21 +105,22 @@ not_test: NOT not_test {}
 
 /*    comparison: (expr comp_op)* expr  */
 comparison: expr {$$ = $1;}
-          | aux4 expr {}
+          | aux4 expr {$1.agregaHijoFinal($2);$$=$1;}
 ;
 
 /*    aux4: (expr comp_op)+  */
-aux4: expr comp_op {}
-    | aux4 expr comp_op {}
+aux4: expr comp_op {$2.agregaHijoPrincipio($1);$$=$2;}
+    | aux4 expr comp_op {
+    }
 ;
 
 /*    comp_op: '<'|'>'|'=='|'>='|'<='|'!=' */
-comp_op: LE {}
-       | GR {}
-       | EQUALS {}
-       | GRQ {}
-       | LEQ {}
-       | DIFF {}
+comp_op: LE {$$ = new AuxNodo("<");}
+       | GR {$$ = new AuxNodo(">");}
+       | EQUALS {$$ = new AuxNodo("==");}
+       | GRQ {$$ = new AuxNodo(">=");}
+       | LEQ {$$ = new AuxNodo("<=");}
+       | DIFF {$$ = new AuxNodo("!=");}
 ;
 
 /*    expr: (term ('+'|'-'))* term   */
