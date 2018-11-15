@@ -90,19 +90,23 @@ aux2: and_test OR {}
 
 /*    and_expr: (not_test 'and')* not_test */
 and_test: not_test {$$ = $1;}
-        | aux7 not_test {}
+        | aux7 not_test {$1.agregaHijoFinal($2);$$=$1;}
 ;
 
 /*    and_expr: (not_test 'and')+ */
-aux7: not_test AND {}
-    | aux7 not_test AND {}
+aux7: not_test AND {$$ = new AuxNodo("and");$$.agregaHijoPrincipio($1);}
+    | aux7 not_test AND {
+        $$ = new AuxNodo("and");
+        $1.agregaHijoFinal($2);
+        $$.agregaHijoPrincipio($1);
+    }
 ;
 
 /*    not_test: 'not' not_test | comparison */
 not_test: NOT not_test {
     $$ = new AuxNodo("not"); $$.agregaHijoPrincipio($2);
     }
-        | comparison {$$ = $1;}
+    | comparison {$$ = $1;}
 ;
 
 /*    comparison: (expr comp_op)* expr  */
