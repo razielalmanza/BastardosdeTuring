@@ -163,21 +163,21 @@ aux9: factor POR {
     | factor DIV {
     $$ = new AuxNodo($1,"/");
     }
-    | aux9 factor POR {
-    $2.agregaHijoPrincipio($2);
-    $$ = new AuxNodo($2,"*"); 
+    | aux9 factor POR {        
+    $1.agregaHijoFinal($2);
+    $$ = new AuxNodo($1,"*"); 
     }
     | aux9 factor DIVENTERA {
-    $2.agregaHijoPrincipio($2);
-    $$ = new AuxNodo($2,"//"); 
+    $1.agregaHijoFinal($2);
+    $$ = new AuxNodo($1,"//"); 
     }
     | aux9 factor MODULO {
-    $2.agregaHijoPrincipio($2);
-    $$ = new AuxNodo($2,"%"); 
+    $1.agregaHijoFinal($2);
+    $$ = new AuxNodo($1,"%"); 
     }
     | aux9 factor DIV {
-    $2.agregaHijoPrincipio($2);
-    $$ = new AuxNodo($2,"/"); 
+    $1.agregaHijoFinal($2);
+    $$ = new AuxNodo($1,"/"); 
     }
 ;
 /* factor: ('+'|'-') factor | power */
