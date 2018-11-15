@@ -33,6 +33,7 @@ public class VisitorPrint implements Visitor
                 }
             }
         }
+        System.out.print("}");
     }
 
 }

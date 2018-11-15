@@ -48,7 +48,7 @@ if_stmt:  IF test DOBLEPUNTO suite ELSE DOBLEPUNTO suite {
     $$.agregaHijoFinal($7);
 }
         | IF test DOBLEPUNTO suite {
-            $$= new AuxNodo($1);
+            $$= new AuxNodo("if");
             $$.agregaHijoPrincipio($2);
             $$.agregaHijoFinal($4);
         }
