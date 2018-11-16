@@ -26,6 +26,9 @@ public class Compilador{
         parser.raíz.accept(v_print);
     }
 
+    public void analisisSemantico(){
+    }
+
     public static void main(String[] args){
             String archivo = "src/main/resources/test.p";
         try{
@@ -33,6 +36,7 @@ public class Compilador{
             Compilador c  = new Compilador(a);
             c.ConstruyeAST(true);
             c.imprimeAST();
+            c.analisisSemantico();
         }catch(FileNotFoundException e){
             System.err.println("El archivo " + archivo +" no fue encontrado. ");
         }catch(ArrayIndexOutOfBoundsException e){

@@ -5,7 +5,7 @@ public class AddNodo extends Compuesto {
     
     public AddNodo(Nodo add, String value){
         this.agregaHijoPrincipio(add);
-        //valor = new Variable("+");
+        valor = new Variable("+");
         name = "+";
     }
 
@@ -14,4 +14,8 @@ public class AddNodo extends Compuesto {
     public void accept(Visitor v){
      	v.visit(this);
     }
+
+    // public void accept_semantico(){
+
+    // }
 }
