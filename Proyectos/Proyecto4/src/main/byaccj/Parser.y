@@ -79,8 +79,8 @@ simple_stmt: small_stmt SALTO {$$ = $1;}
 ;
 
 /* small_stmt: expr_stmt | print_stmt  */
-small_stmt: expr_stmt {$$ = $1;}
-          | print_stmt {$$=$1;}
+small_stmt: expr_stmt  {$$ = $1;}
+          | print_stmt {$$ = $1;}
 ;
 
 /* expr_stmt: test ['=' test] */
@@ -148,12 +148,12 @@ aux4: expr comp_op {$2.agregaHijoPrincipio($1);$$=$2;}
 ;
 
 /*    comp_op: '<'|'>'|'=='|'>='|'<='|'!=' */
-comp_op: LE {$$ = new AuxNodo("<");}
-       | GR {$$ = new AuxNodo(">");}
+comp_op: LE     {$$ = new AuxNodo("<");}
+       | GR     {$$ = new AuxNodo(">");}
        | EQUALS {$$ = new AuxNodo("==");}
-       | GRQ {$$ = new AuxNodo(">=");}
-       | LEQ {$$ = new AuxNodo("<=");}
-       | DIFF {$$ = new AuxNodo("!=");}
+       | GRQ    {$$ = new AuxNodo(">=");}
+       | LEQ    {$$ = new AuxNodo("<=");}
+       | DIFF   {$$ = new AuxNodo("!=");}
 ;
 
 /*    expr: (term ('+'|'-'))* term   */

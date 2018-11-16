@@ -1,4 +1,4 @@
-# Compiladores 2019-1: Proyecto 3 (Generación del AST con el patrón _compuesto_).
+# Compiladores 2019-1: Proyecto 4 (Sistema de tipos).
 
 ## Integrantes del equipo
 
