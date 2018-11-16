@@ -30,6 +30,7 @@ public class VisitorPrint implements Visitor
             if(lista!=null){
                 for(Nodo h:lista){
                     visit(h);
+                    System.out.print(",");
                 }
             }
         }
