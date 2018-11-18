@@ -8,6 +8,7 @@ public class Nodo {
     Variable valor; 
     Tipo tipo;
     String name;
+    Operador operador;
 
     /*(1)**********GETTERS**************/
     public Hijos getHijos(){return hijos;}
@@ -17,6 +18,7 @@ public class Nodo {
     public Nodo getPrimerHijo(){return null;}
     public Variable getValor(){return valor;}
     public Tipo getType(){return tipo;}
+    public Operador getOperador(){return operador;}
     public String getNombre(){return name;}
     /***********************************/
 

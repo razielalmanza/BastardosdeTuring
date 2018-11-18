@@ -16,5 +16,9 @@ public class AbstractVisitor{
         int tipo = OperadoresTipo.getTypeAdd(add_type1,add_type2);
         System.out.println(tipo);
     }
-    // public void visit(Nodo n){abVisit(n);}
+    public void abVisit(Nodo n){
+        switch(n.getOperador()){
+            case MAS: n=(AddNodo)n; break;
+        }
+        abVisit(n);}
 }

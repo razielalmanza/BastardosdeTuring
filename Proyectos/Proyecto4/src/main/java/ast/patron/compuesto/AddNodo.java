@@ -5,6 +5,7 @@ public class AddNodo extends Compuesto {
     
     public AddNodo(Nodo add, String value){
         this.agregaHijoPrincipio(add);
+        operador = Operador.MAS;
         valor = new Variable("+");
         name = "+";
     }
