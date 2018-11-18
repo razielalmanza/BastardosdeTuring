@@ -10,10 +10,12 @@ public class Compilador{
     Parser parser;
     Nodo raízAST;
     VisitorPrint v_print;
+    AbstractVisitor v_abst;
 
     Compilador(Reader fuente){
         parser = new Parser(fuente);
         v_print = new VisitorPrint();
+        v_abst = new AbstractVisitor();
     }
 
     public void ConstruyeAST(boolean debug){
@@ -22,12 +24,8 @@ public class Compilador{
         raízAST = parser.raíz;
     }
 
-    public void imprimeAST(){
-        parser.raíz.accept(v_print);
-    }
-
-    public void analisisSemantico(){
-    }
+    public void imprimeAST(){parser.raíz.accept(v_print);}
+    public void analisisSemantico(){raízAST.semanticAccept(v_abst);}
 
     public static void main(String[] args){
             String archivo = "src/main/resources/test.p";

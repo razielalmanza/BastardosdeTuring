@@ -9,7 +9,6 @@ public enum Tipo{
     BOOLEAN(3),
     STRING(4);
     private final int tipo;
-    private Tipo(int t){
-        this.tipo = t;
-    }
+    private Tipo(int t){this.tipo = t;}
+    public int getId(){return tipo;}
 }

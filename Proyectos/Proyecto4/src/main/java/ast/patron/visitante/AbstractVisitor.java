@@ -1,5 +1,6 @@
 package ast.patron.visitante;
 import ast.patron.compuesto.*;
+import java.util.LinkedList;
 
 public class AbstractVisitor implements Visitor{
 
@@ -17,6 +18,19 @@ public class AbstractVisitor implements Visitor{
     }
 
     public void visit(Nodo n){
-
+        System.out.print("{\"");
+        System.out.print("" + n.getNombre());
+        System.out.print("\":");
+        Hijos h2 = n.hijos;
+        if(h2!=null){
+            LinkedList<Nodo> lista=h2.hijos;
+            if(lista!=null){
+                for(Nodo h:lista){
+                    visit(h);
+                    System.out.print(",");
+                }
+            }
+        }
+        System.out.print("}");
     }
 }
