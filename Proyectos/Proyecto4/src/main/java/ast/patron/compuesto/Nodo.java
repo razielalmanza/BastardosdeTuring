@@ -1,5 +1,4 @@
-/** Componente. La clase genéria Nodo.
- */
+/** Componente. La clase genéria Nodo.*/
 package ast.patron.compuesto;
 import ast.patron.visitante.*;
 import ast.patron.tipos.*;
