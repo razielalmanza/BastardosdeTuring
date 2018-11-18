@@ -5,13 +5,11 @@ import java.util.LinkedList;
 
 public class AbstractVisitor{
 
-    public int abVisitInt(IntHoja n){
-        System.out.println("entra?");
-        return 1;}
-    public int abVisit(FloatHoja n){return 2;}
-    public int abVisit(BooleanHoja n){return 3;}
-    public int abVisit(StringHoja n){return 4;}
-    public int abVisitAdd(AddNodo n){
+    public int abVisitInt(Nodo n){return 1;}
+    public int abVisitFloat(Nodo n){return 2;}
+    public int abVisitBoolean(Nodo n){return 3;}
+    public int abVisitString(Nodo n){return 4;}
+    public int abVisitAdd(Nodo n){
         LinkedList<Nodo> add = n.hijos.hijos;
         int add_type1 = abVisit(add.getFirst());
         int add_type2 = abVisit(add.getLast());
@@ -22,14 +20,11 @@ public class AbstractVisitor{
     public int abVisit(Nodo n){
         int tipo;
         switch(n.getOperador()){
-            case ENTERO:
-            //n=(IntHoja)n; 
-            //tipo = abVisitInt(n);
-            tipo = 1; 
+            case ENTERO: 
+            tipo = abVisitInt(n);
             break;
-            case MAS: 
-            n=(AddNodo)n; 
-            tipo = abVisit(n);
+            case MAS:  
+            tipo = abVisitAdd(n);
             break;
             default: tipo=0;
         }
