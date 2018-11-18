@@ -9,7 +9,6 @@ public class VisitorPrint implements Visitor
     public void visit(IntHoja n){
     System.out.print("[Hoja Entera] valor: " + n.getValor().ival);
     }
-
     public void visit(FloatHoja n){
 		System.out.print("[Hoja Flotante] valor: " + n.getNombre());
     }
