@@ -1,36 +1,20 @@
 package ast.patron.visitante;
 import ast.patron.compuesto.*;
+import ast.patron.tipos.*;
 import java.util.LinkedList;
 
-public class AbstractVisitor implements Visitor{
+public class AbstractVisitor{
 
-    public void visit(IntHoja n){
-    System.out.print("[Hoja Entera] valor: " + n.getValor().ival);
+    public void abVisit(IntHoja n){}
+    public void abVisit(FloatHoja n){}
+    public void abVisit(BooleanHoja n){}
+    public void abVisit(StringHoja n){}
+    public void abVisit(AddNodo n){
+        LinkedList<Nodo> add = n.hijos.hijos;
+        Tipo add_type1 = add.getFirst().getType();
+        Tipo add_type2 = add.getLast().getType();
+        int tipo = OperadoresTipo.getTypeAdd(add_type1,add_type2);
+        System.out.println(tipo);
     }
-    public void visit(FloatHoja n){
-        System.out.print("[Hoja Flotante] valor: " + n.getNombre());
-    }
-    public void visit(BooleanHoja n){
-        System.out.print("[Hoja Booleana] valor: " + n.getValor().bval);
-    }
-    public void visit(StringHoja n){
-        System.out.print("[Hoja Cadena] valor: " + n.getValor().sval);
-    }
-
-    public void visit(Nodo n){
-        System.out.print("{\"");
-        System.out.print("" + n.getNombre());
-        System.out.print("\":");
-        Hijos h2 = n.hijos;
-        if(h2!=null){
-            LinkedList<Nodo> lista=h2.hijos;
-            if(lista!=null){
-                for(Nodo h:lista){
-                    visit(h);
-                    System.out.print(",");
-                }
-            }
-        }
-        System.out.print("}");
-    }
+    // public void visit(Nodo n){abVisit(n);}
 }

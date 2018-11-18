@@ -13,4 +13,5 @@ public class IntHoja extends Hoja
     public void accept(Visitor v){
      	v.visit(this);
     }
+
 }

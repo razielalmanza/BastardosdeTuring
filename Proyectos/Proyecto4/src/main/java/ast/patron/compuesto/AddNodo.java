@@ -10,8 +10,7 @@ public class AddNodo extends Compuesto {
     }
     public AddNodo(){name="+";}
     public void accept(Visitor v){v.visit(this);}
-
-    // public void accept_semantico(){
+    // public agregaValor(){
 
     // }
 }

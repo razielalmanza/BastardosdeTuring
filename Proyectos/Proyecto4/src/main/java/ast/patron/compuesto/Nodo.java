@@ -13,15 +13,11 @@ public class Nodo {
     /*(1)**********GETTERS**************/
     public Hijos getHijos(){return hijos;}
     public Nodo getHijo(){return null;}
-
-    public void setHijo(Nodo c){}
-
+    //public void setHijo(Nodo c){}
     public Nodo getUltimoHijo(){return null;}
     public Nodo getPrimerHijo(){return null;}
     public Variable getValor(){return valor;}
-
     public Tipo getType(){return tipo;}
-
     public String getNombre(){return name;}
     /***********************************/
 
@@ -33,7 +29,11 @@ public class Nodo {
     public void setTipo(Tipo nuevo){tipo = nuevo;}
     /***********************************/
 
+    // private Tipo calculaTipo(){
+        
+    // }
+
     public void accept(Visitor v){v.visit(this);}
-    public void semanticAccept(AbstractVisitor a){a.visit(this);}
+    public void semanticAccept(AbstractVisitor a){a.abVisit((AddNodo)this);}
 
 }

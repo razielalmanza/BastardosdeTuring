@@ -9,6 +9,9 @@ public class OperadoresTipo{
     static String[] typenames = {"No definido","Integer","Double",
                                 "Boolean","String"};
 
+    public static int getTypeAdd(Tipo t1,Tipo t2){
+        return addTypes[t1.getId()][t2.getId()];
+    }
 
     public static int[][] addTypes = {
         {1,2,1,0},
