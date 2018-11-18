@@ -31,8 +31,10 @@ public class AbstractVisitor{
             case ENTERO:tipo = abVisitInt(n);break;
             case MAS:tipo = abVisitAdd(n);break;
             case MENOS:tipo = abVisitAdd(n); break;
-            case POR:
-            tipo = abVisitMul(n);break;
+            case POR:tipo = abVisitMul(n);break;
+            case DIV:tipo = abVisitMul(n);break;
+            case DIVENTERA:tipo = abVisitMul(n);break;
+            case MODULO:tipo = abVisitMul(n);break;
             default: tipo=0;
         }
         return tipo;
