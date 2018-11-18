@@ -5,24 +5,24 @@ import java.util.AbstractCollection;
 import java.lang.ArrayStoreException;
 
 /* Extends Abstract Collection. */
-public class Hijos<N extends Nodo> extends AbstractCollection {
+public class Hijos extends AbstractCollection {
 
-    public LinkedList<N> hijos;
+    public LinkedList<Nodo> hijos;
     /*(1)***********CONSTRUCTORES*************/
-    public Hijos(N l){
- 	hijos = new LinkedList<N>();
+    public Hijos(Nodo l){
+ 	hijos = new LinkedList<Nodo>();
 	hijos.addFirst(l);
     }
-    public Hijos() {hijos = new LinkedList<>();}
+    public Hijos() {hijos = new LinkedList<Nodo>();}
     /***************************************/
     public Iterator iterator(){return hijos.iterator();}
     /*(2)**********GETTERS**************/
-    public LinkedList<N> getAll(){return hijos;}
+    public LinkedList<Nodo> getAll(){return hijos;}
     public int size() {return hijos.size();}
     public Nodo getPrimerHijo() {return hijos.getFirst();}
     public Nodo getUltimoHijo() {return hijos.getLast();}
     /*********************************/
 
-    public void agregaHijoPrincipio(N l) {hijos.addFirst(l);}
-    public void agregaHijoFinal(N r) {hijos.add(r);}
+    public void agregaHijoPrincipio(Nodo l) {hijos.addFirst(l);}
+    public void agregaHijoFinal(Nodo r) {hijos.add(r);}
 }

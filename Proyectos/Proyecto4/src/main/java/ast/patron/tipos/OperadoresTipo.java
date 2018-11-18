@@ -9,18 +9,10 @@ public class OperadoresTipo{
     static String[] typenames = {"No definido","Integer","Double",
                                 "Boolean","String"};
 
-    public static int getTypeAdd(int t1,int t2){
-        return addTypes[t1][t2];
-    }
+    public static int getTypeAdd(int t1,int t2){return addTypes[t1][t2];}
+    public static int getTypeMul(int t1,int t2){return divMultTypes[t1][t2];}
 
     public static int[][] addTypes = {
-        {1,2,1,0},
-        {2,2,2,0},
-        {1,2,3,0},
-        {0,0,0,0}
-    };
-
-    public static int[][] diffTypes = {
         {1,2,1,0},
         {2,2,2,0},
         {1,2,3,0},

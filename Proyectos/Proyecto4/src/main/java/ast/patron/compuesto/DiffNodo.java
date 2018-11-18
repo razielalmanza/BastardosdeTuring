@@ -7,6 +7,7 @@ public class DiffNodo extends Compuesto {
 	    this.agregaHijoPrincipio(diff);
         valor = new Variable("-");
         name = "-";
+        operador = Operador.MENOS;
     }
 
     public DiffNodo(){name="-";}
