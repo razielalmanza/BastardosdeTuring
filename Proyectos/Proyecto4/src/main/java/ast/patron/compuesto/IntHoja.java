@@ -1,11 +1,12 @@
 package ast.patron.compuesto;
 import ast.patron.visitante.*;
+import ast.patron.tipos.*;
 
 public class IntHoja extends Hoja
 {
     public IntHoja(int i){
+        tipo = Tipo.INTEGER;
 	    valor = new Variable(i);
-        tipo = 1;
         name = ""+i;
     }
 

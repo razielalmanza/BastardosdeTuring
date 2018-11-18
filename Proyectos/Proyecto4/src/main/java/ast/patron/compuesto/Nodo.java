@@ -1,21 +1,13 @@
 /** Componente. La clase genéria Nodo.
- * @author Diana Montes
  */
 package ast.patron.compuesto;
 import ast.patron.visitante.*;
+import ast.patron.tipos.*;
 
 public class Nodo {
     public Hijos hijos; //lista de hijos
     Variable valor; 
-    /**
-     * TIPOS:
-     * NoDefinido: 0
-     * Integer:    1
-     * Double:     2
-     * Boolean:    3
-     * String:     4
-     */
-    int tipo;
+    Tipo tipo;
     String name;
 
     /*(1)**********GETTERS**************/
@@ -28,7 +20,7 @@ public class Nodo {
     public Nodo getPrimerHijo(){return null;}
     public Variable getValor(){return valor;}
 
-    public int getType(){return tipo;}
+    public Tipo getType(){return tipo;}
 
     public String getNombre(){return name;}
     /***********************************/
@@ -38,7 +30,7 @@ public class Nodo {
 
     /*(3)**********SETTERS**************/
     public void setValor(Variable nuevo){valor = nuevo;}
-    public void setTipo(int nuevo){tipo = nuevo;}
+    public void setTipo(Tipo nuevo){tipo = nuevo;}
     /***********************************/
 
     public void accept(Visitor v){v.visit(this);}

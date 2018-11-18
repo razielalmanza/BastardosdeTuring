@@ -1,11 +1,11 @@
 package ast.patron.compuesto;
 import ast.patron.visitante.*;
+import ast.patron.tipos.*;
 
-public class StringHoja extends Hoja
-{
+public class StringHoja extends Hoja{
     public StringHoja(String i){
 	    valor = new Variable(i);
-        tipo = 4;
+        tipo = Tipo.STRING;
         name = i;
     }
 
