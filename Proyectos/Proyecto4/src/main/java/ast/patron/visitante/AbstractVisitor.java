@@ -14,7 +14,7 @@ public class AbstractVisitor{
         int add_type1 = abVisit(add.getFirst());
         int add_type2 = abVisit(add.getLast());
         int tipo = OperadoresTipo.getTypeAdd(add_type1,add_type2);
-        System.out.println(tipo);
+        System.out.print(tipo + "|");
         return tipo;
     }
     public int abVisitMul(Nodo n){
@@ -22,7 +22,7 @@ public class AbstractVisitor{
         int add_type1 = abVisit(add.getFirst());
         int add_type2 = abVisit(add.getLast());
         int tipo = OperadoresTipo.getTypeMul(add_type1,add_type2);
-        System.out.println(tipo);
+        System.out.print(tipo + "|");
         return tipo;
     }
     public int abVisit(Nodo n){

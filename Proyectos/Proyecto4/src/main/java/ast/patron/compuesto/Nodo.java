@@ -35,6 +35,6 @@ public class Nodo {
     // }
 
     public void accept(Visitor v){v.visit(this);}
-    public void semanticAccept(AbstractVisitor a){a.abVisit((AddNodo)this);}
+    public void semanticAccept(AbstractVisitor a){a.abVisit((Nodo)this);}
 
 }

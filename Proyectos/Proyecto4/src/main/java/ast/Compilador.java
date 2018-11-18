@@ -19,7 +19,7 @@ public class Compilador{
     }
 
     public void ConstruyeAST(boolean debug){
-        parser.yydebug = debug;
+        //parser.yydebug = debug;
         parser.yyparse(); // análisis léxico, sintáctio y constucción del AST
         raízAST = parser.raíz;
     }
