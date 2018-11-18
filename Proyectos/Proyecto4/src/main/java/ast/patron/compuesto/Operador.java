@@ -4,5 +4,6 @@ public enum Operador{
     LE,GR,LEQ,GRQ,EQUALS,DIFF,EQ,
     AND,OR,NOT,
     WHILE,FOR,ELIF,ELSE,IF,
-    PRINT
+    PRINT,
+    CADENA,ENTERO,REAL,BOOLEANO
 }

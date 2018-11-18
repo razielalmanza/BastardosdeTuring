@@ -8,6 +8,7 @@ public class IntHoja extends Hoja
         tipo = Tipo.INTEGER;
 	    valor = new Variable(i);
         name = ""+i;
+        operador = Operador.ENTERO;
     }
 
     public void accept(Visitor v){
