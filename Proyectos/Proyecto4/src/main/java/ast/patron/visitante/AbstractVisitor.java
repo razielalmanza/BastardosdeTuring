@@ -4,7 +4,6 @@ import ast.patron.tipos.*;
 import java.util.LinkedList;
 
 public class AbstractVisitor{
-
     /**
      * Accedera a la tabla de simbolos para conocer el valor
      * de la variable, en caso de que no haya sido asignada lanzara error
@@ -12,7 +11,9 @@ public class AbstractVisitor{
      * @return el tipo de la variable
      */
     public int abVisitId(Nodo n){
-        return TablaSimbolos.lookUp(n.getNombre());
+        String name=n.getNombre();
+        int tipo=TablaSimbolos.containsKey(name)?TablaSimbolos.lookUp(name):0;
+        return tipo;
     }
     /**
      * Metodo que llenara la tabla de simbolos
@@ -62,8 +63,12 @@ public class AbstractVisitor{
         if(h_type1!=4) System.err.println("error_semantico: PRINT");
     }
 
-    public void abVisitWhile(Nodo n){}
-    public void abVisitFor(Nodo n){}
+    public void abVisitWhile(Nodo n){
+        LinkedList<Nodo> h = n.hijos.hijos;
+        int h_type1 = abVisit(h.getFirst());
+        int h_type2 = abVisit(h.getLast());
+        if(h_type1!=3) System.err.println("error_semantico: WHILE");
+    }
     public void abVisitIf(Nodo n){}
     public void abVisitElse(Nodo n){}
 
@@ -98,8 +103,7 @@ public class AbstractVisitor{
             case EQ: tipo =0; abstractVisitAsign(n);break;
             
             case PRINT: abVisitPrint(n);tipo=0; break;
-            case WHILE: tipo=0; break;
-            case FOR:tipo=0; break;
+            case WHILE: abVisitWhile(n);tipo=0; break;
 
             case IF: tipo=0; break;
             case ELSE: tipo=0; break;

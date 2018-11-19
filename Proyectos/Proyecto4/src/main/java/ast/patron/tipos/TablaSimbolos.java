@@ -8,4 +8,7 @@ public class TablaSimbolos{
     public static void insert(String nombre,Integer tipo){
         tabla_simbolos.put(nombre,tipo);
     }
+    public static boolean containsKey(String name){
+        return tabla_simbolos.containsKey(name);
+    }
 }
