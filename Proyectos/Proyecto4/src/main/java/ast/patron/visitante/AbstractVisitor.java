@@ -5,6 +5,25 @@ import java.util.LinkedList;
 
 public class AbstractVisitor{
 
+    /**
+     * Accedera a la tabla de simbolos para conocer el valor
+     * de la variable, en caso de que no haya sido asignada lanzara error
+     * @param n nodo tipo identificador
+     * @return el tipo de la variable
+     */
+    public int abVisitId(Nodo n){
+        return TablaSimbolos.lookUp(n.getNombre());
+    }
+    /**
+     * Metodo que llenara la tabla de simbolos
+     * @param n Nodo de tipo Asignacion(EQ), como hijo izquierdo
+     * siempre tiene un identificador
+     */
+    public void abstractVisitAsign(Nodo n){
+        LinkedList<Nodo> h = n.hijos.hijos;
+        int h_type2 = abVisit(h.getLast());
+        TablaSimbolos.insert(h.getFirst().getNombre(),h_type2);
+    }
     public int abVisitAdd(Nodo n){
         LinkedList<Nodo> add = n.hijos.hijos;
         int add_type1 = abVisit(add.getFirst());
@@ -48,19 +67,11 @@ public class AbstractVisitor{
     public void abVisitIf(Nodo n){}
     public void abVisitElse(Nodo n){}
 
-    /**
-     * Metodo que llenara la tabla de simbolos
-     * @param n Nodo de tipo Asignacion(EQ), como hijo izquierdo
-     * siempre tiene un identificador
-     */
-    public void abstractVisitAsign(Nodo n){
-        LinkedList<Nodo> h = n.hijos.hijos;
-        int h_type2 = abVisit(h.getLast());
-    }
 
     public int abVisit(Nodo n){
         int tipo;
         switch(n.getOperador()){
+            case IDENTIFICADOR: tipo=abVisitId(n);break;
             case ENTERO:tipo = 1; break;
             case REAL: tipo = 2; break;
             case BOOLEANO: tipo = 3; break;
