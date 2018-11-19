@@ -42,12 +42,20 @@ public class AbstractVisitor{
         int h_type1 = abVisit(h.getFirst());
         if(h_type1!=4) System.err.println("error_semantico: PRINT");
     }
+
+    public void abVisitWhile(Nodo n){}
+    public void abVisitFor(Nodo n){}
+    public void abVisitIf(Nodo n){}
+    public void abVisitElse(Nodo n){}
+
+    /**
+     * Metodo que llenara la tabla de simbolos
+     * @param n Nodo de tipo Asignacion(EQ), como hijo izquierdo
+     * siempre tiene un identificador
+     */
     public void abstractVisitAsign(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
-        
         int h_type2 = abVisit(h.getLast());
-
-        //int tipo = OperadoresTipo.getTypeComp(h_type1,h_type2);
     }
 
     public int abVisit(Nodo n){
@@ -81,9 +89,9 @@ public class AbstractVisitor{
             case PRINT: abVisitPrint(n);tipo=0; break;
             case WHILE: tipo=0; break;
             case FOR:tipo=0; break;
-            case ELIF: tipo=0;break;
-            case ELSE: tipo=0; break;
+
             case IF: tipo=0; break;
+            case ELSE: tipo=0; break;
 
             case BLOQUE: tipo=0; break;
             case RAIZ: tipo=0; break;

@@ -44,7 +44,7 @@ compound_stmt: if_stmt {$$ = $1;}
 
 /* if_stmt: 'if' test ':' suite ['else' ':' suite] */
 if_stmt:  IF test DOBLEPUNTO suite ELSE DOBLEPUNTO suite {
-    $$ = new NodoOperador("if",Operador.IF);$$.agregaHijoPrincipio($2);
+    $$ = new NodoOperador("if",Operador.ELSE);$$.agregaHijoPrincipio($2);
     $$.agregaHijoFinal($4);
     $$.agregaHijoFinal($7);
 }
