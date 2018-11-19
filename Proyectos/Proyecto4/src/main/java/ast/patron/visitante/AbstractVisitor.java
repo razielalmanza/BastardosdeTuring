@@ -5,10 +5,6 @@ import java.util.LinkedList;
 
 public class AbstractVisitor{
 
-    public int abVisitInt(Nodo n){return 1;}
-    public int abVisitFloat(Nodo n){return 2;}
-    public int abVisitBoolean(Nodo n){return 3;}
-    public int abVisitString(Nodo n){return 4;}
     public int abVisitAdd(Nodo n){
         LinkedList<Nodo> add = n.hijos.hijos;
         int add_type1 = abVisit(add.getFirst());
@@ -32,18 +28,58 @@ public class AbstractVisitor{
         int tipo = OperadoresTipo.getTypeMod(mod_type1,mod_type2);
         System.out.print(tipo +"|");
         return tipo;
+    }
+    public int abVisitComp(Nodo n){
+        LinkedList<Nodo> h = n.hijos.hijos;
+        int h_type1 = abVisit(h.getFirst());
+        int h_type2 = abVisit(h.getLast());
+        int tipo = OperadoresTipo.getTypeComp(h_type1,h_type2);
+        System.out.print(tipo +"|");
+        return tipo;
+    }
+    public void abVisitPrint(Nodo n){
+        LinkedList<Nodo> h = n.hijos.hijos;
+        int h_type1 = abVisit(h.getFirst());
+        if(h_type1!=4) System.err.println("error");
     } 
     public int abVisit(Nodo n){
         int tipo;
         switch(n.getOperador()){
-            case ENTERO:tipo = abVisitInt(n);break;
+            case ENTERO:tipo = 1; break;
+            case REAL: tipo = 2; break;
+            case BOOLEANO: tipo = 3; break;
+            case CADENA: tipo = 4; break;
+
             case MAS:tipo = abVisitAdd(n);break;
             case MENOS:tipo = abVisitAdd(n); break;
+            
             case POR:tipo = abVisitMul(n);break;
             case DIV:tipo = abVisitMul(n);break;
             case DIVENTERA:tipo = abVisitMul(n);break;
             case MODULO:tipo = abVisitMul(n);break;
-            default: tipo=0;
+
+            case LE: tipo = abVisitComp(n);break;
+            case GR: tipo = abVisitComp(n);break;
+            case LEQ: tipo = abVisitComp(n);break;
+            case GRQ: tipo = abVisitComp(n);break;
+            case EQUALS: tipo = abVisitComp(n);break;
+            case DIFF: tipo = abVisitComp(n);break;
+            case EQ: tipo = abVisitComp(n);break;
+            case AND: tipo = abVisitComp(n);break;
+            case OR: tipo = abVisitComp(n);break;
+            case NOT: tipo = abVisitComp(n);break;
+
+            case PRINT: abVisitPrint(n);tipo=0; break;
+            case WHILE: tipo=0; break;
+            case FOR:tipo=0; break;
+            case ELIF: tipo=0;break;
+            case ELSE: tipo=0; break;
+            case IF: tipo=0; break;
+
+            case BLOQUE: tipo=0; break;
+            case RAIZ: tipo=0; break;
+
+            default: tipo=0; break;
         }
         return tipo;
     }
