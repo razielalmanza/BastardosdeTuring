@@ -40,8 +40,16 @@ public class AbstractVisitor{
     public void abVisitPrint(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
         int h_type1 = abVisit(h.getFirst());
-        if(h_type1!=4) System.err.println("error");
-    } 
+        if(h_type1!=4) System.err.println("error_semantico: PRINT");
+    }
+    public void abstractVisitAsign(Nodo n){
+        LinkedList<Nodo> h = n.hijos.hijos;
+        
+        int h_type2 = abVisit(h.getLast());
+
+        //int tipo = OperadoresTipo.getTypeComp(h_type1,h_type2);
+    }
+
     public int abVisit(Nodo n){
         int tipo;
         switch(n.getOperador()){
@@ -64,11 +72,12 @@ public class AbstractVisitor{
             case GRQ: tipo = abVisitComp(n);break;
             case EQUALS: tipo = abVisitComp(n);break;
             case DIFF: tipo = abVisitComp(n);break;
-            case EQ: tipo = abVisitComp(n);break;
             case AND: tipo = abVisitComp(n);break;
             case OR: tipo = abVisitComp(n);break;
             case NOT: tipo = abVisitComp(n);break;
 
+            case EQ: tipo =0; abstractVisitAsign(n);break;
+            
             case PRINT: abVisitPrint(n);tipo=0; break;
             case WHILE: tipo=0; break;
             case FOR:tipo=0; break;
