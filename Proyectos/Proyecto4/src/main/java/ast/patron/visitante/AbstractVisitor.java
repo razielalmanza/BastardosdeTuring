@@ -66,11 +66,22 @@ public class AbstractVisitor{
     public void abVisitWhile(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
         int h_type1 = abVisit(h.getFirst());
-        int h_type2 = abVisit(h.getLast());
         if(h_type1!=3) System.err.println("error_semantico: WHILE");
     }
-    public void abVisitIf(Nodo n){}
-    public void abVisitElse(Nodo n){}
+    public void abVisitIf(Nodo n){
+        LinkedList<Nodo> h = n.hijos.hijos;
+        int h_type1 = abVisit(h.getFirst());
+        if(h_type1!=3) System.err.println("error_semantico: IF");
+    }
+    public void abVisitElse(Nodo n){
+        LinkedList<Nodo> h = n.hijos.hijos;
+        int h_type1 = abVisit(h.getFirst());
+        if(h_type1!=3) System.err.println("error_semantico: IF..ELSE");
+    }
+    public void abVisitBlock(Nodo n){
+        LinkedList<Nodo> h = n.hijos.hijos;
+        for(Nodo nodo:h) abVisit(nodo);
+    }
 
 
     public int abVisit(Nodo n){
@@ -105,11 +116,11 @@ public class AbstractVisitor{
             case PRINT: abVisitPrint(n);tipo=0; break;
             case WHILE: abVisitWhile(n);tipo=0; break;
 
-            case IF: tipo=0; break;
-            case ELSE: tipo=0; break;
+            case IF: abVisitIf(n);tipo=0; break;
+            case ELSE: abVisitElse(n);tipo=0; break;
 
-            case BLOQUE: tipo=0; break;
-            case RAIZ: tipo=0; break;
+            case BLOQUE: abVisitBlock(n);tipo=0; break;
+            case RAIZ: abVisitBlock(n);tipo=0; break;
 
             default: tipo=0; break;
         }
