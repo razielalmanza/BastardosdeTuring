@@ -18,13 +18,21 @@ public class AbstractVisitor{
         return tipo;
     }
     public int abVisitMul(Nodo n){
-        LinkedList<Nodo> add = n.hijos.hijos;
-        int add_type1 = abVisit(add.getFirst());
-        int add_type2 = abVisit(add.getLast());
-        int tipo = OperadoresTipo.getTypeMul(add_type1,add_type2);
+        LinkedList<Nodo> mul = n.hijos.hijos;
+        int mul_type1 = abVisit(mul.getFirst());
+        int mul_type2 = abVisit(mul.getLast());
+        int tipo = OperadoresTipo.getTypeMul(mul_type1,mul_type2);
         System.out.print(tipo + "|");
         return tipo;
     }
+    public int abVisitMod(Nodo n){
+        LinkedList<Nodo> mod = n.hijos.hijos;
+        int mod_type1 = abVisit(mod.getFirst());
+        int mod_type2 = abVisit(mod.getLast());
+        int tipo = OperadoresTipo.getTypeMod(mod_type1,mod_type2);
+        System.out.print(tipo +"|");
+        return tipo;
+    } 
     public int abVisit(Nodo n){
         int tipo;
         switch(n.getOperador()){
