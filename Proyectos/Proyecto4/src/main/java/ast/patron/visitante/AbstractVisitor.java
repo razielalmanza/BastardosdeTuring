@@ -12,7 +12,13 @@ public class AbstractVisitor{
      */
     public int abVisitId(Nodo n){
         String name=n.getNombre();
-        int tipo=TablaSimbolos.containsKey(name)?TablaSimbolos.lookUp(name):0;
+        int tipo;
+        if(TablaSimbolos.containsKey(name)){
+            tipo = TablaSimbolos.lookUp(name);
+        }else{
+            System.err.print("Error identificador no asignado");
+            tipo = 0;
+        }
         return tipo;
     }
     /**
