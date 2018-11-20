@@ -10,6 +10,7 @@ public class IntHoja extends Hoja
         name = ""+i;
         operador = Operador.ENTERO;
     }
+    public Operador getOperador(){return operador;}
 
     public void accept(Visitor v){
      	v.visit(this);

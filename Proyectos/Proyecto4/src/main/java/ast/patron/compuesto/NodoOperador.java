@@ -13,10 +13,12 @@ public class NodoOperador extends Compuesto {
         operador = op;
     }
     public NodoOperador(String value){name = value;}
+   
     public NodoOperador(String value,Operador op){
         name = value;
         operador = op;
     }
+   
     public Operador getOperador(){return operador;}
     public void accept(Visitor v){v.visit(this);}
 }

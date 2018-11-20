@@ -263,5 +263,5 @@ public void yyerror (String error) {
 /* lexer es creado en el constructor. */
 public Parser(Reader r) {
     lexer = new Flexer(r, this);
-    yydebug = true;
+    //yydebug = true;
 }

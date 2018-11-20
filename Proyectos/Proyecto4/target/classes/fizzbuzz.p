@@ -11,6 +11,6 @@ while indice < 100:
       otro = False
 
    if otro:
-      print "a"
+      print indice
 
    indice = indice + 1

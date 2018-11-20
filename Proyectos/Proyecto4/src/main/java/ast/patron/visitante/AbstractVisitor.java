@@ -62,26 +62,31 @@ public class AbstractVisitor{
         int tipo = OperadoresTipo.getTypeComp(h_type1,h_type2);
         System.out.print(tipo +"|");
         return tipo;
-    }
+    }    
     public void abVisitPrint(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
         int h_type1 = abVisit(h.getFirst());
+        System.out.println("####################" +h_type1);
         if(h_type1!=4) System.err.println("error_semantico: PRINT");
     }
 
     public void abVisitWhile(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
         int h_type1 = abVisit(h.getFirst());
+        abVisit(h.getLast());
         if(h_type1!=3) System.err.println("error_semantico: WHILE");
     }
     public void abVisitIf(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
         int h_type1 = abVisit(h.getFirst());
+        abVisit(h.getLast());
         if(h_type1!=3) System.err.println("error_semantico: IF");
     }
     public void abVisitElse(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
         int h_type1 = abVisit(h.getFirst());
+        abVisit(h.get(1));
+        abVisit(h.getLast());
         if(h_type1!=3) System.err.println("error_semantico: IF..ELSE");
     }
     public void abVisitBlock(Nodo n){
@@ -90,8 +95,14 @@ public class AbstractVisitor{
     }
 
 
+
     public int abVisit(Nodo n){
         int tipo;
+        if(n.getOperador() == null){
+            System.out.println("+++++++++++++++\n" + n.getType());
+            return 3;
+        }else{
+
         switch(n.getOperador()){
             case IDENTIFICADOR: tipo=abVisitId(n);break;
             case ENTERO:tipo = 1; break;
@@ -131,5 +142,7 @@ public class AbstractVisitor{
             default: tipo=0; break;
         }
         return tipo;
+        }
+
     }
 }
