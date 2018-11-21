@@ -3,7 +3,7 @@ package ast;
 import java.io.*;
 import ast.patron.compuesto.*;
 import ast.patron.visitante.*;
-
+import ast.patron.tipos.*;
 
 public class Compilador{
 
@@ -25,7 +25,10 @@ public class Compilador{
     }
 
     public void imprimeAST(){parser.raíz.accept(v_print);}
-    public void analisisSemantico(){raízAST.semanticAccept(v_abst);}
+    public void analisisSemantico(){
+        raízAST.semanticAccept(v_abst);
+        TablaSimbolos.muestraID();
+    }
 
     public static void main(String[] args){
             String archivo = "src/main/resources/test.p";

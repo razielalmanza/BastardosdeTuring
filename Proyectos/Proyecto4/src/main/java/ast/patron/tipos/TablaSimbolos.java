@@ -11,4 +11,8 @@ public class TablaSimbolos{
     public static boolean containsKey(String name){
         return tabla_simbolos.containsKey(name);
     }
+    public static void muestraID(){
+        System.out.println("\n TABLA DE SIMBOLOS:");
+        System.out.println(tabla_simbolos);
+    }
 }
