@@ -36,7 +36,7 @@ public class AbstractVisitor{
         int add_type1 = abVisit(add.getFirst());
         int add_type2 = abVisit(add.getLast());
         int tipo = OperadoresTipo.getTypeAdd(add_type1,add_type2);
-        System.out.print(tipo + "|");
+        //System.out.print(tipo + "|");
         return tipo;
     }
     public int abVisitMul(Nodo n){
@@ -44,7 +44,7 @@ public class AbstractVisitor{
         int mul_type1 = abVisit(mul.getFirst());
         int mul_type2 = abVisit(mul.getLast());
         int tipo = OperadoresTipo.getTypeMul(mul_type1,mul_type2);
-        System.out.print(tipo + "|");
+        //System.out.print(tipo + "|");
         return tipo;
     }
     public int abVisitMod(Nodo n){
@@ -52,7 +52,7 @@ public class AbstractVisitor{
         int mod_type1 = abVisit(mod.getFirst());
         int mod_type2 = abVisit(mod.getLast());
         int tipo = OperadoresTipo.getTypeMod(mod_type1,mod_type2);
-        System.out.print(tipo +"|");
+        //System.out.print(tipo +"|");
         return tipo;
     }
     public int abVisitComp(Nodo n){
@@ -60,13 +60,12 @@ public class AbstractVisitor{
         int h_type1 = abVisit(h.getFirst());
         int h_type2 = abVisit(h.getLast());
         int tipo = OperadoresTipo.getTypeComp(h_type1,h_type2);
-        System.out.print(tipo +"|");
+        //System.out.print(tipo +"|");
         return tipo;
     }    
     public void abVisitPrint(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
         int h_type1 = abVisit(h.getFirst());
-        System.out.println("####################" +h_type1);
         if(h_type1!=4) System.err.println("error_semantico: PRINT");
     }
 
@@ -98,11 +97,6 @@ public class AbstractVisitor{
 
     public int abVisit(Nodo n){
         int tipo;
-        if(n.getOperador() == null){
-            System.out.println("+++++++++++++++\n" + n.getType());
-            return 3;
-        }else{
-
         switch(n.getOperador()){
             case IDENTIFICADOR: tipo=abVisitId(n);break;
             case ENTERO:tipo = 1; break;
@@ -142,7 +136,6 @@ public class AbstractVisitor{
             default: tipo=0; break;
         }
         return tipo;
-        }
 
     }
 }
