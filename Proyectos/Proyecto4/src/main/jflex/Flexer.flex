@@ -101,12 +101,9 @@ BOOLEAN		        =	("True" | "False")
 					    yybegin(CODIGO);}
 }
 <CADENA>{
-  {CHAR_LITERAL}+                         { cadena = yytext();}
-  \"					  { yybegin(CODIGO);
-                                            cadena = "";
-					    return Parser.CADENA;}
-  {SALTO}				  { System.out.println("Unexpected newline. Line "+(yyline+1));
-					     System.exit(1);}
+  {CHAR_LITERAL}+  {  yyparser.yylval=new StringHoja(yytext());cadena = yytext();}
+  \"					     { yybegin(CODIGO);cadena = "";return Parser.CADENA;}
+  {SALTO}				   { System.out.println("Unexpected newline. Line "+(yyline+1));System.exit(1);}
 }
 <CODIGO>{
   \"                                      { yybegin(CADENA); }

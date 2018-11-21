@@ -86,7 +86,7 @@ small_stmt: expr_stmt  {$$ = $1;}
 
 /* expr_stmt: test ['=' test] */
 expr_stmt: test {$$ = $1;}
-         | test EQ test {$$=new NodoOperador("==",Operador.EQ);
+         | test EQ test {$$=new NodoOperador("=",Operador.EQ);
          $$.agregaHijoPrincipio($1);
          $$.agregaHijoFinal($3);
          }
