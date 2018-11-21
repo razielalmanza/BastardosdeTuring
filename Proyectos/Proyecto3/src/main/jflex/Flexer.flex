@@ -101,7 +101,7 @@ BOOLEAN		        =	("True" | "False")
 					    yybegin(CODIGO);}
 }
 <CADENA>{
-  {CHAR_LITERAL}+                         { cadena = yytext();}
+  {CHAR_LITERAL}+   { yyparser.yylval=new StringHoja(yytext());cadena = yytext();}
   \"					  { yybegin(CODIGO);
                                             cadena = "";
 					    return Parser.CADENA;}
@@ -109,7 +109,7 @@ BOOLEAN		        =	("True" | "False")
 					     System.exit(1);}
 }
 <CODIGO>{
-  \"                                      { yybegin(CADENA); }
+  \"            { yybegin(CADENA); }
   "+"					  { return Parser.MAS;}
   "-"					  { return Parser.MENOS;}
   "*"					  { return Parser.POR;}
