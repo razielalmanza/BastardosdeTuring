@@ -180,7 +180,7 @@ LINE_TERMINATOR = \r|\n|\r\n
 %%
 /*---- Macros y acciones. ----*/
 <YYINITIAL>{
-    .                   {nextSymbol("\n"); newIdenta(); yypushback(1); yybegin(IDENTA);}
+    .                   {System.out.print("hellooo");nextSymbol("\n"); newIdenta(); yypushback(1); yybegin(IDENTA);}
 }
 
 <ATOMOS>{
@@ -231,8 +231,8 @@ LINE_TERMINATOR = \r|\n|\r\n
 }
 
 <IDENTA>{
-    \s                  { pushIdenta(); }
-    \S                  { 
+    \s                  { System.out.print("333");pushIdenta(); }
+    \S                  { System.out.print("222");
         switch(isIdenta()){
             case 0: 
                 return Parser.IDENTA;
