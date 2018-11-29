@@ -1,16 +1,21 @@
-// tokens.flex
-  
-package asintactico;
+/********************************************************************************
+**  @author Diana Montes                                               	       **
+**  @about Proyecto 3: Construcción del AST.	                               **
+*********************************************************************************/
+package ast;
+import ast.patron.compuesto.*;
+import java.util.Stack;
+import java.util.Arrays;
+
 import java.util.Stack;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.Reader;
 import java.io.IOException;
-
 %%
 %public
-%class Letras
+%class Flexer
 %byaccj
 %line
 %unicode
@@ -32,7 +37,7 @@ import java.io.IOException;
     private String fileName;
      private Parser yyparser;
 
-    public Letras(final String archivo, final Reader reader) {
+    public Flexer(final String archivo, final Reader reader) {
         this(reader);
         String[] directorios = archivo.split("/");  
         fileName = directorios[directorios.length-1];
@@ -40,7 +45,7 @@ import java.io.IOException;
             fileName = fileName.split("\\.")[0];
         }
     }
-      public Letras(java.io.Reader r, Parser parser){
+      public Flexer(java.io.Reader r, Parser parser){
     	   this(r);
     	   yyparser = parser;
     }
