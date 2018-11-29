@@ -11,7 +11,7 @@ import java.util.Arrays;
 %class Flexer
 %byaccj
 %line
-%state INDENTA CADENA CODIGO DEINDENTA
+%state INDENTA CADENA ATOMOS DEINDENTA
 %unicode
 %{
 
@@ -72,9 +72,9 @@ import java.util.Arrays;
             }
    	    //El nivel actual de indentación es mayor a los anteriores.
             pila.push(espacios);
-	    yybegin(CODIGO);
+	    yybegin(ATOMOS);
             indents = 1;
-        }else yybegin(CODIGO);
+        }else yybegin(ATOMOS);
     }
 
 
@@ -106,10 +106,8 @@ import java.util.Arrays;
             int bloque_anterior = pila_global.peek();
             if(bloque_actual > bloque_anterior){ 
                 pila_global.push(bloque_actual);
-                //nextSymbol("IDENTA",Integer.toString(bloque_actual));
         }else if(bloque_actual < bloque_anterior){
             do{
-                //nextSymbol("DEIDENTA",Integer.toString(bloque_anterior));
                 pila_global.pop();
                 if(!pila_global.empty())
                     bloque_anterior = pila_global.peek();
@@ -142,7 +140,7 @@ BOOLEAN		        =	("True" | "False")
   (" " | "\t" )+[^" ""\t""#""\n"]         { System.out.println("Error de indentación. Línea "+(yyline+1));
 					    System.exit(1);}
   {SALTO}                                 {}
-  [^" ""\t"]                              { yypushback(1); yybegin(CODIGO);}
+  [^" ""\t"]                              { yypushback(1); yybegin(ATOMOS);}
 }
 <DEINDENTA>{
   .                                       { yypushback(1);
@@ -150,17 +148,17 @@ BOOLEAN		        =	("True" | "False")
 						dedents--;
 						return Parser.DEINDENTA;
   					    }
-					    yybegin(CODIGO);}
+					    yybegin(ATOMOS);}
 }
 <CADENA>{
   {CHAR_LITERAL}+   { yyparser.yylval=new StringHoja(yytext());cadena = yytext();}
-  \"					  { yybegin(CODIGO);
+  \"					  { yybegin(ATOMOS);
                                             cadena = "";
 					    return Parser.CADENA;}
   {SALTO}				  { System.out.println("Unexpected newline. Line "+(yyline+1));
 					     System.exit(1);}
 }
-<CODIGO>{
+<ATOMOS>{
   \"            { yybegin(CADENA); }
   "+"					  { return Parser.MAS;}
   "-"					  { return Parser.MENOS;}
@@ -193,7 +191,7 @@ BOOLEAN		        =	("True" | "False")
   {ENTERO}				{ yyparser.yylval=new IntHoja(Integer.parseInt(yytext())); return Parser.ENTERO; }
   {BOOLEAN}       { yyparser.yylval=new BooleanHoja(Boolean.parseBoolean(yytext())); return Parser.BOOLEANO;}
   {IDENTIFIER}	  { yyparser.yylval=new IdHoja(yytext());return Parser.IDENTIFICADOR; }
-  " "					  { }
+  \s					  {/*Ignore*/ }
 }
 <INDENTA>{
   {SALTO}                                 { actual = 0;}

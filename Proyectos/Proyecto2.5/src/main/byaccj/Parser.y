@@ -17,224 +17,163 @@
 /* Producciones */
 %%
 /*    input: (SALTO | stmt)* ENDMARKER */
-input:      {raíz = $$; System.out.println("Reconocimiento Exitoso");}
-     | aux0 {raíz = $1; System.out.println("Reconocimiento Exitoso");}
+input:      { System.out.println("Reconocimiento Exitoso");}
+     | aux0 { System.out.println("Reconocimiento Exitoso");}
 ;
 
 /*    aux0: (SALTO | stmt)+ */
 aux0: SALTO
-    | stmt {$$ = $1;}
-    | aux0 SALTO {$$ = $1;}
-    | aux0 stmt {$$ = new AuxNodo("raiz");
-    $$.agregaHijoPrincipio($1);
-    $$.agregaHijoFinal($2);
-    }
+    | stmt { }
+    | aux0 SALTO { }
+    | aux0 stmt {}
 ;
 
 /*    stmt: simple_stmt | compound_stmt*/
-stmt: simple_stmt {$$ = $1;}
-    | compound_stmt {$$ = $1;}
+stmt: simple_stmt { }
+    | compound_stmt { }
 ;
 
 /* compound_stmt: if_stmt | while_stmt */
-compound_stmt: if_stmt {$$ = $1;}
-             | while_stmt {$$ = $1;}
+compound_stmt: if_stmt { }
+             | while_stmt { }
 ;
 
 /* if_stmt: 'if' test ':' suite ['else' ':' suite] */
 if_stmt:  IF test DOBLEPUNTO suite ELSE DOBLEPUNTO suite {
-    $$ = new AuxNodo("if");$$.agregaHijoPrincipio($2);
-    $$.agregaHijoFinal($4);
-    $$.agregaHijoFinal($7);
 }
-        | IF test DOBLEPUNTO suite {
-            $$= new AuxNodo("if");
-            $$.agregaHijoPrincipio($2);
-            $$.agregaHijoFinal($4);
-        }
+        | IF test DOBLEPUNTO suite {}
 ;
 
 /*    while_stmt: 'while' test ':' suite */
-while_stmt: WHILE test DOBLEPUNTO suite {
-    $$ = new AuxNodo("while");
-    $$.agregaHijoPrincipio($2);
-    $$.agregaHijoFinal($4);
-}
+while_stmt: WHILE test DOBLEPUNTO suite {}
 ;
 
 /*    suite: simple_stmt | SALTO INDENTA stmt+ DEINDENTA */
-suite: simple_stmt {$$ = $1;}
-     | SALTO INDENTA auxstmt DEINDENTA {$$ = $3;}
+suite: simple_stmt { }
+     | SALTO INDENTA auxstmt DEINDENTA {}
 ;
 
 /*    auxstmt:  stmt+ */
-auxstmt: stmt {$$ = $1;}
-       | auxstmt stmt {$$ = new AuxNodo("bloque");
-       $$.agregaHijoPrincipio($1);
-       $$.agregaHijoFinal($2);}
+auxstmt: stmt { }
+       | auxstmt stmt {}
 ;
 
 /* simple_stmt: small_stmt SALTO */
-simple_stmt: small_stmt SALTO {$$ = $1;}
+simple_stmt: small_stmt SALTO { }
 ;
 
 /* small_stmt: expr_stmt | print_stmt  */
-small_stmt: expr_stmt {$$ = $1;}
-          | print_stmt {$$=$1;}
+small_stmt: expr_stmt { }
+          | print_stmt {}
 ;
 
 /* expr_stmt: test ['=' test] */
-expr_stmt: test {$$ = $1;}
-         | test EQ test {$$=new AuxNodo("==");
-         $$.agregaHijoPrincipio($1);
-         $$.agregaHijoFinal($3);
+expr_stmt: test { }
+         | test EQ test {
          }
 ;
 
 /* print_stmt: 'print' test  */
-print_stmt: PRINT test {$$ = new AuxNodo("print"); $$.agregaHijoPrincipio($2);}
+print_stmt: PRINT test {}
 ;
 
 /*   test: or_test */
-test: or_test {$$ = $1;}
+test: or_test { }
 ;
 
 /*    or_test: (and_test 'or')* and_test  */
-or_test: and_test {$$ = $1;}
-       | aux2 and_test {$1.agregaHijoFinal($2);$$=$1;}
+or_test: and_test { }
+       | aux2 and_test {}
 ;
 /*    aux2: (and_test 'or')+  */
-aux2: and_test OR {$$ = new AuxNodo("or");$$.agregaHijoPrincipio($1);}
+aux2: and_test OR {}
     | aux2 and_test OR {
-        $$ = new AuxNodo("or");
-        $1.agregaHijoFinal($2);
-        $$.agregaHijoPrincipio($1);
     }
 ;
 
 /*    and_expr: (not_test 'and')* not_test */
-and_test: not_test {$$ = $1;}
-        | aux7 not_test {$1.agregaHijoFinal($2);$$=$1;}
+and_test: not_test { }
+        | aux7 not_test {}
 ;
 
 /*    and_expr: (not_test 'and')+ */
-aux7: not_test AND {$$ = new AuxNodo("and");$$.agregaHijoPrincipio($1);}
-    | aux7 not_test AND {
-        $$ = new AuxNodo("and");
-        $1.agregaHijoFinal($2);
-        $$.agregaHijoPrincipio($1);
-    }
+aux7: not_test AND {}
+    | aux7 not_test AND {}
 ;
 
 /*    not_test: 'not' not_test | comparison */
-not_test: NOT not_test {
-    $$ = new AuxNodo("not"); $$.agregaHijoPrincipio($2);
-    }
-    | comparison {$$ = $1;}
+not_test: NOT not_test {}
+    | comparison { }
 ;
 
 /*    comparison: (expr comp_op)* expr  */
-comparison: expr {$$ = $1;}
-          | aux4 expr {$1.agregaHijoFinal($2);$$=$1;}
+comparison: expr { }
+          | aux4 expr {}
 ;
 
 /*    aux4: (expr comp_op)+  */
-aux4: expr comp_op {$2.agregaHijoPrincipio($1);$$=$2;}
-    | aux4 expr comp_op {
-        $1.agregaHijoFinal($2);
-        $3.agregaHijoPrincipio($1);
-        $$=$3;
-    }
+aux4: expr comp_op {}
+    | aux4 expr comp_op {}
 ;
 
 /*    comp_op: '<'|'>'|'=='|'>='|'<='|'!=' */
-comp_op: LE {$$ = new AuxNodo("<");}
-       | GR {$$ = new AuxNodo(">");}
-       | EQUALS {$$ = new AuxNodo("==");}
-       | GRQ {$$ = new AuxNodo(">=");}
-       | LEQ {$$ = new AuxNodo("<=");}
-       | DIFF {$$ = new AuxNodo("!=");}
+comp_op: LE {}
+       | GR {}
+       | EQUALS {}
+       | GRQ {}
+       | LEQ {}
+       | DIFF {}
 ;
 
 /*    expr: (term ('+'|'-'))* term   */
-expr: term {$$ = $1;}
+expr: term { }
     | aux8 term {
-      $$ = $1;
-      $$.agregaHijoFinal($2);
-      dump_stacks(stateptr);
     }
 ;
 
 //recursion izquierda
 aux8: term MAS {
-      $$ = new AddNodo($1, null);
-      dump_stacks(stateptr);
     }
     | term MENOS {
-      $$ = new DiffNodo($1, null);
     }
-    | aux8 term MAS {$1.agregaHijoFinal($2);
-    $$ = new AddNodo($1, null);
-    dump_stacks(stateptr);}
-    | aux8 term MENOS {$1.agregaHijoFinal($2);
+    | aux8 term MAS {}
+    | aux8 term MENOS {
     // los constructores agregan el hijo a la izquierda 
-    $$ = new DiffNodo($1, null);}
+    }
 ;
 
 /*   term: (factor ('*'|'/'|'%'|'//'))* factor   */
-term: factor {$$ = $1;}
-    | aux9 factor {$1.agregaHijoFinal($2); $$=$1;}
+term: factor { }
+    | aux9 factor {}
 ;
-aux9: factor POR { 
-    $$ = new AuxNodo($1,"*");
-    }
-    | factor DIVENTERA {
-    $$ = new AuxNodo($1,"//");    
-    }
-    | factor MODULO {
-    $$ = new AuxNodo($1,"%");    
-    }
-    | factor DIV {
-    $$ = new AuxNodo($1,"/");
-    }
-    | aux9 factor POR {        
-    $1.agregaHijoFinal($2);
-    $$ = new AuxNodo($1,"*"); 
-    }
-    | aux9 factor DIVENTERA {
-    $1.agregaHijoFinal($2);
-    $$ = new AuxNodo($1,"//"); 
-    }
-    | aux9 factor MODULO {
-    $1.agregaHijoFinal($2);
-    $$ = new AuxNodo($1,"%"); 
-    }
-    | aux9 factor DIV {
-    $1.agregaHijoFinal($2);
-    $$ = new AuxNodo($1,"/"); 
-    }
+aux9: factor POR { }
+    | factor DIVENTERA {}
+    | factor MODULO {}
+    | factor DIV {}
+    | aux9 factor POR { }
+    | aux9 factor DIVENTERA { }
+    | aux9 factor MODULO {}
+    | aux9 factor DIV {}
 ;
 /* factor: ('+'|'-') factor | power */
-factor: MAS factor {$$ = new AddNodo(); $$.agregaHijoFinal($2);}
-      | MENOS factor {$$ = new DiffNodo(); $$.agregaHijoFinal($2);}
-      | power {$$ = $1;}
+factor: MAS factor {}
+      | MENOS factor {}
+      | power { }
 ;
 /* power: atom ['**' factor] */
-power:  atom {$$ = $1;}
+power:  atom { }
       | atom POTENCIA factor {
-          $$ = new AuxNodo($1,"**");
-          $$.agregaHijoFinal($3);
       }
 ;
 
 /* atom: IDENTIFICADOR | ENTERO | CADENA | REAL | BOOLEANO | '(' test ')' */
 // variable -> ival
-atom:  IDENTIFICADOR { $$ = $1;}
-     | ENTERO {$$ = $1; }
-     | CADENA {$$ = $1;}
-     | REAL {$$ = $1;}
-     | BOOLEANO {$$ = $1;}
-     | PA test PC {$$ = $2;}
+atom:  IDENTIFICADOR {  }
+     | ENTERO {  }
+     | CADENA { }
+     | REAL { }
+     | BOOLEANO {}
+     | PA test PC {}
 ;
 %%
 private Flexer lexer;
