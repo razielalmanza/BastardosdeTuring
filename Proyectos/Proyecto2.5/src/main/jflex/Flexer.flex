@@ -6,68 +6,77 @@ package ast;
 import ast.patron.compuesto.*;
 import java.util.Stack;
 import java.util.Arrays;
-
-import java.util.Stack;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.BufferedWriter;
-import java.io.Reader;
-import java.io.IOException;
 %%
 %public
 %class Flexer
 %byaccj
 %line
+%state INDENTA CADENA CODIGO DEINDENTA
 %unicode
-//%standalone
-/********************************************************************************                                                     **
-**  @about Proyecto 1: Analizador léxico para p, subconjunto de Python.        **
-*********************************************************************************/
 %{
-    
-    /* Para guardar la secuencia de tokens. */
-    private StringBuilder builder = new StringBuilder();
+
     /* Pila que guarda el numero de identaciones por bloque*/
     private Stack<Integer> pila_global = new Stack<>();
-    /* Contador del número de línea actual.*/
-    private int no_linea = 1;
     /* Verifica si existe un error de identacion. */
     private boolean error_identa = false;
-    /* El nombre del archivo. */
-    private String fileName;
-     private Parser yyparser;
 
-    public Flexer(final String archivo, final Reader reader) {
-        this(reader);
-        String[] directorios = archivo.split("/");  
-        fileName = directorios[directorios.length-1];
-        if(fileName.contains(".")) {
-            fileName = fileName.split("\\.")[0];
-        }
+
+    /** Variables auxiliares para
+    * manejar la indentación.*/
+    static Stack<Integer> pila = new Stack<Integer>();
+    static Integer actual = 0;
+    static String cadena = "";
+    static int dedents = 0;
+    static int indents = 0;
+
+    private Parser yyparser;
+
+    public int line(){
+        return yyline+1;
     }
-      public Flexer(java.io.Reader r, Parser parser){
+
+    /** Nuevo constructor
+    * @param FileReader r
+    * @param Parser parser
+    */
+    public Flexer(java.io.Reader r, Parser parser){
     	   this(r);
-    	   yyparser = parser;
+    	   this.yyparser = parser;
     }
 
-
-    /**
-    * Añade una nueva representanción de un token al {@link StringBuilder}.
-    * @param type La cadena con el tipo de token.
+    /** Función que maneja los niveles de indetación
+    * @param int espacios - nivel de indetación actual.
+    * @return void
     */
-    private void nextSymbol(final String type) {
-        builder.append(type);
+    public void indentacion(int espacios){
+        if(pila.empty()){ //ponerle un cero a la pila si esta vacia
+             pila.push(new Integer(0));
+        }
+
+        Integer tope = pila.peek();
+
+        if(tope != espacios){
+	    //Se debe emitir un DEINDENTA por cada nivel mayor al actual
+            if(tope > espacios){
+                while(pila.peek() > espacios &&  pila.peek()!=0 ){
+                    pila.pop();
+                    dedents += 1;
+                }
+                if(pila.peek() == espacios){
+		    yybegin(DEINDENTA);
+                }else{
+		    System.out.println("Error de indentación. Línea "+(yyline+1));
+		    System.exit(1);
+		}
+                return;
+            }
+   	    //El nivel actual de indentación es mayor a los anteriores.
+            pila.push(espacios);
+	    yybegin(CODIGO);
+            indents = 1;
+        }else yybegin(CODIGO);
     }
 
-    /**
-    * Añade una nueva representación de un token al {@link StringBuilder}.
-    * @param type La cadena con el tipo de token.
-    * @param value La cadena con el valor del token.
-    */
-    private void nextSymbol(final String type, final String value) {
-        final String tokenWithValue = String.format("%s(%s)", type, value);
-        builder.append(tokenWithValue);
-    }
 
     /**
      * Crea un nuevo bloque de identaci&oacute; (representado como un nuevo)
@@ -77,7 +86,6 @@ import java.io.IOException;
     private void newIdenta(){
         pila_global.push(0);
     }
-
     /**
      * Incrementa el contador de espacios del bloque actual
      */
@@ -85,15 +93,12 @@ import java.io.IOException;
         int count = pila_global.pop();
         pila_global.push(++count);
     }
-
     /**
      * Verifica si la siguiente linea pertenece al mismo bloque de identaci&oacute;n
      * esto con el fin de reconocer si es un atomo IDENTA o no, esto se vera reflejado
      * en la pila con un nuevo elmento en el caso de que si fuera una nueva identaci&oacute;n
-     * @return el entero que identificara si el atomo es identa o deidenta
      */
-    private int isIdenta(){
-        int valor = 2;
+    private void isIdenta(){
         int bloque_actual = pila_global.pop();
         if(pila_global.empty()){
             pila_global.push(bloque_actual);
@@ -101,12 +106,10 @@ import java.io.IOException;
             int bloque_anterior = pila_global.peek();
             if(bloque_actual > bloque_anterior){ 
                 pila_global.push(bloque_actual);
-                nextSymbol("IDENTA",Integer.toString(bloque_actual));
-                valor = 0;
+                //nextSymbol("IDENTA",Integer.toString(bloque_actual));
         }else if(bloque_actual < bloque_anterior){
             do{
-                nextSymbol("DEIDENTA",Integer.toString(bloque_anterior));
-                valor = 1;
+                //nextSymbol("DEIDENTA",Integer.toString(bloque_anterior));
                 pila_global.pop();
                 if(!pila_global.empty())
                     bloque_anterior = pila_global.peek();
@@ -115,147 +118,102 @@ import java.io.IOException;
             } while(bloque_actual < bloque_anterior);
                 if(bloque_actual != bloque_anterior) error_identa = true;
             }
-        }return valor;
-    }
-
-    /**
-     * Reporta el error ocurrido.
-     * @param type El tipo de error, 0: cadena, 1: Identación 2: Lexema
-     */
-    private void reportError(int type){
-        switch(type){
-            case 0:
-                nextSymbol("\nERROR de cadena en la linea: ");
-                break;
-            case 1:
-                nextSymbol("\nERROR de Identación en la linea: ");
-                break;
-            case 2:
-                nextSymbol("\nERROR Lexema no encontado en la linea: ");
-                break;
         }
+    }
 
-        nextSymbol("" + no_linea);
-    }
-    /**
-     * @return si ocurrio un error de identacion
-     */
-    private boolean errorIdenta(){
-        return error_identa;
-    }
 %}
-
-%eof{
-    /* Escribimos el resutlado en out y se imprimen. */
-    final BufferedWriter writer;
-    final FileWriter fileWriter;
-    final String fileString = "out/" + fileName + ".plx";
-    try {
-        final String content = builder.toString();
-        final File file = new File(fileString);
-        file.getParentFile().mkdirs();
-        fileWriter = new FileWriter(file);
-        writer = new BufferedWriter(fileWriter);
-        writer.write(content);
-        writer.close();
-        fileWriter.close();
-    } catch (IOException e) {
-        e.printStackTrace();
-        System.err.println("Error al escribir el archivo.");
-    }
-    System.out.println(builder.toString());
-%eof}
-
-/* ---- Expresiones regulares. ----*/
-IDENTIFICADORES_RAW = [\w_][\w\d_]*
-IDENTIFICADOR = {IDENTIFICADORES_RAW}
-BOOLEANO = True|False
-ENTERO = (([1-9][0-9]*)|0+)
-REAL = \.[0-9]+|{ENTERO}\.\d|{ENTERO}\.
-CADENA = \"(\\.|[^\\\"])*\"
-CADENA_MAL = \"(\\.|[^\\\"])*
-//PALABRA_RESERVADA = and|or|not|while|if|else|elif|print
-//OPERADOR = \+|-|\*|\%|<|>|>=|<=|=|\!|\+=
-SEPARADOR = :
-LINE_TERMINATOR = \r|\n|\r\n
-
-%state IDENTA
-%state ATOMOS
-%state ERROR
-
+PUNTO			=	\.
+DIGIT           	=       [0-9]
+CERO             	=        0+
+ENTERO			= 	{CERO} | {DIGIT}+
+REAL			= 	{ENTERO}? {PUNTO} {ENTERO}?
+SALTO                   =       "\n"
+IDENTIFIER       	= 	([:letter:] | "_" )([:letter:] | "_" | [0-9])*
+CHAR_LITERAL   	        = 	([:letter:] | [:digit:] | "_" | "$" | " " | "#" |
+                                {OPERADOR} | {SEPARADOR}) | "\\"
+OPERADOR  		=       ("+" | "-" | "*" | "**" | "/" | "//" | "%" |
+			         "<" | ">" | "<=" | "+=" | "-=" | ">=" | "==" | "!=" | "<>" | "=" )
+SEPARADOR  		=       ("(" | ")" | ":"  | ";" )
+COMENTARIO 		=     	"#".*
+BOOLEAN		        =	("True" | "False")
 %%
-/*---- Macros y acciones. ----*/
+{COMENTARIO}                              {}
 <YYINITIAL>{
-    .                   {System.out.print("INITIAL");nextSymbol("\n"); newIdenta(); yypushback(1); yybegin(IDENTA);}
+  (" " | "\t" )+[^" ""\t""#""\n"]         { System.out.println("Error de indentación. Línea "+(yyline+1));
+					    System.exit(1);}
+  {SALTO}                                 {}
+  [^" ""\t"]                              { yypushback(1); yybegin(CODIGO);}
 }
-
-<ATOMOS>{
-    #.*                 { System.out.println("COMENTARIO"); }
-    {BOOLEANO}          { nextSymbol("BOOLEAN", yytext());  return Parser.BOOLEANO; }
-    {ENTERO}            { nextSymbol("ENTERO", yytext());   return Parser.ENTERO;}
-    {REAL}              { nextSymbol("REAL", yytext());     return Parser.REAL;}
-    {CADENA}            { nextSymbol("CADENA", yytext());   return Parser.CADENA;}
-    // {PALABRA_RESERVADA} { nextSymbol("RESERVADA", yytext());  return Parser.PALABRA_RESERVADA;}
-    // atomos de palabras reservadas
-    and                 {nextSymbol("AND", yytext());       return Parser.AND;}
-    or                  {nextSymbol("OR", yytext());        return Parser.OR;}
-    not                 {nextSymbol("NOT", yytext());       return Parser.NOT;}
-    while               {nextSymbol("WHILE", yytext());     return Parser.WHILE;}
-    "if"                  {nextSymbol("IF", yytext()); System.out.println("IFFF");    return Parser.IF;}
-    else                {nextSymbol("ELSE", yytext());      return Parser.ELSE;}
-    //elif               {nextSymbol("ELIF", yytext());     return Parser.;}
-    print               {nextSymbol("PRINT", yytext());      return Parser.PRINT;}
-    //{OPERADOR}          { nextSymbol("OPERADOR", yytext());       return Parser.OPERADOR;}
-    // atomos de operadores
-    \+                  {nextSymbol("ADD", yytext());       return Parser.ADD;}
-    -                   {nextSymbol("SUB", yytext());       return Parser.SUB;}
-    \*                  {nextSymbol("MULT", yytext());      return Parser.MULT;}
-    \*\*                {nextSymbol("POWER", yytext());     return Parser.POWER;}
-    \%                  {nextSymbol("MOD", yytext());       return Parser.MOD;}
-    \/                  {nextSymbol("DIV", yytext());       return Parser.DIV;}
-    \/\/                {nextSymbol("DIVE", yytext());      return Parser.DIVE;}
-    \<                  {nextSymbol("LT", yytext());        return Parser.LT;}
-    >                   {nextSymbol("BT", yytext());        return Parser.BT;}
-    \>=                 {nextSymbol("LTE", yytext());       return Parser.LTE;}
-    \<=                 {nextSymbol("BTE", yytext());       return Parser.BTE;}
-    =                   {nextSymbol("ASIG", yytext());      return Parser.ASIG;}
-    ==                  {nextSymbol("EQUAL", yytext());     return Parser.EQUAL;}
-    \!                  {nextSymbol("NOT", yytext());       return Parser.NOT;}
-    \+=                 {nextSymbol("INC", yytext());       return Parser.INC;}
-    \!=                 {nextSymbol("DIST", yytext());      return Parser.DIST;}
-    \(                  {nextSymbol("PAR_O", yytext());     return Parser.PAR_O;}
-    \)                  {nextSymbol("PAR_C", yytext());     return Parser.PAR_C;}
-
-    {IDENTIFICADOR}     { nextSymbol("IDENTIFICADOR", yytext()); System.out.println("IDDD");   return Parser.IDENTIFICADOR;}
-    {SEPARADOR}         { nextSymbol("SEPARADOR", yytext());        return Parser.SEPARADOR;}
-    {CADENA_MAL}        { reportError(0); }
-    /* Abre nuevo contexto de identacion para esto se creara una pila qu guarde el
-       numero de identaciones en el nuevo bloque que estamos creando.*/ 
-    {LINE_TERMINATOR}   { nextSymbol("SALTO\n"); no_linea++; newIdenta(); yybegin(IDENTA); return Parser.SALTO;}
-    \s                  {/* Ignore */}
-    [^]                 {reportError(2); nextSymbol(", generado por la cadena: "+yytext()+" "); yybegin(ERROR); }
+<DEINDENTA>{
+  .                                       { yypushback(1);
+  					    if(dedents > 0){
+						dedents--;
+						return Parser.DEINDENTA;
+  					    }
+					    yybegin(CODIGO);}
 }
-
-<IDENTA>{
-    \s                  { System.out.print("333");pushIdenta(); }
-    \S                  { System.out.print("222");
-        switch(isIdenta()){
-            case 0: 
-                return Parser.IDENTA;
-            case 1:
-                return Parser.DEIDENTA;
-
-        }
-        if(errorIdenta()){
-            reportError(1);
-            yybegin(ERROR);
-        }else{
-            yypushback(1); 
-            yybegin(ATOMOS);
-        }
-    }
+<CADENA>{
+  {CHAR_LITERAL}+   { yyparser.yylval=new StringHoja(yytext());cadena = yytext();}
+  \"					  { yybegin(CODIGO);
+                                            cadena = "";
+					    return Parser.CADENA;}
+  {SALTO}				  { System.out.println("Unexpected newline. Line "+(yyline+1));
+					     System.exit(1);}
 }
-
-<ERROR>{
-    [^]  { /* Detiene la ejecucion */ }
+<CODIGO>{
+  \"            { yybegin(CADENA); }
+  "+"					  { return Parser.MAS;}
+  "-"					  { return Parser.MENOS;}
+  "*"					  { return Parser.POR;}
+  "**"					  { return Parser.POTENCIA;}
+  "/"					  { return Parser.DIV;}
+  "//"					  { return Parser.DIVENTERA;}
+  "%"					  { return Parser.MODULO;}
+  "<"				          { return Parser.LE;}
+  ">"				          { return Parser.GR;}
+  "<="                                    { return Parser.LEQ;}
+  ">="                                    { return Parser.GRQ;}
+  "=="                                    { return Parser.EQUALS;}
+  "!="                                    { return Parser.DIFF;}
+  "="                                     { return Parser.EQ;}
+  "("                                     { return Parser.PA;}
+  ")"                                     { return Parser.PC;}
+  ":"                                     { return Parser.DOBLEPUNTO;}
+  "and"                                   { return Parser.AND;}
+  "not"                                   { return Parser.NOT;}
+  "while"                                 { return Parser.WHILE;}
+  "for"                                   { return Parser.FOR;}
+  "elif"                                  { return Parser.ELIF;}
+  "or"                                    { return Parser.OR;}
+  "else"                                  { return Parser.ELSE;}
+  "if"                                    { return Parser.IF;}
+  "print"				  { return Parser.PRINT;}
+  {SALTO}				  { yybegin(INDENTA); actual=0; return Parser.SALTO;}
+  {REAL}				  { yyparser.yylval=new FloatHoja(Double.parseDouble(yytext())); return Parser.REAL;}
+  {ENTERO}				{ yyparser.yylval=new IntHoja(Integer.parseInt(yytext())); return Parser.ENTERO; }
+  {BOOLEAN}       { yyparser.yylval=new BooleanHoja(Boolean.parseBoolean(yytext())); return Parser.BOOLEANO;}
+  {IDENTIFIER}	  { yyparser.yylval=new IdHoja(yytext());return Parser.IDENTIFICADOR; }
+  " "					  { }
 }
+<INDENTA>{
+  {SALTO}                                 { actual = 0;}
+  " "				          { actual++;}
+  \t					  { actual += 4;}
+  .					  { yypushback(1);
+					    this.indentacion(actual);
+					    if(indents == 1){
+					      indents = 0;
+					      return Parser.INDENTA;
+					    }
+					  }
+}
+<<EOF>>                                   { this.indentacion(0);
+					    if(dedents > 0){
+					      dedents--;
+					      return Parser.DEINDENTA;
+					    }else{
+                                              return 0;
+				            }
+					  }
+[^]					  { System.out.println("Error de sintáxis: caractér inválido: " + yytext() + "\nLínea "+(yyline+1));
+					    System.exit(1); }
