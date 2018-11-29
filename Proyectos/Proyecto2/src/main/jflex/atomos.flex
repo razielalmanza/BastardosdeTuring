@@ -1,5 +1,5 @@
 // tokens.flex
-
+  
 package asintactico;
 import java.util.Stack;
 import java.io.File;
@@ -13,6 +13,7 @@ import java.io.IOException;
 %public
 %unicode
 %byaccj
+%line
 %standalone
 /********************************************************************************                                                     **
 **  @about Proyecto 1: Analizador léxico para p, subconjunto de Python.        **
@@ -180,7 +181,7 @@ LINE_TERMINATOR = \r|\n|\r\n
 %%
 /*---- Macros y acciones. ----*/
 <YYINITIAL>{
-    .                   {System.out.print("hellooo");nextSymbol("\n"); newIdenta(); yypushback(1); yybegin(IDENTA);}
+    .                   {System.out.print("INITIAL");nextSymbol("\n"); newIdenta(); yypushback(1); yybegin(IDENTA);}
 }
 
 <ATOMOS>{
@@ -195,7 +196,7 @@ LINE_TERMINATOR = \r|\n|\r\n
     or                  {nextSymbol("OR", yytext());        return Parser.OR;}
     not                 {nextSymbol("NOT", yytext());       return Parser.NOT;}
     while               {nextSymbol("WHILE", yytext());     return Parser.WHILE;}
-    if                  {nextSymbol("IF", yytext());        return Parser.IF;}
+    "if"                  {nextSymbol("IF", yytext()); System.out.println("IFFF");    return Parser.IF;}
     else                {nextSymbol("ELSE", yytext());      return Parser.ELSE;}
     //elif               {nextSymbol("ELIF", yytext());     return Parser.;}
     print               {nextSymbol("PRINT", yytext());      return Parser.PRINT;}
@@ -220,7 +221,7 @@ LINE_TERMINATOR = \r|\n|\r\n
     \(                  {nextSymbol("PAR_O", yytext());     return Parser.PAR_O;}
     \)                  {nextSymbol("PAR_C", yytext());     return Parser.PAR_C;}
 
-    {IDENTIFICADOR}     { nextSymbol("IDENTIFICADOR", yytext());    return Parser.IDENTIFICADOR;}
+    {IDENTIFICADOR}     { nextSymbol("IDENTIFICADOR", yytext()); System.out.println("IDDD");   return Parser.IDENTIFICADOR;}
     {SEPARADOR}         { nextSymbol("SEPARADOR", yytext());        return Parser.SEPARADOR;}
     {CADENA_MAL}        { reportError(0); }
     /* Abre nuevo contexto de identacion para esto se creara una pila qu guarde el

@@ -16,8 +16,10 @@ import java.io.*;
 
 
 %%
-start:   {System.out.println("O");}
+start:   {System.out.println("Vacia");}
      | file_input {System.out.println("[OK] " );}
+
+file_input : IF;
 
 file_input : file_input SALTO | file_input stmt  ; 
  //file_input : SALTO | stmt | file_input // ????
