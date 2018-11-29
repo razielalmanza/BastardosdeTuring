@@ -14,11 +14,11 @@ public class Compilador{
     Compilador(Reader fuente){
         parser = new Parser(fuente);
         v_print = new VisitorPrint();
+        parser.yyparse(); // análisis léxico, sintáctio y constucción del AST
     }
-
+    
     public void ConstruyeAST(boolean debug){
         parser.yydebug = debug;
-        parser.yyparse(); // análisis léxico, sintáctio y constucción del AST
         raízAST = parser.raíz;
     }
 
@@ -31,8 +31,8 @@ public class Compilador{
         try{
             Reader a = new FileReader(archivo);
             Compilador c  = new Compilador(a);
-            c.ConstruyeAST(true);
-            c.imprimeAST();
+            //c.ConstruyeAST(true);
+            //c.imprimeAST();
         }catch(FileNotFoundException e){
             System.err.println("El archivo " + archivo +" no fue encontrado. ");
         }catch(ArrayIndexOutOfBoundsException e){
