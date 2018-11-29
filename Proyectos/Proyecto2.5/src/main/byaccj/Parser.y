@@ -18,7 +18,7 @@
 %%
 /*    input: (SALTO | stmt)* ENDMARKER */
 input:      { System.out.println("Reconocimiento Exitoso");}
-     | aux0 { System.out.println("Reconocimiento Exitoso");}
+     | aux0 { System.out.println("\n##################  Reconocimiento Exitoso ##################\n");}
 ;
 
 /*    aux0: (SALTO | stmt)+ */
@@ -201,5 +201,5 @@ public void yyerror (String error) {
 /* lexer es creado en el constructor. */
 public Parser(Reader r) {
     lexer = new Flexer(r, this);
-    yydebug = true;
+    //yydebug = true;
 }

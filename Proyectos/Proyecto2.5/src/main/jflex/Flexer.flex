@@ -11,7 +11,7 @@ import java.util.Arrays;
 %class Flexer
 %byaccj
 %line
-%state INDENTA CODIGO DEINDENTA
+%state INDENTA ATOMOS DEINDENTA
 %unicode
 %{
     /* Pila que guarda el numero de identaciones por bloque*/
@@ -70,10 +70,55 @@ import java.util.Arrays;
             }
    	    //El nivel actual de indentación es mayor a los anteriores.
             pila.push(espacios);
-	    yybegin(CODIGO);
+	    yybegin(ATOMOS);
             indents = 1;
-        }else yybegin(CODIGO);
+        }else yybegin(ATOMOS);
     }
+
+     /**
+     * Crea un nuevo bloque de identaci&oacute; (representado como un nuevo)
+     * elemento en la pila, con el entero de valor 0 (porque llevamos 0 
+     * identaciones en el momento que se crea).
+     */
+    private void newIdenta(){
+        pila_global.push(0);
+    }
+    /**
+     * Incrementa el contador de espacios del bloque actual
+     */
+    private void pushIdenta(){
+        int count = pila_global.pop();
+        pila_global.push(++count);
+    }
+    /**
+     * Verifica si la siguiente linea pertenece al mismo bloque de identaci&oacute;n
+     * esto con el fin de reconocer si es un atomo IDENTA o no, esto se vera reflejado
+     * en la pila con un nuevo elmento en el caso de que si fuera una nueva identaci&oacute;n
+     */
+    private void isIdenta(){
+        int bloque_actual = pila_global.pop();
+        if(pila_global.empty()){
+            pila_global.push(bloque_actual);
+        }else{
+            int bloque_anterior = pila_global.peek();
+            if(bloque_actual > bloque_anterior){ 
+                pila_global.push(bloque_actual);
+        }else if(bloque_actual < bloque_anterior){
+            do{
+                pila_global.pop();
+                if(!pila_global.empty())
+                    bloque_anterior = pila_global.peek();
+                    //aqui tambien asumimos que el primer bloque inicia en 0
+                else bloque_anterior = 0; 
+            } while(bloque_actual < bloque_anterior);
+                if(bloque_actual != bloque_anterior) error_identa = true;
+            }
+        }
+    }
+
+
+
+
 %}
 ENTERO = (([1-9][0-9]*)|0+)
 REAL = \.[0-9]+|{ENTERO}\.\d|{ENTERO}\.
@@ -81,16 +126,16 @@ SALTO                   =       "\n"
 IDENTIFICADOR   = 	([:letter:] | "_" )([:letter:] | "_" | [0-9])*
 CADENA = \"(\\.|[^\\\"])*\"
 CADENA_MAL = \"(\\.|[^\\\"])*
-SEPARADOR  		=       ("(" | ")" | ":"  | ";" )
+SEPARADOR  		=       :
 COMENTARIO 		=     	"#".*
-BOOLEAN		        = True | False
+BOOLEANO		        = True | False
 %%
 {COMENTARIO}                              {}
 <YYINITIAL>{
   (" " | "\t" )+[^" ""\t""#""\n"]         { System.out.println("Error de indentación. Línea "+(yyline+1));
 					    System.exit(1);}
   {SALTO}                                 {}
-  [^" ""\t"]                              { yypushback(1); yybegin(CODIGO);}
+  [^" ""\t"]                              { yypushback(1); yybegin(ATOMOS);}
 }
 <DEINDENTA>{
   .                                       { yypushback(1);
@@ -98,9 +143,13 @@ BOOLEAN		        = True | False
 						dedents--;
 						return Parser.DEINDENTA;
   					    }
-					    yybegin(CODIGO);}
+					    yybegin(ATOMOS);}
 }
-<CODIGO>{
+<ATOMOS>{
+  {COMENTARIO}        {/*Ignore*/}
+  {BOOLEANO}       { return Parser.BOOLEANO;}
+  {ENTERO}				{ return Parser.ENTERO; }
+  {REAL}				  { return Parser.REAL;}
   {CADENA}            { return Parser.CADENA; }
   "+"					  { return Parser.MAS;}
   "-"					  { return Parser.MENOS;}
@@ -130,11 +179,8 @@ BOOLEAN		        = True | False
   "print"				  { return Parser.PRINT;}
   {CADENA_MAL}        { /*reportError(0);*/ }
   {SALTO}				  { yybegin(INDENTA); actual=0; return Parser.SALTO;}
-  {REAL}				  { yyparser.yylval=new FloatHoja(Double.parseDouble(yytext())); return Parser.REAL;}
-  {ENTERO}				{ yyparser.yylval=new IntHoja(Integer.parseInt(yytext())); return Parser.ENTERO; }
-  {BOOLEAN}       { yyparser.yylval=new BooleanHoja(Boolean.parseBoolean(yytext())); return Parser.BOOLEANO;}
-  {IDENTIFICADOR}	  { yyparser.yylval=new IdHoja(yytext());return Parser.IDENTIFICADOR; }
-  " "					  { }
+  {IDENTIFICADOR}	  { return Parser.IDENTIFICADOR; }
+  " "					  {/*Ignore*/ }
 }
 <INDENTA>{
   {SALTO}                                 { actual = 0;}
