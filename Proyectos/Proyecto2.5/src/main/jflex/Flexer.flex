@@ -122,7 +122,7 @@ import java.util.Arrays;
 %}
 ENTERO = (([1-9][0-9]*)|0+)
 REAL = \.[0-9]+|{ENTERO}\.\d|{ENTERO}\.
-SALTO                   =       "\n"
+LINE_TERMINATOR  =  \r|\n|\r\n
 IDENTIFICADOR   = 	([:letter:] | "_" )([:letter:] | "_" | [0-9])*
 CADENA = \"(\\.|[^\\\"])*\"
 CADENA_MAL = \"(\\.|[^\\\"])*
@@ -134,7 +134,7 @@ BOOLEANO		        = True | False
 <YYINITIAL>{
   (" " | "\t" )+[^" ""\t""#""\n"]         { System.out.println("Error de indentación. Línea "+(yyline+1));
 					    System.exit(1);}
-  {SALTO}                                 {}
+  {LINE_TERMINATOR}                                 {}
   [^" ""\t"]                              { yypushback(1); yybegin(ATOMOS);}
 }
 <DEINDENTA>{
@@ -178,12 +178,12 @@ BOOLEANO		        = True | False
   "if"                                    { return Parser.IF;}
   "print"				  { return Parser.PRINT;}
   {CADENA_MAL}        { /*reportError(0);*/ }
-  {SALTO}				  { yybegin(INDENTA); actual=0; return Parser.SALTO;}
+  {LINE_TERMINATOR}				  { yybegin(INDENTA); actual=0; return Parser.SALTO;}
   {IDENTIFICADOR}	  { return Parser.IDENTIFICADOR; }
   " "					  {/*Ignore*/ }
 }
 <INDENTA>{
-  {SALTO}                                 { actual = 0;}
+  {LINE_TERMINATOR}                                 { actual = 0;}
   " "				          { actual++;}
   \t					  { actual += 4;}
   .					  { yypushback(1);
