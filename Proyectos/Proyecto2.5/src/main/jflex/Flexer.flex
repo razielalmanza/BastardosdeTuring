@@ -11,7 +11,7 @@ import java.util.Arrays;
 %class Flexer
 %byaccj
 %line
-%state INDENTA ATOMOS DEINDENTA
+%state INDENTA ATOMOS DEINDENTA ERROR
 %unicode
 %{
     /* Pila que guarda el numero de identaciones por bloque*/
@@ -209,6 +209,7 @@ LINE_TERMINATOR  =  \r|\n|\r\n
   {LINE_TERMINATOR}	  { yybegin(INDENTA); actual=0; return Parser.SALTO;}
   {IDENTIFICADOR}	  { return Parser.IDENTIFICADOR; }
   " "				  {/*Ignore*/ }
+  [^]                 {reportError(2);yybegin(ERROR);}
 }
 <INDENTA>{
   {LINE_TERMINATOR}                                 { actual = 0;}
@@ -221,6 +222,9 @@ LINE_TERMINATOR  =  \r|\n|\r\n
 					      return Parser.INDENTA;
 					    }
 					  }
+}
+<ERROR>{
+    [^]                {/*Detiene la ejecucion*/}
 }
 <<EOF>>                                   { this.indentacion(0);
 					    if(dedents > 0){

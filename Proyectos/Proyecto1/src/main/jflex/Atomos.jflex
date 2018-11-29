@@ -190,8 +190,8 @@ LINE_TERMINATOR = \r|\n|\r\n
 } 
 
 <IDENTA>{
-    \s                  { System.out.print("2222");pushIdenta(); }
-    \S                  { System.out.print("33333");
+    \s                  { pushIdenta(); }
+    \S                  { 
         isIdenta();
         if(errorIdenta()){
             reportError(1);
