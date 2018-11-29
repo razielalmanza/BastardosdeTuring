@@ -11,15 +11,13 @@ import java.util.Arrays;
 %class Flexer
 %byaccj
 %line
-%state INDENTA ATOMOS DEINDENTA
+%state INDENTA CODIGO DEINDENTA
 %unicode
 %{
-
     /* Pila que guarda el numero de identaciones por bloque*/
     private Stack<Integer> pila_global = new Stack<>();
     /* Verifica si existe un error de identacion. */
     private boolean error_identa = false;
-
 
     /** Variables auxiliares para
     * manejar la indentación.*/
@@ -72,93 +70,37 @@ import java.util.Arrays;
             }
    	    //El nivel actual de indentación es mayor a los anteriores.
             pila.push(espacios);
-	    yybegin(ATOMOS);
+	    yybegin(CODIGO);
             indents = 1;
-        }else yybegin(ATOMOS);
+        }else yybegin(CODIGO);
     }
-
-
-    /**
-     * Crea un nuevo bloque de identaci&oacute; (representado como un nuevo)
-     * elemento en la pila, con el entero de valor 0 (porque llevamos 0 
-     * identaciones en el momento que se crea).
-     */
-    private void newIdenta(){
-        pila_global.push(0);
-    }
-    /**
-     * Incrementa el contador de espacios del bloque actual
-     */
-    private void pushIdenta(){
-        int count = pila_global.pop();
-        pila_global.push(++count);
-    }
-    /**
-     * Verifica si la siguiente linea pertenece al mismo bloque de identaci&oacute;n
-     * esto con el fin de reconocer si es un atomo IDENTA o no, esto se vera reflejado
-     * en la pila con un nuevo elmento en el caso de que si fuera una nueva identaci&oacute;n
-     */
-    private void isIdenta(){
-        int bloque_actual = pila_global.pop();
-        if(pila_global.empty()){
-            pila_global.push(bloque_actual);
-        }else{
-            int bloque_anterior = pila_global.peek();
-            if(bloque_actual > bloque_anterior){ 
-                pila_global.push(bloque_actual);
-        }else if(bloque_actual < bloque_anterior){
-            do{
-                pila_global.pop();
-                if(!pila_global.empty())
-                    bloque_anterior = pila_global.peek();
-                    //aqui tambien asumimos que el primer bloque inicia en 0
-                else bloque_anterior = 0; 
-            } while(bloque_actual < bloque_anterior);
-                if(bloque_actual != bloque_anterior) error_identa = true;
-            }
-        }
-    }
-
 %}
-PUNTO			=	\.
-DIGIT           	=       [0-9]
-CERO             	=        0+
-ENTERO			= 	{CERO} | {DIGIT}+
-REAL			= 	{ENTERO}? {PUNTO} {ENTERO}?
+ENTERO = (([1-9][0-9]*)|0+)
+REAL = \.[0-9]+|{ENTERO}\.\d|{ENTERO}\.
 SALTO                   =       "\n"
-IDENTIFIER       	= 	([:letter:] | "_" )([:letter:] | "_" | [0-9])*
-// CHAR_LITERAL   	        = 	([:letter:] | [:digit:] | "_" | "$" | " " | "#" |
-//                                 {OPERADOR} | {SEPARADOR}) | "\\"
-// OPERADOR  		=       ("+" | "-" | "*" | "**" | "/" | "//" | "%" |
-//  "<" | ">" | "<=" | "+=" | "-=" | ">=" | "==" | "!=" | "<>" | "=" )
+IDENTIFICADOR   = 	([:letter:] | "_" )([:letter:] | "_" | [0-9])*
 CADENA = \"(\\.|[^\\\"])*\"
 CADENA_MAL = \"(\\.|[^\\\"])*
-SEPARADOR  		=       :
+SEPARADOR  		=       ("(" | ")" | ":"  | ";" )
 COMENTARIO 		=     	"#".*
-BOOLEANO		        =	True | False
-
+BOOLEAN		        = True | False
 %%
 {COMENTARIO}                              {}
 <YYINITIAL>{
   (" " | "\t" )+[^" ""\t""#""\n"]         { System.out.println("Error de indentación. Línea "+(yyline+1));
 					    System.exit(1);}
   {SALTO}                                 {}
-  [^" ""\t"]                              { yypushback(1); yybegin(ATOMOS);}
+  [^" ""\t"]                              { yypushback(1); yybegin(CODIGO);}
 }
 <DEINDENTA>{
-  .                     { yypushback(1);
+  .                                       { yypushback(1);
   					    if(dedents > 0){
 						dedents--;
 						return Parser.DEINDENTA;
   					    }
-					    yybegin(ATOMOS);}
+					    yybegin(CODIGO);}
 }
-
-<ATOMOS>{
-  #.*                 { /*Ignore*/}
-  {BOOLEANO}       { return Parser.BOOLEANO;}
-  {ENTERO}				{ return Parser.ENTERO; }
-  {REAL}				  { return Parser.REAL;}
+<CODIGO>{
   {CADENA}            { return Parser.CADENA; }
   "+"					  { return Parser.MAS;}
   "-"					  { return Parser.MENOS;}
@@ -176,6 +118,7 @@ BOOLEANO		        =	True | False
   "="                                     { return Parser.EQ;}
   "("                                     { return Parser.PA;}
   ")"                                     { return Parser.PC;}
+  ":"                                     { return Parser.DOBLEPUNTO;}
   "and"                                   { return Parser.AND;}
   "not"                                   { return Parser.NOT;}
   "while"                                 { return Parser.WHILE;}
@@ -185,16 +128,18 @@ BOOLEANO		        =	True | False
   "else"                                  { return Parser.ELSE;}
   "if"                                    { return Parser.IF;}
   "print"				  { return Parser.PRINT;}
-  ":"                                     { return Parser.DOBLEPUNTO;}
   {CADENA_MAL}        { /*reportError(0);*/ }
   {SALTO}				  { yybegin(INDENTA); actual=0; return Parser.SALTO;}
-  {IDENTIFIER}	  { return Parser.IDENTIFICADOR; }
-  \s					  {/*Ignore*/ }
+  {REAL}				  { yyparser.yylval=new FloatHoja(Double.parseDouble(yytext())); return Parser.REAL;}
+  {ENTERO}				{ yyparser.yylval=new IntHoja(Integer.parseInt(yytext())); return Parser.ENTERO; }
+  {BOOLEAN}       { yyparser.yylval=new BooleanHoja(Boolean.parseBoolean(yytext())); return Parser.BOOLEANO;}
+  {IDENTIFICADOR}	  { yyparser.yylval=new IdHoja(yytext());return Parser.IDENTIFICADOR; }
+  " "					  { }
 }
 <INDENTA>{
-  {SALTO}             { actual = 0;}
-  " "				  { actual++;}
-  \t			      { actual += 4;}
+  {SALTO}                                 { actual = 0;}
+  " "				          { actual++;}
+  \t					  { actual += 4;}
   .					  { yypushback(1);
 					    this.indentacion(actual);
 					    if(indents == 1){
