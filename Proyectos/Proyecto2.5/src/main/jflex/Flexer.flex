@@ -16,8 +16,6 @@ import java.util.Arrays;
 %{
     /* Pila que guarda el numero de identaciones por bloque*/
     private Stack<Integer> pila_global = new Stack<>();
-    /* Verifica si existe un error de identacion. */
-    private boolean error_identa = false;
 
     /** Variables auxiliares para
     * manejar la indentación.*/
@@ -119,23 +117,53 @@ import java.util.Arrays;
 
 
 
+    /* Contador del número de línea actual.*/
+    private int no_linea = 1;
+    /* Verifica si existe un error de identacion. */
+    private boolean error_identa = false;
+     /**
+     * Reporta el error ocurrido.
+     * @param type El tipo de error, 0: cadena, 1: Identación 2: Lexema
+     */
+    private void reportError(int type){
+        switch(type){
+            case 0:
+                //nextSymbol("\nERROR de cadena en la linea: ");
+                break;
+            case 1:
+                //nextSymbol("\nERROR de Identación en la linea: ");
+                break;
+            case 2:
+                //nextSymbol("\nERROR Lexema no encontado en la linea: ");
+                break;
+        }
+
+        //nextSymbol("" + no_linea);
+    }
+    /**
+     * @return si ocurrio un error de identacion
+     */
+    private boolean errorIdenta(){
+        return error_identa;
+    }
+
+
 %}
 ENTERO = (([1-9][0-9]*)|0+)
 REAL = \.[0-9]+|{ENTERO}\.\d|{ENTERO}\.
-LINE_TERMINATOR  =  \r|\n|\r\n
 IDENTIFICADOR   = 	([:letter:] | "_" )([:letter:] | "_" | [0-9])*
 CADENA = \"(\\.|[^\\\"])*\"
 CADENA_MAL = \"(\\.|[^\\\"])*
-SEPARADOR  		=       :
-COMENTARIO 		=     	"#".*
-BOOLEANO		        = True | False
+SEPARADOR  		= :
+COMENTARIO 		= "#".*
+BOOLEANO		= True | False
+LINE_TERMINATOR  =  \r|\n|\r\n
 %%
-{COMENTARIO}                              {}
 <YYINITIAL>{
-  (" " | "\t" )+[^" ""\t""#""\n"]         { System.out.println("Error de indentación. Línea "+(yyline+1));
+  (" " | "\t" )+[^" ""\t""#""\n"]         { System.err.println("Error de indentación. Línea "+(yyline+1));
 					    System.exit(1);}
-  {LINE_TERMINATOR}                                 {}
-  [^" ""\t"]                              { yypushback(1); yybegin(ATOMOS);}
+  {LINE_TERMINATOR}                       {/*Ignore*/}
+  [^]                                     { yypushback(1); yybegin(ATOMOS);}
 }
 <DEINDENTA>{
   .                                       { yypushback(1);
@@ -147,40 +175,40 @@ BOOLEANO		        = True | False
 }
 <ATOMOS>{
   {COMENTARIO}        {/*Ignore*/}
-  {BOOLEANO}       { return Parser.BOOLEANO;}
-  {ENTERO}				{ return Parser.ENTERO; }
-  {REAL}				  { return Parser.REAL;}
+  {BOOLEANO}          { return Parser.BOOLEANO;}
+  {ENTERO}		      { return Parser.ENTERO; }
+  {REAL}		      { return Parser.REAL;}
   {CADENA}            { return Parser.CADENA; }
-  "+"					  { return Parser.MAS;}
-  "-"					  { return Parser.MENOS;}
-  "*"					  { return Parser.POR;}
-  "**"					  { return Parser.POTENCIA;}
-  "/"					  { return Parser.DIV;}
-  "//"					  { return Parser.DIVENTERA;}
-  "%"					  { return Parser.MODULO;}
-  "<"				          { return Parser.LE;}
-  ">"				          { return Parser.GR;}
-  "<="                                    { return Parser.LEQ;}
-  ">="                                    { return Parser.GRQ;}
-  "=="                                    { return Parser.EQUALS;}
-  "!="                                    { return Parser.DIFF;}
-  "="                                     { return Parser.EQ;}
-  "("                                     { return Parser.PA;}
-  ")"                                     { return Parser.PC;}
-  ":"                                     { return Parser.DOBLEPUNTO;}
-  "and"                                   { return Parser.AND;}
-  "not"                                   { return Parser.NOT;}
-  "while"                                 { return Parser.WHILE;}
-  "for"                                   { return Parser.FOR;}
-  "elif"                                  { return Parser.ELIF;}
-  "or"                                    { return Parser.OR;}
-  "else"                                  { return Parser.ELSE;}
-  "if"                                    { return Parser.IF;}
-  "print"				  { return Parser.PRINT;}
+  "+"			      { return Parser.MAS;}
+  "-"				  { return Parser.MENOS;}
+  "*"				  { return Parser.POR;}
+  "**"				  { return Parser.POTENCIA;}
+  "/"				  { return Parser.DIV;}
+  "//"				  { return Parser.DIVENTERA;}
+  "%"				  { return Parser.MODULO;}
+  "<"				  { return Parser.LE;}
+  ">"				  { return Parser.GR;}
+  "<="                { return Parser.LEQ;}
+  ">="                { return Parser.GRQ;}
+  "=="                { return Parser.EQUALS;}
+  "!="                { return Parser.DIFF;}
+  "="                 { return Parser.EQ;}
+  "("                 { return Parser.PA;}
+  ")"                 { return Parser.PC;}
+  ":"                 { return Parser.DOBLEPUNTO;}
+  "and"               { return Parser.AND;}
+  "not"               { return Parser.NOT;}
+  "while"             { return Parser.WHILE;}
+  "for"               { return Parser.FOR;}
+  "elif"              { return Parser.ELIF;}
+  "or"                { return Parser.OR;}
+  "else"              { return Parser.ELSE;}
+  "if"                { return Parser.IF;}
+  "print"		      { return Parser.PRINT;}
   {CADENA_MAL}        { /*reportError(0);*/ }
-  {LINE_TERMINATOR}				  { yybegin(INDENTA); actual=0; return Parser.SALTO;}
+  {LINE_TERMINATOR}	  { yybegin(INDENTA); actual=0; return Parser.SALTO;}
   {IDENTIFICADOR}	  { return Parser.IDENTIFICADOR; }
-  " "					  {/*Ignore*/ }
+  " "				  {/*Ignore*/ }
 }
 <INDENTA>{
   {LINE_TERMINATOR}                                 { actual = 0;}
