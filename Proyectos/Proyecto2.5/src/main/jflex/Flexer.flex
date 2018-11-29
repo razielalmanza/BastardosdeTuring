@@ -11,7 +11,7 @@ import java.util.Arrays;
 %class Flexer
 %byaccj
 %line
-%state INDENTA CADENA ATOMOS DEINDENTA
+%state INDENTA ATOMOS DEINDENTA
 %unicode
 %{
 
@@ -127,13 +127,16 @@ ENTERO			= 	{CERO} | {DIGIT}+
 REAL			= 	{ENTERO}? {PUNTO} {ENTERO}?
 SALTO                   =       "\n"
 IDENTIFIER       	= 	([:letter:] | "_" )([:letter:] | "_" | [0-9])*
-CHAR_LITERAL   	        = 	([:letter:] | [:digit:] | "_" | "$" | " " | "#" |
-                                {OPERADOR} | {SEPARADOR}) | "\\"
-OPERADOR  		=       ("+" | "-" | "*" | "**" | "/" | "//" | "%" |
-			         "<" | ">" | "<=" | "+=" | "-=" | ">=" | "==" | "!=" | "<>" | "=" )
-SEPARADOR  		=       ("(" | ")" | ":"  | ";" )
+// CHAR_LITERAL   	        = 	([:letter:] | [:digit:] | "_" | "$" | " " | "#" |
+//                                 {OPERADOR} | {SEPARADOR}) | "\\"
+// OPERADOR  		=       ("+" | "-" | "*" | "**" | "/" | "//" | "%" |
+//  "<" | ">" | "<=" | "+=" | "-=" | ">=" | "==" | "!=" | "<>" | "=" )
+CADENA = \"(\\.|[^\\\"])*\"
+CADENA_MAL = \"(\\.|[^\\\"])*
+SEPARADOR  		=       :
 COMENTARIO 		=     	"#".*
-BOOLEAN		        =	("True" | "False")
+BOOLEANO		        =	True | False
+
 %%
 {COMENTARIO}                              {}
 <YYINITIAL>{
@@ -143,23 +146,20 @@ BOOLEAN		        =	("True" | "False")
   [^" ""\t"]                              { yypushback(1); yybegin(ATOMOS);}
 }
 <DEINDENTA>{
-  .                                       { yypushback(1);
+  .                     { yypushback(1);
   					    if(dedents > 0){
 						dedents--;
 						return Parser.DEINDENTA;
   					    }
 					    yybegin(ATOMOS);}
 }
-<CADENA>{
-  {CHAR_LITERAL}+   { yyparser.yylval=new StringHoja(yytext());cadena = yytext();}
-  \"					  { yybegin(ATOMOS);
-                                            cadena = "";
-					    return Parser.CADENA;}
-  {SALTO}				  { System.out.println("Unexpected newline. Line "+(yyline+1));
-					     System.exit(1);}
-}
+
 <ATOMOS>{
-  \"            { yybegin(CADENA); }
+  #.*                 { /*Ignore*/}
+  {BOOLEANO}       { return Parser.BOOLEANO;}
+  {ENTERO}				{ return Parser.ENTERO; }
+  {REAL}				  { return Parser.REAL;}
+  {CADENA}            { return Parser.CADENA; }
   "+"					  { return Parser.MAS;}
   "-"					  { return Parser.MENOS;}
   "*"					  { return Parser.POR;}
@@ -176,7 +176,6 @@ BOOLEAN		        =	("True" | "False")
   "="                                     { return Parser.EQ;}
   "("                                     { return Parser.PA;}
   ")"                                     { return Parser.PC;}
-  ":"                                     { return Parser.DOBLEPUNTO;}
   "and"                                   { return Parser.AND;}
   "not"                                   { return Parser.NOT;}
   "while"                                 { return Parser.WHILE;}
@@ -186,17 +185,16 @@ BOOLEAN		        =	("True" | "False")
   "else"                                  { return Parser.ELSE;}
   "if"                                    { return Parser.IF;}
   "print"				  { return Parser.PRINT;}
+  ":"                                     { return Parser.DOBLEPUNTO;}
+  {CADENA_MAL}        { /*reportError(0);*/ }
   {SALTO}				  { yybegin(INDENTA); actual=0; return Parser.SALTO;}
-  {REAL}				  { yyparser.yylval=new FloatHoja(Double.parseDouble(yytext())); return Parser.REAL;}
-  {ENTERO}				{ yyparser.yylval=new IntHoja(Integer.parseInt(yytext())); return Parser.ENTERO; }
-  {BOOLEAN}       { yyparser.yylval=new BooleanHoja(Boolean.parseBoolean(yytext())); return Parser.BOOLEANO;}
-  {IDENTIFIER}	  { yyparser.yylval=new IdHoja(yytext());return Parser.IDENTIFICADOR; }
+  {IDENTIFIER}	  { return Parser.IDENTIFICADOR; }
   \s					  {/*Ignore*/ }
 }
 <INDENTA>{
-  {SALTO}                                 { actual = 0;}
-  " "				          { actual++;}
-  \t					  { actual += 4;}
+  {SALTO}             { actual = 0;}
+  " "				  { actual++;}
+  \t			      { actual += 4;}
   .					  { yypushback(1);
 					    this.indentacion(actual);
 					    if(indents == 1){

@@ -187,7 +187,7 @@ LINE_TERMINATOR = \r|\n|\r\n
     {LINE_TERMINATOR}   { nextSymbol("SALTO\n"); no_linea++; newIdenta(); yybegin(IDENTA); }
     \s                  {/* Ignore */}
     [^]                 {reportError(2); nextSymbol(", generado por la cadena: "+yytext()+" "); yybegin(ERROR); }
-}
+} 
 
 <IDENTA>{
     \s                  { System.out.print("2222");pushIdenta(); }
