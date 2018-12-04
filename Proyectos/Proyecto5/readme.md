@@ -1,4 +1,4 @@
-# Compiladores 2019-1: Proyecto 4 (Sistema de tipos).
+# Compiladores 2019-1: Proyecto 5 (Sintesis del lenguaje objetivo).
 
 ## Integrantes del equipo
 
