@@ -1,6 +1,10 @@
 package ast.patron.visitante;
 import ast.patron.compuesto.*;
+<<<<<<< HEAD
 import ast.patron.tipos.*;
+=======
+
+>>>>>>> master
 
 public class VisitanteGenerador {
     Registro reg = new Registro();
@@ -13,14 +17,14 @@ public class VisitanteGenerador {
         String[] siguientes = reg.getNsiguientes(2);
   
         // Genero el código del subárbol izquiero
-        reg.setObjetivo(siguiente[0]);
-        hi.accept(this);
+        reg.setObjetivo(siguientes[0]);
+        //hi.accept(this);
   
         // Genero el código del subárbol derecho
-        reg.setObjetivo(siguiente[1]);
-        hd.accept(this);
+        reg.setObjetivo(siguientes[1]);
+        //hd.accept(this);
   
-        String opcdode =  "sub";
+        String opcode =  "sub";
   
         System.out.println(opcode + " " + objetivo + ", " +
                             siguientes[0] + ", " + siguientes[1]);

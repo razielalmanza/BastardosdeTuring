@@ -17,7 +17,11 @@ package ast;
 
 
 
+<<<<<<< HEAD
 //#line 2 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 2 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
   import ast.patron.compuesto.*;
   import ast.patron.tipos.*;
   import java.lang.Math;
@@ -428,7 +432,11 @@ final static String yyrule[] = {
 "atom : PA test PC",
 };
 
+<<<<<<< HEAD
 //#line 241 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 241 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 private Flexer lexer;
 /* Nodo Raiz del AST */
 public Nodo raíz;
@@ -611,6 +619,7 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 1:
+<<<<<<< HEAD
 //#line 21 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
 {raíz = yyval; System.out.println("Reconocimiento Exitoso");}
 break;
@@ -628,12 +637,32 @@ case 5:
 break;
 case 6:
 //#line 29 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 21 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{raíz = yyval; System.out.println("Reconocimiento Exitoso");}
+break;
+case 2:
+//#line 22 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{raíz = val_peek(0); System.out.println("Reconocimiento Exitoso");}
+break;
+case 4:
+//#line 27 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 5:
+//#line 28 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(1);}
+break;
+case 6:
+//#line 29 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {yyval = new NodoOperador("raiz",Operador.RAIZ);
     yyval.agregaHijoPrincipio(val_peek(1));
     yyval.agregaHijoFinal(val_peek(0));
     }
 break;
 case 7:
+<<<<<<< HEAD
 //#line 36 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
 {yyval = val_peek(0);}
 break;
@@ -651,6 +680,25 @@ case 10:
 break;
 case 11:
 //#line 46 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 36 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 8:
+//#line 37 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 9:
+//#line 41 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 10:
+//#line 42 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 11:
+//#line 46 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
     yyval = new NodoOperador("if",Operador.ELSE);yyval.agregaHijoPrincipio(val_peek(5));
     yyval.agregaHijoFinal(val_peek(3));
@@ -658,7 +706,11 @@ case 11:
 }
 break;
 case 12:
+<<<<<<< HEAD
 //#line 51 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 51 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
             yyval= new NodoOperador("if",Operador.IF);
             yyval.agregaHijoPrincipio(val_peek(2));
@@ -666,7 +718,11 @@ case 12:
         }
 break;
 case 13:
+<<<<<<< HEAD
 //#line 59 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 59 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
     yyval = new NodoOperador("while",Operador.WHILE);
     yyval.agregaHijoPrincipio(val_peek(2));
@@ -674,6 +730,7 @@ case 13:
 }
 break;
 case 14:
+<<<<<<< HEAD
 //#line 67 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
 {yyval = val_peek(0);}
 break;
@@ -687,11 +744,27 @@ case 16:
 break;
 case 17:
 //#line 73 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 67 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 15:
+//#line 68 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(1);}
+break;
+case 16:
+//#line 72 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 17:
+//#line 73 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {yyval = new NodoOperador("bloque",Operador.BLOQUE);
        yyval.agregaHijoPrincipio(val_peek(1));
        yyval.agregaHijoFinal(val_peek(0));}
 break;
 case 18:
+<<<<<<< HEAD
 //#line 79 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
 {yyval = val_peek(1);}
 break;
@@ -709,12 +782,32 @@ case 21:
 break;
 case 22:
 //#line 89 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 79 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(1);}
+break;
+case 19:
+//#line 83 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 20:
+//#line 84 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 21:
+//#line 88 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 22:
+//#line 89 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {yyval=new NodoOperador("=",Operador.EQ);
          yyval.agregaHijoPrincipio(val_peek(2));
          yyval.agregaHijoFinal(val_peek(0));
          }
 break;
 case 23:
+<<<<<<< HEAD
 //#line 96 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
 {yyval = new NodoOperador("print",Operador.PRINT); yyval.agregaHijoPrincipio(val_peek(0));}
 break;
@@ -736,6 +829,29 @@ case 27:
 break;
 case 28:
 //#line 109 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 96 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = new NodoOperador("print",Operador.PRINT); yyval.agregaHijoPrincipio(val_peek(0));}
+break;
+case 24:
+//#line 100 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 25:
+//#line 104 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 26:
+//#line 105 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{val_peek(1).agregaHijoFinal(val_peek(0));yyval=val_peek(1);}
+break;
+case 27:
+//#line 108 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = new NodoOperador("or",Operador.OR);yyval.agregaHijoPrincipio(val_peek(1));}
+break;
+case 28:
+//#line 109 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
         yyval = new NodoOperador("or",Operador.OR);
         val_peek(2).agregaHijoFinal(val_peek(1));
@@ -743,6 +859,7 @@ case 28:
     }
 break;
 case 29:
+<<<<<<< HEAD
 //#line 117 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
 {yyval = val_peek(0);}
 break;
@@ -756,6 +873,21 @@ case 31:
 break;
 case 32:
 //#line 123 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 117 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 30:
+//#line 118 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{val_peek(1).agregaHijoFinal(val_peek(0));yyval=val_peek(1);}
+break;
+case 31:
+//#line 122 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = new NodoOperador("and");yyval.agregaHijoPrincipio(val_peek(1));}
+break;
+case 32:
+//#line 123 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
         yyval = new NodoOperador("and",Operador.AND);
         val_peek(2).agregaHijoFinal(val_peek(1));
@@ -763,12 +895,17 @@ case 32:
     }
 break;
 case 33:
+<<<<<<< HEAD
 //#line 131 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 131 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
     yyval = new NodoOperador("not",Operador.NOT); yyval.agregaHijoPrincipio(val_peek(0));
     }
 break;
 case 34:
+<<<<<<< HEAD
 //#line 134 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
 {yyval = val_peek(0);}
 break;
@@ -786,6 +923,25 @@ case 37:
 break;
 case 38:
 //#line 144 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 134 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 35:
+//#line 138 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 36:
+//#line 139 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{val_peek(1).agregaHijoFinal(val_peek(0));yyval=val_peek(1);}
+break;
+case 37:
+//#line 143 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{val_peek(0).agregaHijoPrincipio(val_peek(1));yyval=val_peek(0);}
+break;
+case 38:
+//#line 144 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
         val_peek(2).agregaHijoFinal(val_peek(1));
         val_peek(0).agregaHijoPrincipio(val_peek(2));
@@ -793,6 +949,7 @@ case 38:
     }
 break;
 case 39:
+<<<<<<< HEAD
 //#line 152 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
 {yyval = new NodoOperador("<",Operador.LE);}
 break;
@@ -822,6 +979,37 @@ case 45:
 break;
 case 46:
 //#line 162 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 152 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = new NodoOperador("<",Operador.LE);}
+break;
+case 40:
+//#line 153 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = new NodoOperador(">",Operador.GR);}
+break;
+case 41:
+//#line 154 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = new NodoOperador("==",Operador.EQUALS);}
+break;
+case 42:
+//#line 155 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = new NodoOperador(">=",Operador.GRQ);}
+break;
+case 43:
+//#line 156 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = new NodoOperador("<=",Operador.LEQ);}
+break;
+case 44:
+//#line 157 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = new NodoOperador("!=",Operador.DIFF);}
+break;
+case 45:
+//#line 161 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 46:
+//#line 162 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
       yyval = val_peek(1);
       yyval.agregaHijoFinal(val_peek(0));
@@ -829,31 +1017,48 @@ case 46:
     }
 break;
 case 47:
+<<<<<<< HEAD
 //#line 170 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 170 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
       yyval = new AddNodo(val_peek(1), null);
       dump_stacks(stateptr);
     }
 break;
 case 48:
+<<<<<<< HEAD
 //#line 174 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 174 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
       yyval = new DiffNodo(val_peek(1), null);
     }
 break;
 case 49:
+<<<<<<< HEAD
 //#line 177 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 177 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {val_peek(2).agregaHijoFinal(val_peek(1));
     yyval = new AddNodo(val_peek(2), null);
     dump_stacks(stateptr);}
 break;
 case 50:
+<<<<<<< HEAD
 //#line 180 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 180 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {val_peek(2).agregaHijoFinal(val_peek(1));
     /* los constructores agregan el hijo a la izquierda */
     yyval = new DiffNodo(val_peek(2), null);}
 break;
 case 51:
+<<<<<<< HEAD
 //#line 186 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
 {yyval = val_peek(0);}
 break;
@@ -863,57 +1068,97 @@ case 52:
 break;
 case 53:
 //#line 189 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 186 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 52:
+//#line 187 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{val_peek(1).agregaHijoFinal(val_peek(0)); yyval=val_peek(1);}
+break;
+case 53:
+//#line 189 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 { 
     yyval = new NodoOperador(val_peek(1),"*",Operador.POR);
     }
 break;
 case 54:
+<<<<<<< HEAD
 //#line 192 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 192 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
     yyval = new NodoOperador(val_peek(1),"//",Operador.DIVENTERA);    
     }
 break;
 case 55:
+<<<<<<< HEAD
 //#line 195 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 195 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
     yyval = new NodoOperador(val_peek(1),"%",Operador.MODULO);    
     }
 break;
 case 56:
+<<<<<<< HEAD
 //#line 198 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 198 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
     yyval = new NodoOperador(val_peek(1),"/",Operador.DIV);
     }
 break;
 case 57:
+<<<<<<< HEAD
 //#line 201 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 201 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {        
     val_peek(2).agregaHijoFinal(val_peek(1));
     yyval = new NodoOperador(val_peek(2),"*",Operador.POR); 
     }
 break;
 case 58:
+<<<<<<< HEAD
 //#line 205 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 205 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
     val_peek(2).agregaHijoFinal(val_peek(1));
     yyval = new NodoOperador(val_peek(2),"//",Operador.DIVENTERA); 
     }
 break;
 case 59:
+<<<<<<< HEAD
 //#line 209 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 209 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
     val_peek(2).agregaHijoFinal(val_peek(1));
     yyval = new NodoOperador(val_peek(2),"%",Operador.MODULO); 
     }
 break;
 case 60:
+<<<<<<< HEAD
 //#line 213 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 213 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
     val_peek(2).agregaHijoFinal(val_peek(1));
     yyval = new NodoOperador(val_peek(2),"/",Operador.DIV); 
     }
 break;
 case 61:
+<<<<<<< HEAD
 //#line 219 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
 {yyval = new AddNodo(); yyval.agregaHijoFinal(val_peek(0));}
 break;
@@ -931,12 +1176,32 @@ case 64:
 break;
 case 65:
 //#line 225 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 219 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = new AddNodo(); yyval.agregaHijoFinal(val_peek(0));}
+break;
+case 62:
+//#line 220 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = new DiffNodo(); yyval.agregaHijoFinal(val_peek(0));}
+break;
+case 63:
+//#line 221 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 64:
+//#line 224 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 65:
+//#line 225 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {
           yyval = new NodoOperador(val_peek(2),"**",Operador.POTENCIA);
           yyval.agregaHijoFinal(val_peek(0));
       }
 break;
 case 66:
+<<<<<<< HEAD
 //#line 233 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
 { yyval = val_peek(0);}
 break;
@@ -958,6 +1223,29 @@ case 70:
 break;
 case 71:
 //#line 238 "/home/naranjo/github/Compiladores/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+=======
+//#line 233 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{ yyval = val_peek(0);}
+break;
+case 67:
+//#line 234 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0); }
+break;
+case 68:
+//#line 235 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 69:
+//#line 236 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 70:
+//#line 237 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+{yyval = val_peek(0);}
+break;
+case 71:
+//#line 238 "/home/razielmcr/Compiladores/Git/LosBastardosdeTuring/Proyectos/Proyecto5/src/main/byaccj/Parser.y"
+>>>>>>> master
 {yyval = val_peek(1);}
 break;
 //#line 895 "Parser.java"
