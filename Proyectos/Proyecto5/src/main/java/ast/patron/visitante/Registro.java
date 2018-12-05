@@ -8,7 +8,8 @@ public class Registro{
     int objetivoEntero;
 
     // Todos los registros enteros disponibles
-    String[] E_registros = {"$t0", ... ,"$t9"};
+    String[] E_registros = {"$t0", "$t1","$t2","$t3",
+    "$t4", "$t5", "$t6", "$t7", "$t8" ,"$t9"};
   
   
     public void setObjetivo(int o){
