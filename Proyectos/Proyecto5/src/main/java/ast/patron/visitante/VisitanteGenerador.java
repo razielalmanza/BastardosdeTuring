@@ -19,7 +19,9 @@ public class VisitanteGenerador {
         // Genero el código del subárbol derecho
         reg.setObjetivo(siguientes[1]);
         //hd.accept(this);
-  
+
+        System.out.println(".text\n lw " + siguientes[0] + " " + hi.getValor());
+
         String opcode =  "sub";
   
         System.out.println(opcode + " " + objetivo + ", " +
