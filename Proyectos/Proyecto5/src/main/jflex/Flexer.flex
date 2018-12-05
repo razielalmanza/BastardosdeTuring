@@ -1,7 +1,3 @@
-/********************************************************************************
-**  @author Diana Montes                                               	       **
-**  @about Proyecto 3: Construcción del AST.	                               **
-*********************************************************************************/
 package ast;
 import ast.patron.compuesto.*;
 import java.util.Stack;

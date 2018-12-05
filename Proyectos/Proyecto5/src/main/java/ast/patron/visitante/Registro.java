@@ -2,13 +2,14 @@ package ast.patron.visitante;
 import ast.patron.compuesto.*;
 import ast.patron.tipos.*;
 import java.util.LinkedList;
+import java.util.Arrays;
 
 public class Registro{
 
     int objetivoEntero;
 
     // Todos los registros enteros disponibles
-    String[] E_registros = {"$t0", ... ,"$t9"};
+    String [] E_registros = {"$t0","$t1","$t2", "$t3", "$t4","$t5","$t6","$t7","$t8","$t9"};
   
   
     public void setObjetivo(int o){
@@ -20,8 +21,8 @@ public class Registro{
         setObjetivo(nvo_objetivo);
     }
   
-    public int getObjetivo(){
-        return objetivoEntero;
+    public String getObjetivo(){
+        return E_registros[objetivoEntero];
     }
   
     /* Regresa los n registos siguientes "disponibles" */
