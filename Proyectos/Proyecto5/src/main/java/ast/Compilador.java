@@ -11,11 +11,13 @@ public class Compilador{
     Nodo raízAST;
     VisitorPrint v_print;
     AbstractVisitor v_abst;
+    VisitanteGenerador v_gener;
 
     Compilador(Reader fuente){
         parser = new Parser(fuente);
         v_print = new VisitorPrint();
         v_abst = new AbstractVisitor();
+        v_gener = new VisitanteGenerador();
     }
 
     public void ConstruyeAST(boolean debug){
@@ -25,9 +27,14 @@ public class Compilador{
     }
 
     public void imprimeAST(){parser.raíz.accept(v_print);}
+
     public void analisisSemantico(){
         raízAST.semanticAccept(v_abst);
         TablaSimbolos.muestraID();
+    }
+
+    public void visitanteGenerador(){
+        v_gener.visit(raízAST);
     }
 
     public static void main(String[] args){
