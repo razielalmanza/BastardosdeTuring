@@ -11,56 +11,29 @@ public class VisitanteGenerador {
     Hashtable<String,String> labels = new Hashtable<String,String>();
     Random ran = new Random();
 
-  
-    public void visit(Nodo n){
-        Nodo hi = n.getPrimerHijo();
-        Nodo hd = n.getUltimoHijo();
-  
-        String objetivo = reg.getObjetivo();
-        String[] siguientes = reg.getNsiguientes(2);
-  
-        // Genero el código del subárbol izquiero
-        reg.setObjetivo(siguientes[0]);
-        //hi.accept(this);
-  
-        // Genero el código del subárbol derecho
-        reg.setObjetivo(siguientes[1]);
-        //hd.accept(this);
-
-        System.out.println(".text\n lw " + siguientes[0] + " " + hi.getValor());
-
-        String opcode =  "sub";
-  
-        System.out.println(opcode + " " + objetivo + ", " +
-                            siguientes[0] + ", " + siguientes[1]);
-    }
-
-     /**
-     * Accedera a la tabla de simbolos para conocer el valor
-     * de la variable, en caso de que no haya sido asignada lanzara error
-     * @param n nodo tipo identificador
-     */
-    public void geVisitId(Nodo n){
-        String name=n.getNombre();
-        int tipo;
-        if(TablaSimbolos.containsKey(name)){
-            TablaSimbolos.lookUp(name);
-        }else{
-            System.err.print("Error identificador no asignado");
-            tipo = 0;
-        }
-        //return tipo;
-    }
     /**
      * Metodo que llenara la tabla de simbolos
      * @param n Nodo de tipo Asignacion(EQ), como hijo izquierdo
      * siempre tiene un identificador
      */
-    public void generateVisitAsign(Nodo n){
-        LinkedList<Nodo> h = n.hijos.hijos;
-        //int h_type2 = geVisit(h.getLast());
-        //TablaSimbolos.insert(h.getFirst().getNombre(),h_type2);
+    public void geVisitAsign(Nodo n){
+        Nodo hi = n.getPrimerHijo();
+        Nodo hd = n.getUltimoHijo();
+        String[] siguientes = reg.getNsiguientes(1);
+
+        String objetivo = reg.getObjetivo();
+        reg.setObjetivo(siguientes [0]);
+        
+        if (hd.hijos !=  null){           // Tiene hijos aún, entonces iteramos sobre ellos
+            geVisit(hd);                  // Se visita a este nodo ahora
+        }
+
+        System.out.println("#assign \n.text\nsw " + objetivo + " " + hi.getNombre());
     }
+
+  
+
+    
     public void geVisitAdd(Nodo n){
         Nodo hi = n.getPrimerHijo();
         Nodo hd = n.getUltimoHijo();
@@ -280,6 +253,7 @@ public class VisitanteGenerador {
         //metemos al hash el label y el valor del int como cadena, para luego ver si está declarada y regresar el label
         labels.put(String.valueOf(n.getValor().ival),label);
     }
+
     public void geVisitWhile(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
         //int h_type1 = geVisit(h.getFirst());
@@ -308,7 +282,6 @@ public class VisitanteGenerador {
 
     public void geVisit(Nodo n){
         switch(n.getOperador()){
-            case IDENTIFICADOR: geVisitId(n);break;
             case ENTERO: geVisitInt(n); break;
             case REAL:  break;
             case BOOLEANO: geVisitBol(n); break;
@@ -322,17 +295,7 @@ public class VisitanteGenerador {
             case DIVENTERA:geVisitMul(n);break;
             case MODULO:geVisitMod(n);break;
 
-            case LE: geVisitComp(n);break;
-            case GR: geVisitComp(n);break;
-            case LEQ: geVisitComp(n);break;
-            case GRQ: geVisitComp(n);break;
-            case EQUALS: geVisitComp(n);break;
-            case DIFF: geVisitComp(n);break;
-            case AND: geVisitComp(n);break;
-            case OR: geVisitComp(n);break;
-            case NOT: geVisitComp(n);break;
-
-            case EQ: generateVisitAsign(n);break;
+            case EQ: geVisitAsign(n);break;
             
             case PRINT: geVisitPrint(n); break;
             case WHILE: geVisitWhile(n); break;

@@ -9,3 +9,4 @@ print 1
 4
 False
 True
+a = 5
