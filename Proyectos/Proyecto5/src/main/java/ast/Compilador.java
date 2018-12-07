@@ -45,6 +45,7 @@ public class Compilador{
             c.ConstruyeAST(true);
             c.imprimeAST();
             c.analisisSemantico();
+            c.visitanteGenerador();
         }catch(FileNotFoundException e){
             System.err.println("El archivo " + archivo +" no fue encontrado. ");
         }catch(ArrayIndexOutOfBoundsException e){
