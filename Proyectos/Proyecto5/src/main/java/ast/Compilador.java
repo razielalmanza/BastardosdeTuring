@@ -34,7 +34,8 @@ public class Compilador{
     }
 
     public void visitanteGenerador(){
-        v_gener.visit(raízAST);
+        //v_gener.visitID(raízAST);
+        raízAST.generAccept(v_gener);
     }
 
     public static void main(String[] args){

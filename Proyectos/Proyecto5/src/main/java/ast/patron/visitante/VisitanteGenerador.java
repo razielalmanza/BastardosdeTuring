@@ -33,18 +33,17 @@ public class VisitanteGenerador {
      * Accedera a la tabla de simbolos para conocer el valor
      * de la variable, en caso de que no haya sido asignada lanzara error
      * @param n nodo tipo identificador
-     * @return el tipo de la variable
      */
-    public int geVisitId(Nodo n){
+    public void geVisitId(Nodo n){
         String name=n.getNombre();
         int tipo;
         if(TablaSimbolos.containsKey(name)){
-            tipo = TablaSimbolos.lookUp(name);
+            TablaSimbolos.lookUp(name);
         }else{
             System.err.print("Error identificador no asignado");
             tipo = 0;
         }
-        return tipo;
+        //return tipo;
     }
     /**
      * Metodo que llenara la tabla de simbolos
@@ -53,65 +52,94 @@ public class VisitanteGenerador {
      */
     public void generateVisitAsign(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
-        int h_type2 = geVisit(h.getLast());
-        TablaSimbolos.insert(h.getFirst().getNombre(),h_type2);
+        //int h_type2 = geVisit(h.getLast());
+        //TablaSimbolos.insert(h.getFirst().getNombre(),h_type2);
     }
-    public int geVisitAdd(Nodo n){
-        LinkedList<Nodo> add = n.hijos.hijos;
-        int add_type1 = geVisit(add.getFirst());
-        int add_type2 = geVisit(add.getLast());
-        int tipo = OperadoresTipo.getTypeAdd(add_type1,add_type2);
-        //System.out.print(tipo + "|");
-        return tipo;
+    public void geVisitAdd(Nodo n){
+        Nodo hi = n.getPrimerHijo();
+        Nodo hd = n.getUltimoHijo();
+  
+        String objetivo = reg.getObjetivo();
+        String[] siguientes = reg.getNsiguientes(2);
+  
+        reg.setObjetivo(siguientes[0]);
+        reg.setObjetivo(siguientes[1]);
+
+        System.out.println(".text\n lw " + siguientes[0] + " " + hi.getValor());
+
+        String opcode =  "add";
+  
+        System.out.println(opcode + " " + objetivo + ", " +
+                            siguientes[0] + ", " + siguientes[1]);
+
     }
-    public int geVisitMul(Nodo n){
+
+    public void geVisitSub(Nodo n){
+        Nodo hi = n.getPrimerHijo();
+        Nodo hd = n.getUltimoHijo();
+  
+        String objetivo = reg.getObjetivo();
+        String[] siguientes = reg.getNsiguientes(2);
+  
+        reg.setObjetivo(siguientes[0]);
+        reg.setObjetivo(siguientes[1]);
+
+        System.out.println(".text\n lw " + siguientes[0] + " " + hi.getValor());
+
+        String opcode =  "sub";
+  
+        System.out.println(opcode + " " + objetivo + ", " +
+                            siguientes[0] + ", " + siguientes[1]);
+
+    }
+    public void geVisitMul(Nodo n){
         LinkedList<Nodo> mul = n.hijos.hijos;
-        int mul_type1 = geVisit(mul.getFirst());
-        int mul_type2 = geVisit(mul.getLast());
-        int tipo = OperadoresTipo.getTypeMul(mul_type1,mul_type2);
+        //int mul_type1 = geVisit(mul.getFirst());
+        //int mul_type2 = geVisit(mul.getLast());
+        //int tipo = OperadoresTipo.getTypeMul(mul_type1,mul_type2);
         //System.out.print(tipo + "|");
-        return tipo;
+        //return tipo;
     }
-    public int geVisitMod(Nodo n){
+    public void geVisitMod(Nodo n){
         LinkedList<Nodo> mod = n.hijos.hijos;
-        int mod_type1 = geVisit(mod.getFirst());
-        int mod_type2 = geVisit(mod.getLast());
-        int tipo = OperadoresTipo.getTypeMod(mod_type1,mod_type2);
+        //int mod_type1 = geVisit(mod.getFirst());
+        //int mod_type2 = geVisit(mod.getLast());
+        //int tipo = OperadoresTipo.getTypeMod(mod_type1,mod_type2);
         //System.out.print(tipo +"|");
-        return tipo;
+        //return tipo;
     }
-    public int geVisitComp(Nodo n){
+    public void geVisitComp(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
-        int h_type1 = geVisit(h.getFirst());
-        int h_type2 = geVisit(h.getLast());
-        int tipo = OperadoresTipo.getTypeComp(h_type1,h_type2);
+        //int h_type1 = geVisit(h.getFirst());
+        //int h_type2 = geVisit(h.getLast());
+        //int tipo = OperadoresTipo.getTypeComp(h_type1,h_type2);
         //System.out.print(tipo +"|");
-        return tipo;
+        //return tipo;
     }    
     public void geVisitPrint(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
-        int h_type1 = geVisit(h.getFirst());
-        if(h_type1!=4) System.err.println("error_semantico: PRINT");
+        //int h_type1 = geVisit(h.getFirst());
+        //if(h_type1!=4) System.err.println("error_semantico: PRINT");
     }
 
     public void geVisitWhile(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
-        int h_type1 = geVisit(h.getFirst());
-        geVisit(h.getLast());
-        if(h_type1!=3) System.err.println("error_semantico: WHILE");
+        //int h_type1 = geVisit(h.getFirst());
+        //geVisit(h.getLast());
+        //if(h_type1!=3) System.err.println("error_semantico: WHILE");
     }
     public void geVisitIf(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
-        int h_type1 = geVisit(h.getFirst());
-        geVisit(h.getLast());
-        if(h_type1!=3) System.err.println("error_semantico: IF");
+        //int h_type1 = geVisit(h.getFirst());
+        //geVisit(h.getLast());
+        //if(h_type1!=3) System.err.println("error_semantico: IF");
     }
     public void geVisitElse(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
-        int h_type1 = geVisit(h.getFirst());
-        geVisit(h.get(1));
-        geVisit(h.getLast());
-        if(h_type1!=3) System.err.println("error_semantico: IF..ELSE");
+        //int h_type1 = geVisit(h.getFirst());
+        //geVisit(h.get(1));
+        //geVisit(h.getLast());
+        //if(h_type1!=3) System.err.println("error_semantico: IF..ELSE");
     }
     public void geVisitBlock(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
@@ -120,48 +148,45 @@ public class VisitanteGenerador {
 
 
 
-    public int geVisit(Nodo n){
-        int tipo;
+    public void geVisit(Nodo n){
         switch(n.getOperador()){
-            case IDENTIFICADOR: tipo=geVisitId(n);break;
-            case ENTERO:tipo = 1; break;
-            case REAL: tipo = 2; break;
-            case BOOLEANO: tipo = 3; break;
-            case CADENA: tipo = 4; break;
+            case IDENTIFICADOR: geVisitId(n);break;
+            case ENTERO: break;
+            case REAL:  break;
+            case BOOLEANO:  break;
+            case CADENA:  break;
 
-            case MAS:tipo = geVisitAdd(n);break;
-            case MENOS:tipo = geVisitAdd(n); break;
+            case MAS:geVisitAdd(n);break;
+            case MENOS:geVisitSub(n); break;
             
-            case POR:tipo = geVisitMul(n);break;
-            case DIV:tipo = geVisitMul(n);break;
-            case DIVENTERA:tipo = geVisitMul(n);break;
-            case MODULO:tipo = geVisitMul(n);break;
+            case POR:geVisitMul(n);break;
+            case DIV:geVisitMul(n);break;
+            case DIVENTERA:geVisitMul(n);break;
+            case MODULO:geVisitMul(n);break;
 
-            case LE: tipo = geVisitComp(n);break;
-            case GR: tipo = geVisitComp(n);break;
-            case LEQ: tipo = geVisitComp(n);break;
-            case GRQ: tipo = geVisitComp(n);break;
-            case EQUALS: tipo = geVisitComp(n);break;
-            case DIFF: tipo = geVisitComp(n);break;
-            case AND: tipo = geVisitComp(n);break;
-            case OR: tipo = geVisitComp(n);break;
-            case NOT: tipo = geVisitComp(n);break;
+            case LE: geVisitComp(n);break;
+            case GR: geVisitComp(n);break;
+            case LEQ: geVisitComp(n);break;
+            case GRQ: geVisitComp(n);break;
+            case EQUALS: geVisitComp(n);break;
+            case DIFF: geVisitComp(n);break;
+            case AND: geVisitComp(n);break;
+            case OR: geVisitComp(n);break;
+            case NOT: geVisitComp(n);break;
 
-            case EQ: tipo =0; generateVisitAsign(n);break;
+            case EQ: generateVisitAsign(n);break;
             
-            case PRINT: geVisitPrint(n);tipo=0; break;
-            case WHILE: geVisitWhile(n);tipo=0; break;
+            case PRINT: geVisitPrint(n); break;
+            case WHILE: geVisitWhile(n); break;
 
-            case IF: geVisitIf(n);tipo=0; break;
-            case ELSE: geVisitElse(n);tipo=0; break;
+            case IF: geVisitIf(n); break;
+            case ELSE: geVisitElse(n); break;
 
-            case BLOQUE: geVisitBlock(n);tipo=0; break;
-            case RAIZ: geVisitBlock(n);tipo=0; break;
+            case BLOQUE: geVisitBlock(n); break;
+            case RAIZ: geVisitBlock(n); break;
 
-            default: tipo=0; break;
+            default: break;
         }
-        return tipo;
-
     }
 
   }

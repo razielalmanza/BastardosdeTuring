@@ -30,11 +30,8 @@ public class Nodo {
     public void setTipo(Tipo nuevo){tipo = nuevo;}
     /***********************************/
 
-    // private Tipo calculaTipo(){
-        
-    // }
-
     public void accept(Visitor v){v.visit(this);}
     public void semanticAccept(AbstractVisitor a){a.abVisit((Nodo)this);}
+    public void generAccept(VisitanteGenerador a){a.geVisit((Nodo)this);}
 
 }
