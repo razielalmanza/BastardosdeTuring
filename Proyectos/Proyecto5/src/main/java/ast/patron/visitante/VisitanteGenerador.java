@@ -2,9 +2,15 @@ package ast.patron.visitante;
 import ast.patron.compuesto.*;
 import ast.patron.tipos.*;
 import java.util.LinkedList;
+import java.util.Random;
+import java.util.Hashtable;
 
 public class VisitanteGenerador {
+
     Registro reg = new Registro();
+    Hashtable<String,String> labels = new Hashtable<String,String>();
+    Random ran = new Random();
+
   
     public void visit(Nodo n){
         Nodo hi = n.getPrimerHijo();
@@ -212,11 +218,42 @@ public class VisitanteGenerador {
 
     }
     public void geVisitPrint(Nodo n){
-        LinkedList<Nodo> h = n.hijos.hijos;
-        //int h_type1 = geVisit(h.getFirst());
-        //if(h_type1!=4) System.err.println("error_semantico: PRINT");
+        Nodo hi = n.getPrimerHijo();
+
+        String objetivo = reg.getObjetivo();
+        String[] siguientes = reg.getNsiguientes(1);
+        
+        // Genera el codigo (si hay) del unico hijo
+        reg.setObjetivo(siguientes[0]);
+        // Para darle un valor unico a cada etiqueta le daremos un valor aleatorio
+        // Reduciendo la probabilidad que tengan la misma.
+        int id = ran.nextInt(100);
+        String label = "cad" + id;
+
+        if (hi.getType().getId() == 4){           // Si es de tipo cadena
+            System.out.println("#print\n.data\n " + label +": .asciiz \"" + hi.getValor().sval + "\"" );
+            System.out.println("\nla $a0, " + label + "\nli $v0, 4 \nsyscall");
+        }else if(hi.getType().getId() == 1){      // Si es de tipo entero
+            System.out.println("#print\n.data\n " + label +": .asciiz " + hi.getValor().ival  );
+            System.out.println("\nla $a0, " + label + "\nli $v0, 1 \nsyscall");
+
+        }
+        // No hace falta meter al hash pues solo se usara para imprimir ese label                 
+        
+        
     }
 
+    public void geVisitCadena(Nodo n){
+        // Como hemos visto una cadena no recorremos su nodo
+        // Ni necesitamos registros pues solo crea un label
+        // Para darle un valor unico a cada etiqueta le daremos un valor aleatorio
+        // Reduciendo la probabilidad que tengan la misma.
+        int id = ran.nextInt(100);
+        String label = "cad" + id;
+        System.out.println("#cad\n.data\n " + label +": .asciiz " + n.getValor().sval );
+        //metemos al hash el label y el valor de la cadena, para luego ver si está declarada y regresar el label
+        labels.put(n.getValor().sval,label);
+    }
     public void geVisitWhile(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
         //int h_type1 = geVisit(h.getFirst());
@@ -249,7 +286,7 @@ public class VisitanteGenerador {
             case ENTERO: break;
             case REAL:  break;
             case BOOLEANO:  break;
-            case CADENA:  break;
+            case CADENA: geVisitCadena(n); break;
 
             case MAS:geVisitAdd(n);break;
             case MENOS:geVisitSub(n); break;
