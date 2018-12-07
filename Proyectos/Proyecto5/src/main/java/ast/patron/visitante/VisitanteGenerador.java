@@ -250,9 +250,35 @@ public class VisitanteGenerador {
         // Reduciendo la probabilidad que tengan la misma.
         int id = ran.nextInt(100);
         String label = "cad" + id;
-        System.out.println("#cad\n.data\n " + label +": .asciiz " + n.getValor().sval );
+        System.out.println("#cad\n.data\n " + label +": .asciiz \"" + n.getValor().sval + "\"" );
         //metemos al hash el label y el valor de la cadena, para luego ver si está declarada y regresar el label
         labels.put(n.getValor().sval,label);
+    }
+
+    public void geVisitInt(Nodo n){
+        // Como hemos visto una cadena no recorremos su nodo
+        // Ni necesitamos registros pues solo crea un label
+        // Para darle un valor unico a cada etiqueta le daremos un valor aleatorio
+        // Reduciendo la probabilidad que tengan la misma.
+        int id = ran.nextInt(100);
+        String label = "int" + id;
+        System.out.println("#int\n.data\n " + label +": .word " + n.getValor().ival );
+        //metemos al hash el label y el valor del int como cadena, para luego ver si está declarada y regresar el label
+        labels.put(String.valueOf(n.getValor().ival),label);
+    }
+
+     public void geVisitBol(Nodo n){
+        String label = "";
+        if(n.getValor().bval){
+            label = "True "; 
+            System.out.println("#bool\n.data\n " + label +":.word " + 1);
+        }else {
+            label = "False";
+            System.out.println("#bool\n.data\n " + label + ":.word " + 0 );
+
+        }
+        //metemos al hash el label y el valor del int como cadena, para luego ver si está declarada y regresar el label
+        labels.put(String.valueOf(n.getValor().ival),label);
     }
     public void geVisitWhile(Nodo n){
         LinkedList<Nodo> h = n.hijos.hijos;
@@ -283,9 +309,9 @@ public class VisitanteGenerador {
     public void geVisit(Nodo n){
         switch(n.getOperador()){
             case IDENTIFICADOR: geVisitId(n);break;
-            case ENTERO: break;
+            case ENTERO: geVisitInt(n); break;
             case REAL:  break;
-            case BOOLEANO:  break;
+            case BOOLEANO: geVisitBol(n); break;
             case CADENA: geVisitCadena(n); break;
 
             case MAS:geVisitAdd(n);break;

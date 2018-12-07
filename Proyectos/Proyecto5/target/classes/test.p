@@ -4,4 +4,8 @@
 5 % 3 
 2 * 3
 "Hola"
+print "cadena"
 print 1
+4
+False
+True
