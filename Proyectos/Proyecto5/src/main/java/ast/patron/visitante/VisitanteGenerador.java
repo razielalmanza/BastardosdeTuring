@@ -7,10 +7,17 @@ import java.util.Hashtable;
 
 public class VisitanteGenerador {
 
-    Registro reg = new Registro();
-    Hashtable<String,String> labels = new Hashtable<String,String>();
-    Random ran = new Random();
+    Registro reg;
+    Hashtable<String,String> labels;
+     /* Para guardar la salida. */
+    private StringBuilder builder;
+    Random ran;
 
+    public VisitanteGenerador(){
+        reg = new Registro();
+        labels = new Hashtable<String,String>();
+        ran = new Random();
+    }
     /**
      * Metodo que llenara la tabla de simbolos
      * @param n Nodo de tipo Asignacion(EQ), como hijo izquierdo
