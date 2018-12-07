@@ -65,8 +65,9 @@ public class VisitanteGenerador {
         reg.setObjetivo(siguientes[0]);
         reg.setObjetivo(siguientes[1]);
 
-        System.out.println(".text\n lw " + siguientes[0] + " " + hi.getValor());
-
+        System.out.println(".text\n lw " + siguientes[0] + " " + hi.getValor().ival +
+                                "\n lw " + siguientes[1] + " " + hd.getValor().ival);
+ 
         String opcode =  "add";
   
         System.out.println(opcode + " " + objetivo + ", " +
@@ -84,22 +85,54 @@ public class VisitanteGenerador {
         reg.setObjetivo(siguientes[0]);
         reg.setObjetivo(siguientes[1]);
 
-        System.out.println(".text\n lw " + siguientes[0] + " " + hi.getValor());
-
+        System.out.println(".text\n lw " + siguientes[0] + " " + hi.getValor().ival +
+                                "\n lw " + siguientes[1] + " " + hd.getValor().ival);
+ 
         String opcode =  "sub";
   
         System.out.println(opcode + " " + objetivo + ", " +
                             siguientes[0] + ", " + siguientes[1]);
 
     }
-    public void geVisitMul(Nodo n){
-        LinkedList<Nodo> mul = n.hijos.hijos;
-        //int mul_type1 = geVisit(mul.getFirst());
-        //int mul_type2 = geVisit(mul.getLast());
-        //int tipo = OperadoresTipo.getTypeMul(mul_type1,mul_type2);
-        //System.out.print(tipo + "|");
-        //return tipo;
+
+     public void geVisitMul(Nodo n){
+       Nodo hi = n.getPrimerHijo();
+        Nodo hd = n.getUltimoHijo();
+  
+        String objetivo = reg.getObjetivo();
+        String[] siguientes = reg.getNsiguientes(2);
+  
+        reg.setObjetivo(siguientes[0]);
+        reg.setObjetivo(siguientes[1]);
+
+        System.out.println(".text\n lw " + siguientes[0] + " " + hi.getValor().ival +
+                                "\n lw " + siguientes[1] + " " + hd.getValor().ival);
+ 
+        String opcode =  "mult";
+  
+        System.out.println(opcode + " " + objetivo + ", " +
+                            siguientes[0] + ", " + siguientes[1]);
+
     }
+     public void geVisitDiv(Nodo n){
+        Nodo hi = n.getPrimerHijo();
+        Nodo hd = n.getUltimoHijo();
+  
+        String objetivo = reg.getObjetivo();
+        String[] siguientes = reg.getNsiguientes(2);
+  
+        reg.setObjetivo(siguientes[0]);
+        reg.setObjetivo(siguientes[1]);
+
+        System.out.println(".text\n lw " + siguientes[0] + " " + hi.getValor());
+
+        String opcode =  "add";
+  
+        System.out.println(opcode + " " + objetivo + ", " +
+                            siguientes[0] + ", " + siguientes[1]);
+
+    }
+  
     public void geVisitMod(Nodo n){
         LinkedList<Nodo> mod = n.hijos.hijos;
         //int mod_type1 = geVisit(mod.getFirst());
@@ -160,7 +193,7 @@ public class VisitanteGenerador {
             case MENOS:geVisitSub(n); break;
             
             case POR:geVisitMul(n);break;
-            case DIV:geVisitMul(n);break;
+            case DIV:geVisitDiv(n);break;
             case DIVENTERA:geVisitMul(n);break;
             case MODULO:geVisitMul(n);break;
 
