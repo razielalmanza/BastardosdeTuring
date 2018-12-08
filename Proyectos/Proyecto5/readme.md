@@ -10,7 +10,7 @@
 `mvn clean initialize compile`
 
 ## Ejecutar
-Se ejecutara el archivo en test.p,, debe llevar un espacio al final
+Se ejecutara el archivo en test.p,, debe llevar un sslto de linea al final
 `mvn exec:java -Dexec.mainClass="ast.Compilador"`
 
 ## Especificación de commits.
